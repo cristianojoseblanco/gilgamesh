@@ -17,6 +17,7 @@ Jogo 3D de ação e aventura narrativa baseado na Epopeia de Gilgamesh. Nome de 
 `previa-web/index.html` é uma prévia técnica feita em three.js, só com geometria e texturas geradas por código. Serve para testar escala, luz e ritmo pelo celular antes do protótipo no Unreal. Não é arte final.
 
 - **v2 (atual):** Uruk em escala real, com muralha de ~9 km, braço do Eufrates, canais com barcos de junco, Eanna com zigurate, terraço de Anu com o Templo Branco, cerca de 17 mil casas, minimapa e 4 fragmentos de Codex.
+- **Prévia do medo (Ato 2):** `previa-web/medo/index.html`, com as cinco noites do ritual, a borda da floresta, a floresta com cacofonia e silêncio e o começo do combate com Humbaba, usando o sistema de Pavor de `docs/design/medo-a-caminho-da-floresta.md`.
 - **v1:** `previa-web/v1-portao/`, só o portão, um trecho de cidade e a estepe.
 - **Ato 1 jogável:** `previa-web/ato1/index.html`, o roteiro de `docs/roteiro/ato1.md` em 8 capítulos, com mesa do escriba, estepe, sonho, combate e a luta à porta. É montado por `tools/montar_previa.py` a partir de `previa-web/ato1/fonte.html` (roteiro e interface), do motor da cidade em `previa-web/index.html` e dos dados de `data/`. Não edite o `index.html` do Ato 1 à mão.
 
