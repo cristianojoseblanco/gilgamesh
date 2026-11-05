@@ -42,13 +42,13 @@ Siga `unreal/README.md`, seção "Blockout de Uruk":
 
 1. Na Fab (dentro do editor), adicionar à biblioteca materiais de **terra seca**, **tijolo de barro ou adobe**, **reboco de barro** e **água de rio**. Aplicar no blockout nas categorias Terreno, Tijolo, Reboco e Água.
 2. Luz de fim de tarde: Directional Light baixa e alaranjada, Exponential Height Fog leve. Tirar prints do zigurate e da porta sul para comparar com a prévia web.
-3. Criar um MetaHuman de teste para Gilgamesh (barba longa e escura, pele morena, cabelo longo). Ainda sem roupa de época: isso exige pesquisa e modelagem, e vem depois.
+3. Criar um MetaHuman de teste para Gilgamesh seguindo a seção 1 de `docs/pesquisa/visual-dinastico-arcaico.md` (barba longa e preta, mechas pesadas à frente dos ombros). Ainda sem roupa de época: ela vem depois, modelada.
 4. Commit e push. **Não** adicionar ao Git os assets baixados da Fab (ver `unreal/README.md`).
 
 ## Domingo — sessão 4: dados e primeiro Blueprint (2 a 3 h)
 
 1. Criar as structs e importar as DataTables (`unreal/importar/DT_*.json`), conforme `unreal/README.md`.
-2. Blueprint `BP_Fragmento`: brilho, gatilho de proximidade e um widget simples que mostra o `texto` da linha da DataTable.
+2. Blueprint `BP_Fragmento` seguindo `docs/unreal/01-fragmento-coletavel.md`.
 3. Colocar o fragmento F01-02 na estepe, na posição de `data/layout_uruk.json` (`fragmentos_ato1`).
 4. Commit e push, **sair do GitHub e da Epic** no PC do amigo se não for voltar logo.
 
