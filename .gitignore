@@ -1,0 +1,29 @@
+# Unreal: pastas geradas
+Gilgamesh/Binaries/
+Gilgamesh/DerivedDataCache/
+Gilgamesh/Intermediate/
+Gilgamesh/Saved/
+Gilgamesh/Build/
+Gilgamesh/Plugins/*/Binaries/
+Gilgamesh/Plugins/*/Intermediate/
+.vs/
+.vscode/
+.idea/
+*.sln
+*.suo
+*.VC.db
+*.opensdf
+*.sdf
+
+# Assets de terceiros que se baixam de novo em cada máquina
+Gilgamesh/Content/Fab/
+Gilgamesh/Content/Megascans/
+Gilgamesh/Content/MSPresets/
+Gilgamesh/Content/MetaHumans/
+
+# Sistema e Python
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+node_modules/

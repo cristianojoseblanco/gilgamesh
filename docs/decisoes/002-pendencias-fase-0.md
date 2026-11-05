@@ -1,7 +1,7 @@
 # 002 — Pendências da fase 0 (GDD, seção 21.2)
 
 **Data:** 5 de novembro de 2026
-**Status:** decidido, exceto nome final e GPU
+**Status:** decidido, exceto nome final e GPU · **estilo visual substituído pela decisão [003](003-unreal-e-realismo.md) (realista, Unreal)**
 
 | Pendência | Decisão |
 |---|---|

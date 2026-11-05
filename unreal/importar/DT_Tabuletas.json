@@ -1,0 +1,122 @@
+[
+  {
+    "Name": "T01",
+    "titulo": "Aquele que viu o abismo",
+    "ato": "1",
+    "resumo": "Um prólogo convida o leitor a percorrer a muralha de Uruk e a abrir a caixa de cedro onde está a tabuleta com os feitos do rei. Gilgamesh, dois terços deus e um terço homem, não dá descanso à cidade, e o povo se queixa aos deuses. Os deuses pedem a Aruru que crie alguém à altura dele, e ela modela Enkidu de argila na estepe. Enkidu vive com as gazelas e bebe nas fontes com os animais. Um caçador o vê, conta ao pai e depois ao rei, que envia Shamhat. Depois do encontro com ela, os animais fogem de Enkidu, que ganha entendimento e aceita ir para Uruk. Enquanto isso, Gilgamesh sonha duas vezes com a chegada de um companheiro, e Ninsun, sua mãe, interpreta os sonhos.",
+    "versoes": "padrao-babilonica",
+    "lacunas": "Tabuleta bem preservada; há trechos danificados em partes dos sonhos.",
+    "fontes": "F-GEORGE2003:tab. I; F-BRANDAO2017:tab. I",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T02",
+    "titulo": "O selvagem chega à cidade",
+    "ato": "1",
+    "resumo": "Shamhat divide a própria roupa com Enkidu e o leva ao acampamento dos pastores. Ali ele come pão e bebe cerveja pela primeira vez, se lava, se unge e passa a vigiar os rebanhos contra lobos e leões. Ao saber do costume do rei nas festas de casamento, Enkidu segue para Uruk e barra a passagem de Gilgamesh à porta. Os dois lutam até tremerem os batentes e as paredes. A luta termina, a raiva passa e eles se tornam amigos. Gilgamesh então propõe ir à Floresta de Cedros matar Humbaba, e Enkidu tenta dissuadi-lo.",
+    "versoes": "padrao-babilonica; babilonica-antiga",
+    "lacunas": "A versão padrão desta tabuleta está muito danificada. A chegada aos pastores e a luta são conhecidas sobretudo pela tabuleta babilônica antiga da Pensilvânia, e o plano contra Humbaba pela tabuleta de Yale (a conferir).",
+    "fontes": "F-GEORGE2003:tab. II; F-JASTROW1920; F-BRANDAO2017:tab. II",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T03",
+    "titulo": "Os conselhos antes da partida",
+    "ato": "2",
+    "resumo": "Os anciãos de Uruk aconselham prudência na viagem. Gilgamesh e Enkidu vão ao palácio de Ninsun, que se purifica, sobe ao terraço e pede a Shamash que proteja o filho. Ela adota Enkidu e o encarrega de cuidar de Gilgamesh. Os heróis partem.",
+    "versoes": "padrao-babilonica; babilonica-antiga",
+    "lacunas": "Trechos fragmentados; a tabuleta babilônica antiga de Yale cobre parte dos preparativos.",
+    "fontes": "F-GEORGE2003:tab. III; F-JASTROW1920",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T04",
+    "titulo": "A viagem e os sonhos",
+    "ato": "2",
+    "resumo": "A caminho do oeste, a cada parada os dois cavam um poço, fazem uma oferenda e Gilgamesh dorme e tem um sonho assustador. Enkidu interpreta cada sonho como sinal favorável. Perto da floresta, os dois hesitam e se encorajam um ao outro.",
+    "versoes": "padrao-babilonica; babilonica-antiga",
+    "lacunas": "Vários sonhos estão incompletos; versões antigas trazem sonhos diferentes.",
+    "fontes": "F-GEORGE2003:tab. IV",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T05",
+    "titulo": "A Floresta de Cedros",
+    "ato": "2",
+    "resumo": "Os heróis entram na floresta e admiram a montanha dos cedros. Enfrentam Humbaba, o guardião posto por Enlil. Com a ajuda dos ventos de Shamash, o vencem. Humbaba pede clemência e oferece servir Gilgamesh; Enkidu insiste que ele morra, e Humbaba amaldiçoa os dois antes de ser morto. Cortam cedros e fazem uma porta para o templo de Enlil.",
+    "versoes": "padrao-babilonica; babilonica-antiga; sumeria",
+    "lacunas": "Um fragmento com o começo e o fim da tabuleta, guardado num museu do Iraque, foi publicado em 2014 e trouxe descrições novas da floresta (a conferir antes de citar).",
+    "fontes": "F-GEORGE2003:tab. V; F-ALRAWI2014; F-ETCSL",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T06",
+    "titulo": "Ishtar e o Touro do Céu",
+    "ato": "3",
+    "resumo": "De volta a Uruk, Gilgamesh se lava e veste roupas limpas. Ishtar se encanta e propõe casamento. Ele recusa e lembra o destino dos amantes anteriores dela. Ofendida, Ishtar obtém de Anu o Touro do Céu, cujos bufos abrem fendas na terra. Os amigos matam o touro, e Enkidu atira uma parte dele contra a deusa. A cidade celebra.",
+    "versoes": "padrao-babilonica; sumeria",
+    "lacunas": "Algumas linhas danificadas; existe um poema sumério paralelo sobre o Touro do Céu.",
+    "fontes": "F-GEORGE2003:tab. VI; F-ETCSL",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T07",
+    "titulo": "A morte de Enkidu",
+    "ato": "3",
+    "resumo": "Enkidu sonha que os deuses decidiram que um dos dois deve morrer pela morte de Humbaba e do Touro, e que esse será ele. Adoece. Amaldiçoa a porta de cedro, o caçador e Shamhat; Shamash o lembra do que ganhou com ela, e ele passa a abençoá-la. Sonha com a casa do pó, o mundo dos mortos, e morre depois de dias de doença.",
+    "versoes": "padrao-babilonica",
+    "lacunas": "Trechos danificados no começo e no fim.",
+    "fontes": "F-GEORGE2003:tab. VII",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T08",
+    "titulo": "O luto",
+    "ato": "3",
+    "resumo": "Gilgamesh lamenta Enkidu e convoca a natureza e a cidade a chorarem com ele. Manda fazer uma estátua do amigo e oferece tesouros aos deuses do mundo dos mortos para que recebam bem Enkidu.",
+    "versoes": "padrao-babilonica",
+    "lacunas": "A parte final da tabuleta está muito danificada.",
+    "fontes": "F-GEORGE2003:tab. VIII",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T09",
+    "titulo": "O caminho do sol",
+    "ato": "4",
+    "resumo": "Com medo da morte, Gilgamesh vaga pela estepe e decide procurar Utnapishtim, o homem que ganhou a vida eterna. Chega às montanhas Mashu, guardadas por um casal de homens-escorpião, que o deixam passar. Atravessa a escuridão total do caminho do sol e sai num jardim de árvores que dão pedras preciosas.",
+    "versoes": "padrao-babilonica",
+    "lacunas": "Algumas linhas perdidas na travessia e na descrição do jardim.",
+    "fontes": "F-GEORGE2003:tab. IX",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T10",
+    "titulo": "As águas da morte",
+    "ato": "4",
+    "resumo": "À beira do mar, a taberneira Siduri tenta afastar Gilgamesh, depois o ouve e indica o barqueiro Urshanabi. Gilgamesh destrói, sem saber, os \"de pedra\" que permitiam a travessia, e precisa cortar varas que só podem ser usadas uma vez cada. Os dois atravessam as águas da morte, e Gilgamesh conta a Utnapishtim sua dor. Utnapishtim fala da morte como destino de todos.",
+    "versoes": "padrao-babilonica; babilonica-antiga",
+    "lacunas": "Na versão babilônica antiga, Siduri dá o célebre conselho de aproveitar a vida; na versão padrão a fala é outra. Trechos danificados.",
+    "fontes": "F-GEORGE2003:tab. X; F-JASTROW1920",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T11",
+    "titulo": "O dilúvio e a planta",
+    "ato": "5",
+    "resumo": "Utnapishtim conta como Ea o avisou do dilúvio, como construiu o barco, salvou a família e os animais e ganhou a imortalidade dos deuses. Propõe que Gilgamesh fique acordado seis dias e sete noites; ele adormece, e pães cada vez mais velhos marcam os dias. Ao partir, Gilgamesh recebe o segredo de uma planta que devolve a juventude, mergulha e a pega, mas uma serpente a come enquanto ele se banha. De volta a Uruk, ele mostra a Urshanabi a muralha, fechando a história onde ela começou.",
+    "versoes": "padrao-babilonica",
+    "lacunas": "Tabuleta bem preservada, com poucas linhas danificadas.",
+    "fontes": "F-GEORGE2003:tab. XI; F-THOMPSON1928",
+    "status": "a_conferir"
+  },
+  {
+    "Name": "T12",
+    "titulo": "Outra tradição",
+    "ato": "epilogo",
+    "resumo": "Tradução quase literal da segunda metade de um poema sumério. Objetos de Gilgamesh caem no mundo dos mortos, Enkidu desce para buscá-los e fica preso. Seu espírito sobe por um momento e conta ao amigo como vivem os mortos. Não continua a tabuleta XI: aqui Enkidu está vivo de novo.",
+    "versoes": "padrao-babilonica; sumeria",
+    "lacunas": "Algumas linhas danificadas; o poema sumério completo ajuda a preencher.",
+    "fontes": "F-GEORGE2003:tab. XII; F-ETCSL",
+    "status": "a_conferir"
+  }
+]

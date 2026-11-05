@@ -1233,6 +1233,7 @@ applyQuality(); addEventListener('resize', () => { camera.aspect = innerWidth / 
 cam.pitch = .35; cam.dist = 12; update(.0001); requestAnimationFrame(frame);
 $('start').disabled = false; $('start').textContent = 'Começar o Ato 1'; $('startMenu').style.display = 'inline-block';
 $('start').onclick = () => { cam.dist = 6.2; cam.pitch = .3; iniciar(0); }; $('startMenu').onclick = () => { cam.dist = 6.2; cam.pitch = .3; if (!started) { started = true; startAudio(); } $('intro').style.display = 'none'; abrirMenu(); };
+window.__exp = { M, waterMat, bankMat, unitBox, groundTex, scene, LUGAR, FPOS, houses, wallPts, waters, streets, bridges, plats, ramps, gatePts, E, A, CITY };
 window.__dbg = { get alvo() { return alvo; }, P, cam, flags, tem, CB, MT, MS, jogar, LUGAR, setLuz, get runId() { return runId; }, dlg: () => dlgDone && dlgDone(), pegarFragmento, gilg, enkCiv, inter, until };
 </script>
 </body>
