@@ -1,0 +1,142 @@
+# Episódios do protótipo (Ato 1 — Tabuletas I e II), mais a abertura da moldura.
+# Roteiro detalhado em docs/roteiro/ato1.md. Cenas Godot ainda não existem (fase 3).
+
+- id: E00-escriba-copia
+  tabuleta: moldura
+  ato: 0
+  local: ninive-biblioteca
+  personagens: [escriba]
+  jogavel_como: escriba
+  versoes: []
+  lacuna: false
+  fontes: []
+  cena: res://atos/moldura/escriba_copia.tscn
+
+- id: E01-prologo-muralha
+  tabuleta: T01
+  ato: 1
+  local: uruk-muralha
+  personagens: [gilgamesh]
+  jogavel_como: gilgamesh
+  versoes: [padrao-babilonica]
+  lacuna: false
+  fontes: ["F-GEORGE2003:tab. I (prólogo)"]
+  cena: res://atos/ato1/prologo_muralha.tscn
+
+- id: E01-rei-oprime
+  tabuleta: T01
+  ato: 1
+  local: uruk-ruas
+  personagens: [gilgamesh, moradores]
+  jogavel_como: gilgamesh
+  versoes: [padrao-babilonica]
+  lacuna: false
+  fontes: ["F-GEORGE2003:tab. I"]
+  cena: res://atos/ato1/rei_oprime.tscn
+
+- id: E01-criacao-enkidu
+  tabuleta: T01
+  ato: 1
+  local: estepe
+  personagens: [aruru, enkidu]
+  jogavel_como: nenhum
+  versoes: [padrao-babilonica]
+  lacuna: true
+  fragmento: F01-02
+  fontes: ["F-GEORGE2003:tab. I"]
+  cena: res://atos/ato1/criacao_enkidu.tscn
+
+- id: E01-enkidu-estepe
+  tabuleta: T01
+  ato: 1
+  local: estepe
+  personagens: [enkidu, gazelas]
+  jogavel_como: enkidu
+  versoes: [padrao-babilonica]
+  lacuna: false
+  fontes: ["F-GEORGE2003:tab. I"]
+  cena: res://atos/ato1/enkidu_estepe.tscn
+
+- id: E01-cacador
+  tabuleta: T01
+  ato: 1
+  local: estepe-fonte
+  personagens: [cacador, pai-do-cacador]
+  jogavel_como: enkidu
+  versoes: [padrao-babilonica]
+  lacuna: true
+  fragmento: F01-03
+  fontes: ["F-GEORGE2003:tab. I"]
+  cena: res://atos/ato1/cacador.tscn
+
+- id: E01-shamhat
+  tabuleta: T01
+  ato: 1
+  local: estepe-fonte
+  personagens: [enkidu, shamhat, cacador]
+  jogavel_como: enkidu
+  versoes: [padrao-babilonica]
+  lacuna: false
+  fontes: ["F-GEORGE2003:tab. I"]
+  cena: res://atos/ato1/shamhat.tscn
+
+- id: E01-sonhos-gilgamesh
+  tabuleta: T01
+  ato: 1
+  local: uruk-palacio-ninsun
+  personagens: [gilgamesh, ninsun]
+  jogavel_como: gilgamesh
+  versoes: [padrao-babilonica]
+  lacuna: true
+  fragmento: F01-04
+  sonho: true
+  fontes: ["F-GEORGE2003:tab. I (sonhos)"]
+  cena: res://sonhos/sonho_estrela_machado.tscn
+
+- id: E02-pastores
+  tabuleta: T02
+  ato: 1
+  local: acampamento-pastores
+  personagens: [enkidu, shamhat, pastores]
+  jogavel_como: enkidu
+  versoes: [padrao-babilonica, babilonica-antiga]
+  lacuna: true
+  fragmento: F02-01
+  fontes: ["F-GEORGE2003:tab. II", "F-JASTROW1920"]
+  cena: res://atos/ato1/pastores.tscn
+
+- id: E02-viajante
+  tabuleta: T02
+  ato: 1
+  local: acampamento-pastores
+  personagens: [enkidu, shamhat, viajante]
+  jogavel_como: enkidu
+  versoes: [babilonica-antiga]
+  lacuna: true
+  fragmento: F02-02
+  fontes: ["F-JASTROW1920", "F-GEORGE2003:tab. II"]
+  cena: res://atos/ato1/viajante.tscn
+
+- id: E02-luta-porta
+  tabuleta: T02
+  ato: 1
+  local: uruk-porta-casa-de-casamento
+  personagens: [enkidu, gilgamesh, moradores]
+  jogavel_como: enkidu
+  versoes: [padrao-babilonica, babilonica-antiga]
+  lacuna: false
+  chefe: true
+  fontes: ["F-GEORGE2003:tab. II", "F-JASTROW1920"]
+  cena: res://atos/ato1/luta_porta.tscn
+
+- id: E02-amizade
+  tabuleta: T02
+  ato: 1
+  local: uruk-porta-casa-de-casamento
+  personagens: [gilgamesh, enkidu]
+  jogavel_como: gilgamesh
+  versoes: [padrao-babilonica, babilonica-antiga]
+  lacuna: true
+  fragmento: F01-01
+  fontes: ["F-GEORGE2003:tab. II", "F-JASTROW1920"]
+  cena: res://atos/ato1/amizade.tscn

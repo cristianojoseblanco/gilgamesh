@@ -1,0 +1,77 @@
+# Fragmentos do protótipo (6). Texto curto escrito pelo projeto.
+# "completa" = episódio cuja lacuna o fragmento preenche, ou variação que destrava.
+
+- id: F01-01
+  tabuleta: T01
+  completa: E02-amizade
+  onde: Uruk, alto da muralha perto da porta principal, depois da luta
+  texto: >-
+    Procure a caixa de cedro, solte o fecho de bronze e leia a tabuleta de lápis-lazúli:
+    tudo o que este rei passou está escrito ali.
+  efeito: >-
+    Fecha o Ato 1 com a voz do prólogo, que convida a ler a história. Liga a abertura em
+    Uruk ao escriba de Nínive.
+  versao_origem: padrao-babilonica
+  fontes: ["F-GEORGE2003:tab. I (prólogo)"]
+  status: a_conferir
+
+- id: F01-02
+  tabuleta: T01
+  completa: E01-criacao-enkidu
+  onde: estepe, numa poça de argila perto da primeira fonte
+  texto: >-
+    Aruru lavou as mãos, tomou um punhado de argila, jogou-o na estepe, e dali nasceu Enkidu.
+  efeito: A cena da criação deixa de ser só silhueta e som quebrado e é mostrada inteira.
+  versao_origem: padrao-babilonica
+  fontes: ["F-GEORGE2003:tab. I"]
+  status: a_conferir
+
+- id: F01-03
+  tabuleta: T01
+  completa: E01-cacador
+  onde: estepe, junto a uma armadilha desmontada
+  texto: >-
+    O pai disse ao caçador: vá a Uruk, conte ao rei o que viu e peça que mande Shamhat com você.
+  efeito: Destrava o diálogo completo entre o caçador e o pai, que no início aparece cortado.
+  versao_origem: padrao-babilonica
+  fontes: ["F-GEORGE2003:tab. I"]
+  status: a_conferir
+
+- id: F01-04
+  tabuleta: T01
+  completa: E01-sonhos-gilgamesh
+  onde: Uruk, terraço do palácio de Ninsun
+  texto: >-
+    Caiu em Uruk um machado de forma estranha. O povo se juntou em volta, e eu o amei e o
+    pus ao meu lado.
+  efeito: Destrava o segundo sonho (o machado), jogável, e a segunda interpretação de Ninsun.
+  versao_origem: padrao-babilonica
+  fontes: ["F-GEORGE2003:tab. I (sonhos)"]
+  status: a_conferir
+
+- id: F02-01
+  tabuleta: T02
+  completa: E02-pastores
+  onde: acampamento dos pastores, entre os jarros de cerveja
+  texto: >-
+    Puseram pão diante dele, e ele não sabia comer. Puseram cerveja, e ele não sabia beber.
+  efeito: >-
+    Preenche a lacuna da versão padrão com a versão babilônica antiga e mostra a cena inteira
+    no acampamento.
+  versao_origem: babilonica-antiga
+  fontes: ["F-JASTROW1920", "F-GEORGE2003:tab. II"]
+  status: a_conferir
+
+- id: F02-02
+  tabuleta: T02
+  completa: E02-viajante
+  onde: estrada entre o acampamento e Uruk
+  texto: >-
+    Um homem passou apressado a caminho de uma festa de casamento em Uruk. Contou o que o rei
+    fazia nessas festas, e o rosto de Enkidu ficou pálido de raiva.
+  efeito: >-
+    Destrava a variação babilônica antiga que explica por que Enkidu vai até a porta da casa
+    de casamento. Abre a entrada do Codex sobre o debate em torno desse costume.
+  versao_origem: babilonica-antiga
+  fontes: ["F-JASTROW1920", "F-GEORGE2003:tab. II"]
+  status: a_conferir

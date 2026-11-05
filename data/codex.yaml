@@ -1,0 +1,130 @@
+# Entradas do Codex do protótipo (10).
+# camada: evidencia | interpretacao | invencao (uma entrada pode ter mais de uma).
+# libera: o que desbloqueia a entrada no jogo.
+
+- id: C-gilgamesh
+  tipo: personagem
+  titulo: Gilgamesh
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    Rei de Uruk na epopeia, dois terços deus e um terço homem, filho da deusa Ninsun e do rei
+    Lugalbanda. A Lista Real Suméria o inclui entre os reis de Uruk, e muitos estudiosos acham
+    possível que um governante com esse nome tenha existido por volta de 2700 a.C. Não há
+    nenhuma inscrição dele próprio. O jogo o trata como figura lendária.
+  fontes: ["F-GEORGE2003", "F-LIVERANI"]
+  libera: E01-rei-oprime
+  status: a_conferir
+
+- id: C-enkidu
+  tipo: personagem
+  titulo: Enkidu
+  camadas: [evidencia]
+  texto: >-
+    Criado de argila pela deusa Aruru para ser o par de Gilgamesh e devolver a paz a Uruk.
+    Vive na estepe com os animais até o encontro com Shamhat. Nos poemas sumérios, Enkidu é
+    servo de Gilgamesh; na epopeia acadiana, é seu amigo e igual.
+  fontes: ["F-GEORGE2003:tab. I", "F-ETCSL"]
+  libera: E01-criacao-enkidu
+  status: a_conferir
+
+- id: C-shamhat
+  tipo: personagem
+  titulo: Shamhat
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    Mulher ligada ao culto de Ishtar em Uruk. É ela quem aproxima Enkidu do mundo humano:
+    depois do encontro, os animais fogem dele, e ele ganha entendimento e fala. Ela o veste,
+    o leva aos pastores e depois à cidade. O papel exato dela no culto é debatido; o jogo a
+    mostra com dignidade e voz própria, sem cena explícita.
+  fontes: ["F-GEORGE2003:tab. I-II"]
+  libera: E01-shamhat
+  status: a_conferir
+
+- id: C-ninsun
+  tipo: personagem
+  titulo: Ninsun
+  camadas: [evidencia]
+  texto: >-
+    Deusa, mãe de Gilgamesh, chamada de "vaca selvagem" e conhecida pela sabedoria. Na
+    Tabuleta I, interpreta os dois sonhos do filho como o anúncio de um companheiro forte.
+    Mais adiante, adota Enkidu.
+  fontes: ["F-GEORGE2003:tab. I, III"]
+  libera: E01-sonhos-gilgamesh
+  status: a_conferir
+
+- id: C-uruk
+  tipo: lugar
+  titulo: Uruk
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    Hoje Warka, no sul do Iraque. No período de Uruk (4º milênio a.C.) já era o maior centro
+    da Mesopotâmia e um dos lugares onde surgiu a escrita. No Dinástico Arcaico chegou a uns
+    400 a 550 hectares dentro de uma muralha de cerca de 9 km. Um braço do Eufrates passava
+    pela cidade e alimentava canais internos. No jogo, a escala é real; o traçado de ruas e
+    canais é interpretação.
+  fontes: ["F-CDLI-URUK", "F-FASSBINDER2020", "F-CRUSEMANN2019"]
+  libera: E01-prologo-muralha
+  status: a_conferir
+
+- id: C-muralha
+  tipo: objeto
+  titulo: A muralha de Uruk
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    Muralha de tijolo de barro com cerca de 9 km e centenas de torres semicirculares,
+    provavelmente erguida na primeira metade do 3º milênio a.C. e reparada muitas vezes depois.
+    O prólogo da epopeia convida o leitor a subir nela e examinar os tijolos. A atribuição a
+    Gilgamesh é tradição, não fato comprovado.
+  fontes: ["F-CDLI-URUK", "F-GEORGE2003:tab. I"]
+  libera: E01-prologo-muralha
+  status: a_conferir
+
+- id: C-eanna
+  tipo: lugar
+  titulo: Eanna
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    A "Casa do Céu", distrito sagrado de Inana (Ishtar) em Uruk, a leste do antigo curso do
+    rio. O grande zigurate que aparece no jogo é um anacronismo assumido: foi erguido por volta
+    de 2100 a.C., no tempo de Ur-Namma.
+  fontes: ["F-CDLI-URUK", "F-CRUSEMANN2019"]
+  libera: E01-rei-oprime
+  status: a_conferir
+
+- id: C-estepe
+  tipo: lugar
+  titulo: A estepe
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    Na epopeia, a estepe é o espaço fora da cidade, dos animais e dos pastores, onde Enkidu
+    nasce e vive. No jogo, ela fica além da muralha e dos campos irrigados, com gazelas,
+    onagros e fontes. A composição dos rebanhos é licença poética.
+  fontes: ["F-GEORGE2003:tab. I"]
+  libera: E01-enkidu-estepe
+  status: a_conferir
+
+- id: C-versao-padrao
+  tipo: versao
+  titulo: A versão padrão babilônica
+  camadas: [evidencia]
+  texto: >-
+    Doze tabuletas em acadiano, atribuídas pela tradição ao escriba Sîn-lēqi-unninni, de fins
+    do 2º milênio a.C. As cópias mais conhecidas vêm de Nínive, da biblioteca do rei
+    Assurbanipal (século VII a.C.), soterrada quando a cidade caiu em 612 a.C. e escavada no
+    século XIX. É a espinha do roteiro do jogo.
+  fontes: ["F-GEORGE2003", "F-GEORGE1999"]
+  libera: E00-escriba-copia
+  status: a_conferir
+
+- id: C-versao-antiga
+  tipo: versao
+  titulo: A versão babilônica antiga
+  camadas: [evidencia, interpretacao]
+  texto: >-
+    Primeira epopeia contínua em acadiano, de por volta de 1800 a.C., conhecida por tabuletas
+    avulsas. A tabuleta da Pensilvânia conta a chegada de Enkidu aos pastores e a luta com
+    Gilgamesh, e preenche partes que faltam na Tabuleta II da versão padrão. Ela também traz o
+    episódio do costume do rei nas festas de casamento, cujo sentido exato ainda é debatido.
+  fontes: ["F-JASTROW1920", "F-GEORGE2003"]
+  libera: F02-02
+  status: a_conferir
