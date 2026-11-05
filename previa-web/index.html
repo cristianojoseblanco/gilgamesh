@@ -476,11 +476,11 @@ const grass = (() => { const g = mergeGeometries([0, 1, 2].map(k => new THREE.Pl
   mat.onBeforeCompile = sh => { sh.uniforms.uTime = windU; sh.vertexShader = 'uniform float uTime;\n' + sh.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\n vec4 wp = instanceMatrix * vec4(0.,0.,0.,1.); float sw = sin(uTime*1.7 + wp.x*.35 + wp.z*.25)*.14 + sin(uTime*3.1+wp.x)*.04; transformed.x += sw*position.y; transformed.z += sw*.5*position.y;`); };
   const im = new THREE.InstancedMesh(g, mat, GRASS_N); im.receiveShadow = true; im.frustumCulled = false; scene.add(im); return im; })();
 const grassSpots = Array.from({ length: GRASS_N }, () => [rr(0, GR * 2), rr(0, GR * 2), rr(.45, 1.1), rr(0, 6), rr(.1, .2), rr(.55, .85)]);
-let grassAt = null;
+let grassAt = null; const grassHoles = []; // círculos sem capim (ex.: lagos de outras cenas)
 function updateGrass(px, pz) { // capim só fora da cidade, num quadrado que acompanha o jogador
   const ox = Math.floor(px / 20) * 20 - GR, oz = Math.floor(pz / 20) * 20 - GR; if (grassAt && grassAt[0] === ox && grassAt[1] === oz) return; grassAt = [ox, oz];
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), c = new THREE.Color(), up = new THREE.Vector3(0, 1, 0); let n = 0;
-  for (const s of grassSpots) { const x = ox + s[0], z = oz + s[1]; if (insideCity(x, z) || waterDist(x, z) < 1 || onBridge(x, z) || streetDist(x, z) < 3) continue;
+  for (const s of grassSpots) { const x = ox + s[0], z = oz + s[1]; if (insideCity(x, z) || waterDist(x, z) < 1 || onBridge(x, z) || streetDist(x, z) < 3) continue; if (grassHoles.some(h => Math.hypot(x - h.x, z - h.z) < h.r)) continue;
     q.setFromAxisAngle(up, s[3]); m.compose(new THREE.Vector3(x, floorAt(x, z) - .05, z), q, new THREE.Vector3(s[2], s[2], s[2])); grass.setMatrixAt(n, m); c.setHSL(s[4], .4, s[5]); grass.setColorAt(n, c); n++; }
   grass.count = n; grass.instanceMatrix.needsUpdate = true; if (grass.instanceColor) grass.instanceColor.needsUpdate = true; }
 

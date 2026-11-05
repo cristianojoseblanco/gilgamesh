@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Gilgamesh — Ato 1 jogável (prévia)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- GERADO: este arquivo é a fonte. O index.html desta pasta é montado por tools/montar_previa.py -->
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#1a120b;font-family:Inter,system-ui,sans-serif;color:#f3e6d0;touch-action:none;-webkit-user-select:none;user-select:none}
+  canvas{display:block}
+  .serif{font-family:'Cormorant Garamond',Georgia,serif}
+  button{font-family:Inter,sans-serif}
+  #intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center,rgba(40,24,12,.6),rgba(14,9,5,.95));z-index:30;transition:opacity .8s}
+  #intro h1{font-size:clamp(40px,11vw,84px);letter-spacing:.12em;margin:0;font-weight:700;color:#f0d6a8}
+  #intro h2{font-size:clamp(17px,4.5vw,24px);margin:4px 0 20px;font-weight:500;font-style:italic;color:#d9b98a}
+  #intro p{max-width:460px;line-height:1.5;font-size:15px;color:#e7d6bb;margin:0 0 8px}
+  #intro small{display:block;max-width:440px;color:#b59a77;font-size:12.5px;line-height:1.45;margin-top:10px}
+  .btn{background:#c98a3a;color:#1d120a;border:0;border-radius:999px;padding:14px 30px;font-weight:700;font-size:16px;margin-top:16px;cursor:pointer}
+  .btn.ghost{background:rgba(255,240,215,.12);color:#f3e6d0;border:1px solid rgba(255,230,200,.25)}
+  #hud{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px;padding-top:max(12px,env(safe-area-inset-top));pointer-events:none;z-index:5}
+  .pill{background:rgba(20,12,6,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,220,170,.18);border-radius:14px;padding:8px 12px;font-size:13px;line-height:1.35;max-width:58vw}
+  .pill b{color:#f0c27a}
+  #obj .lab{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#c9a272;display:block}
+  #guide{display:flex;align-items:center;gap:8px;margin-top:8px}
+  #arrow{width:18px;height:18px}
+  #right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+  #tools{display:flex;gap:8px;pointer-events:auto}
+  #tools button{background:rgba(20,12,6,.6);border:1px solid rgba(255,220,170,.18);color:#f3e6d0;border-radius:12px;padding:8px 10px;font-size:12.5px}
+  #mini{width:118px;height:118px;border-radius:50%;border:2px solid rgba(255,220,170,.35);overflow:hidden;pointer-events:auto;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+  #bars{position:fixed;left:14px;top:max(118px,calc(env(safe-area-inset-top) + 106px));display:none;flex-direction:column;gap:6px;z-index:5;pointer-events:none}
+  .bar{width:150px;height:9px;border-radius:9px;background:rgba(0,0,0,.45);overflow:hidden;border:1px solid rgba(255,230,200,.2)}
+  .bar i{display:block;height:100%;width:100%;transition:width .12s}
+  #boss{position:fixed;left:50%;transform:translateX(-50%);bottom:max(178px,24vh);display:none;z-index:6;text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#f0d6a8;pointer-events:none}
+  #boss .bar{width:min(70vw,320px);height:11px;margin-top:4px}
+  #dlg{position:fixed;left:50%;transform:translateX(-50%);bottom:max(26px,calc(env(safe-area-inset-bottom) + 18px));width:min(92vw,560px);background:rgba(22,14,8,.86);border:1px solid rgba(240,200,140,.28);border-radius:16px;padding:12px 16px 14px;z-index:9;display:none;pointer-events:auto}
+  #dlg .who{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#e3b877;margin-bottom:4px}
+  #dlg .who.antigo{color:#a9d39b}
+  #dlg .txt{font-size:16px;line-height:1.45}
+  #dlg .tap{font-size:11px;color:#a58a66;text-align:right;margin-top:4px}
+  #choices{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  #choices button{background:rgba(255,240,215,.1);border:1px solid rgba(255,230,200,.25);color:#f3e6d0;border-radius:12px;padding:10px 12px;font-size:14.5px;text-align:left}
+  #caption{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(22px,6vw,38px);color:#f0d6a8;z-index:13;opacity:0;transition:opacity 1s;pointer-events:none;padding:30px;text-shadow:0 2px 12px #000}
+  #toast{position:fixed;left:50%;top:max(70px,calc(env(safe-area-inset-top) + 60px));transform:translateX(-50%);background:rgba(43,29,17,.92);border:1px solid rgba(240,200,140,.3);border-radius:999px;padding:8px 16px;font-size:13px;z-index:8;opacity:0;transition:opacity .4s;pointer-events:none}
+  #pad{position:fixed;right:16px;bottom:max(90px,calc(env(safe-area-inset-bottom) + 80px));display:flex;flex-direction:column;align-items:flex-end;gap:12px;z-index:6}
+  #pad button{border:0;border-radius:999px;font-weight:700;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.4);display:none}
+  #act{background:#c98a3a;color:#1d120a;padding:16px 22px}
+  #atk{background:#b5482c;color:#fff1e2;width:74px;height:74px}
+  #dodge{background:#40566b;color:#e8f1fb;width:60px;height:60px;font-size:12.5px!important}
+  #meter{position:fixed;left:50%;bottom:max(200px,26vh);transform:translateX(-50%);width:min(80vw,340px);height:22px;border-radius:12px;background:rgba(0,0,0,.55);border:1px solid rgba(255,230,200,.3);display:none;z-index:7;overflow:hidden}
+  #meter .zone{position:absolute;top:0;bottom:0;background:rgba(120,190,110,.55)}
+  #meter .needle{position:absolute;top:-2px;bottom:-2px;width:5px;background:#fff;border-radius:3px;box-shadow:0 0 8px #fff}
+  .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(10,6,3,.66);z-index:20;padding:18px}
+  .card{background:linear-gradient(#2b1d11,#21160c);border:1px solid rgba(240,200,140,.28);border-radius:18px;max-width:470px;width:100%;padding:20px 20px 16px;box-shadow:0 20px 60px rgba(0,0,0,.5);max-height:86vh;overflow:auto}
+  .kicker{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9a272}
+  .card h3{font-size:28px;margin:4px 0 10px;color:#f0d6a8}
+  .card p{font-size:14.5px;line-height:1.55;color:#ead9bf;margin:0 0 10px}
+  .card blockquote{margin:0 0 12px;padding:10px 12px;border-left:3px solid #c98a3a;background:rgba(255,230,190,.06);font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.35;color:#f3e2c4}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .tag{font-size:11.5px;padding:4px 9px;border-radius:999px;font-weight:600}
+  .tag.evidencia{background:#3d5a3a;color:#d8f0cf}.tag.interpretacao{background:#5a4a2a;color:#f4e2b8}.tag.invencao{background:#5a2f2a;color:#f6d0c8}
+  .src{font-size:12px;color:#b59a77;border-top:1px solid rgba(240,200,140,.15);padding-top:10px;margin-top:6px}
+  #menu .card{max-width:420px}
+  #menu .chap{display:block;width:100%;text-align:left;background:rgba(255,240,215,.07);border:1px solid rgba(255,230,200,.16);color:#f3e6d0;border-radius:12px;padding:11px 12px;margin-bottom:8px;font-size:14.5px}
+  #menu .chap small{color:#b59a77;display:block;font-size:12px;margin-top:2px}
+  #menu h4{margin:16px 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c9a272}
+  .cx{border-bottom:1px solid rgba(240,200,140,.12);padding:8px 0;font-size:13.5px}
+  .cx b{color:#f0d6a8}.cx.off{opacity:.4}
+  #mesa{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#3a2614,#120a05 75%);z-index:25;padding:16px}
+  #mesa canvas{width:min(92vw,420px);height:auto;touch-action:none}
+  #mesaTxt{max-width:440px;text-align:center;font-size:15.5px;line-height:1.5;margin-top:12px;min-height:3em;color:#ead9bf}
+  #mesaTxt i{color:#e3b877;font-style:normal;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:4px}
+  #fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .9s;z-index:12}
+  #glitch{position:fixed;inset:0;pointer-events:none;z-index:4;display:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 5px);animation:gl .18s steps(2) infinite}
+  @keyframes gl{0%{transform:translateY(0)}50%{transform:translateY(3px)}100%{transform:translateY(-2px)}}
+  body.quebrado canvas{filter:grayscale(.85) contrast(1.25) sepia(.25)}
+  body.quebrado #glitch{display:block}
+  #joy{position:fixed;width:120px;height:120px;border-radius:50%;border:2px solid rgba(255,235,205,.35);background:rgba(255,235,205,.08);display:none;pointer-events:none;z-index:4;transform:translate(-50%,-50%)}
+  #knob{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;background:rgba(255,235,205,.45)}
+  #help{position:fixed;left:0;right:0;bottom:max(6px,env(safe-area-inset-bottom));text-align:center;font-size:11.5px;color:rgba(243,230,208,.6);pointer-events:none;z-index:3;text-shadow:0 1px 3px #000}
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+<div id="intro">
+  <h1 class="serif">GILGAMESH</h1>
+  <h2 class="serif">Ato 1 · O selvagem e o rei</h2>
+  <p>Protótipo jogável das Tabuletas I e II: do escriba em Nínive à amizade à porta de Uruk. Cerca de 20 a 30 minutos.</p>
+  <p>Você joga como o escriba, como Gilgamesh e como Enkidu. Seis fragmentos de tabuleta completam cenas que começam quebradas.</p>
+  <small>Prévia feita pelo celular, só com geometria gerada por código. Falas marcadas como <b>texto antigo</b> seguem o conteúdo da epopeia em redação própria; as demais são falas do jogo. Tudo ainda está a conferir com George 2003 e Brandão 2017.</small>
+  <button class="btn" id="start" disabled>Construindo Uruk…</button>
+  <button class="btn ghost" id="startMenu" style="display:none">Escolher capítulo</button>
+</div>
+<div id="hud">
+  <div>
+    <div class="pill" id="obj"><span class="lab">Objetivo</span><span id="objTxt">—</span></div>
+    <div class="pill" id="guide"><svg id="arrow" viewBox="0 0 20 20"><path d="M10 1 L17 17 L10 13 L3 17 Z" fill="#f0c27a"/></svg><span id="guideTxt"></span></div>
+  </div>
+  <div id="right">
+    <div id="tools"><button id="menuBtn">☰ Menu</button><button id="qBtn">Qualidade</button></div>
+    <canvas id="mini" width="236" height="236"></canvas>
+  </div>
+</div>
+<div id="bars"><div class="bar"><i id="hpBar" style="background:#c9553a"></i></div><div class="bar"><i id="stBar" style="background:#d8b35a"></i></div></div>
+<div id="boss"><span id="bossName"></span><div class="bar"><i id="bossBar" style="background:#e0a050"></i></div></div>
+<div id="toast"></div>
+<div id="caption" class="serif"></div>
+<div id="meter"><div class="zone" id="mzone"></div><div class="needle" id="mneedle"></div></div>
+<div id="pad"><button id="dodge">Esquiva</button><button id="atk">Golpe</button><button id="act"></button></div>
+<div id="dlg"><div class="who" id="dlgWho"></div><div class="txt" id="dlgTxt"></div><div id="choices"></div><div class="tap" id="dlgTap">toque para continuar</div></div>
+<div id="help"></div>
+<div id="joy"><div id="knob"></div></div>
+<div id="glitch"></div>
+<div id="fade"></div>
+<div class="overlay" id="card"><div class="card"><div class="kicker" id="cKick"></div><h3 class="serif" id="cTitle"></h3><div class="tags" id="cTags"></div><div id="cBody"></div><div class="src" id="cSrc"></div><button class="btn ghost" id="cClose" style="width:100%">Continuar</button></div></div>
+<div class="overlay" id="menu"><div class="card"><div class="kicker">Ato 1 · protótipo</div><h3 class="serif">Capítulos</h3><div id="chapList"></div><h4>Fragmentos <span id="mFrag"></span></h4><div id="fragList"></div><h4>Codex <span id="mCodex"></span></h4><div id="codexList"></div><button class="btn ghost" id="menuClose" style="width:100%">Voltar ao jogo</button></div></div>
+<div id="mesa"><canvas id="mesaCv" width="420" height="520"></canvas><div id="mesaTxt"></div><button class="btn ghost" id="mesaBtn" style="display:none">Continuar</button></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
+// ============================ MOTOR DA CIDADE (copiado de previa-web/index.html pelo montador)
+// =====================================================================
+// PARÂMETROS DA CIDADE (escala real, em metros). Centro do mapa = (0,0); +z = sul.
+// =====================================================================
+const CITY = {
+  wallPerimeter: 9000,     // muralha de ~9 km (Dinástico Arcaico)
+  wallHeight: 10, wallThick: 6, towerEvery: 10,
+  ellipseA: 1550, ellipseB: 1250,
+  riverWidth: 55, canalWidth: 12,
+  houseCell: 13,
+  eanna: { x: 380, z: -60, size: 300 },        // recinto sagrado de Inana
+  anu: { x: -480, z: 120 },                     // terraço de Anu com o Templo Branco
+  gates: [Math.PI / 2, -Math.PI / 2, 0.05, Math.PI + .1, 2.35],   // ângulos das portas
+  chunk: 400, viewDist: 3300,
+};
+
+// ---------------------------------------------------------------- utilidades
+let seed = 11;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const rr = (a, b) => a + (b - a) * rnd();
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (e0, e1, x) => { const t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+const isTouch = matchMedia('(pointer: coarse)').matches;
+function vnoise(x, z) {
+  const s = (a, b) => { const n = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return n - Math.floor(n); };
+  const xi = Math.floor(x), zi = Math.floor(z), xf = x - xi, zf = z - zi, u = xf * xf * (3 - 2 * xf), v = zf * zf * (3 - 2 * zf);
+  return lerp(lerp(s(xi, zi), s(xi + 1, zi), u), lerp(s(xi, zi + 1), s(xi + 1, zi + 1), u), v);
+}
+function segDist(px, pz, ax, az, bx, bz) { const dx = bx - ax, dz = bz - az, l = dx * dx + dz * dz; const t = l ? clamp(((px - ax) * dx + (pz - az) * dz) / l, 0, 1) : 0; const x = ax + dx * t - px, z = az + dz * t - pz; return Math.sqrt(x * x + z * z); }
+function segInter(a, b, c, d) { const r = [b[0] - a[0], b[1] - a[1]], s = [d[0] - c[0], d[1] - c[1]], den = r[0] * s[1] - r[1] * s[0]; if (Math.abs(den) < 1e-9) return null;
+  const t = ((c[0] - a[0]) * s[1] - (c[1] - a[1]) * s[0]) / den, u = ((c[0] - a[0]) * r[1] - (c[1] - a[1]) * r[0]) / den; return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? [a[0] + r[0] * t, a[1] + r[1] * t] : null; }
+function wiggle(pts, amp, step = 60) { // subdivide uma polilinha e adiciona curvas suaves
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) { const [ax, az] = pts[i], [bx, bz] = pts[i + 1]; const L = Math.hypot(bx - ax, bz - az), n = Math.max(1, Math.round(L / step)), nx = -(bz - az) / L, nz = (bx - ax) / L;
+    for (let k = 0; k < n; k++) { const t = k / n, w = (i === 0 && k === 0) ? 0 : (vnoise((ax + t * (bx - ax)) * .004 + i, (az + t * (bz - az)) * .004) - .5) * 2 * amp; out.push([ax + (bx - ax) * t + nx * w, az + (bz - az) * t + nz * w]); } }
+  out.push(pts[pts.length - 1]); return out;
+}
+
+// =====================================================================
+// PLANTA: muralha, água, ruas
+// =====================================================================
+const wallPts = [];
+{ const N = 900; for (let i = 0; i < N; i++) { const t = i / N * Math.PI * 2; const r = 1 + .055 * Math.sin(3 * t + 1) + .035 * Math.sin(7 * t + 2) + .02 * Math.sin(13 * t);
+    wallPts.push([Math.cos(t) * CITY.ellipseA * r, Math.sin(t) * CITY.ellipseB * r]); }
+  let per = 0; for (let i = 0; i < N; i++) { const a = wallPts[i], b = wallPts[(i + 1) % N]; per += Math.hypot(b[0] - a[0], b[1] - a[1]); }
+  const k = CITY.wallPerimeter / per; wallPts.forEach(p => { p[0] *= k; p[1] *= k; }); }
+function wallPointAt(angle) { let best = 0, bd = 1e9; wallPts.forEach((p, i) => { let d = Math.abs(Math.atan2(p[1], p[0]) - Math.atan2(Math.sin(angle), Math.cos(angle))); d = Math.min(d, Math.PI * 2 - d); if (d < bd) { bd = d; best = i; } }); return wallPts[best]; }
+function insideCity(x, z) { let c = false; for (let i = 0, j = wallPts.length - 1; i < wallPts.length; j = i++) { const [xi, zi] = wallPts[i], [xj, zj] = wallPts[j]; if (((zi > z) !== (zj > z)) && (x < (xj - xi) * (z - zi) / (zj - zi) + xi)) c = !c; } return c; }
+const cityArea = (() => { let a = 0; for (let i = 0; i < wallPts.length; i++) { const p = wallPts[i], q = wallPts[(i + 1) % wallPts.length]; a += p[0] * q[1] - q[0] * p[1]; } return Math.abs(a / 2); })();
+
+// braço do Eufrates (NO → SE, passa a oeste de Eanna) e canais
+const waters = [
+  { w: CITY.riverWidth, pts: wiggle([[-3600, -4200], [-1300, -1700], [-160, -420], [-90, 380], [500, 1500], [3800, 4300]], 70, 90) },
+  { w: CITY.canalWidth, pts: wiggle([[-150, -300], [80, -300], [350, -285], [660, -265], [720, 300], [980, 900], [1500, 1500]], 18, 50) },
+  { w: CITY.canalWidth, pts: wiggle([[-95, 320], [-300, 300], [-620, 330], [-1100, 520], [-1700, 640]], 18, 50) },
+  { w: CITY.canalWidth, pts: wiggle([[-420, -830], [100, -930], [700, -780], [1100, -600], [1700, -500]], 18, 50) },
+  { w: CITY.canalWidth * .9, pts: wiggle([[60, 750], [-300, 920], [-750, 860], [-1250, 1100]], 14, 50) },
+];
+const wSegs = []; waters.forEach((w, wi) => { for (let i = 0; i < w.pts.length - 1; i++) wSegs.push([w.pts[i][0], w.pts[i][1], w.pts[i + 1][0], w.pts[i + 1][1], w.w / 2, wi]); });
+function waterDist(x, z) { let best = 1e9; for (const s of wSegs) { const d = segDist(x, z, s[0], s[1], s[2], s[3]) - s[4]; if (d < best) best = d; } return best; }
+
+// ruas principais: do portão de Eanna até as portas da cidade
+const E = CITY.eanna, A = CITY.anu;
+const gatePts = CITY.gates.map(a => wallPointAt(a));
+const streets = [
+  wiggle([[E.x, E.z + E.size / 2], [E.x - 60, 500], gatePts[0]], 40),
+  wiggle([[E.x, E.z - E.size / 2], [E.x - 40, -600], gatePts[1]], 40),
+  wiggle([[E.x + E.size / 2, E.z], gatePts[2]], 40),
+  wiggle([[E.x - E.size / 2, E.z], [-120, -40], [A.x + 30, A.z + 60], gatePts[3]], 40),
+  wiggle([[A.x, A.z + 60], [-700, 700], gatePts[4]], 40),
+  wiggle([[E.x - 60, 500], [-200, 620], [-700, 700]], 30),
+];
+const sSegs = []; streets.forEach(s => { for (let i = 0; i < s.length - 1; i++) sSegs.push([s[i][0], s[i][1], s[i + 1][0], s[i + 1][1]]); });
+function streetDist(x, z) { let b = 1e9; for (const s of sSegs) { const d = segDist(x, z, s[0], s[1], s[2], s[3]); if (d < b) b = d; } return b; }
+// pontes onde as ruas cruzam a água
+const bridges = [];
+for (const s of sSegs) for (const w of wSegs) { const p = segInter([s[0], s[1]], [s[2], s[3]], [w[0], w[1]], [w[2], w[3]]); if (p) { const ang = Math.atan2(s[2] - s[0], s[3] - s[1]); bridges.push({ x: p[0], z: p[1], ang, len: w[4] * 2 + 10, w: 8 }); } }
+function onBridge(x, z) { for (const b of bridges) { const dx = x - b.x, dz = z - b.z, c = Math.cos(b.ang), s = Math.sin(b.ang); const lx = dx * c - dz * s, lz = dx * s + dz * c; if (Math.abs(lx) < b.w / 2 && Math.abs(lz) < b.len / 2) return true; } return false; }
+const isWater = (x, z) => waterDist(x, z) < 0 && !onBridge(x, z);
+
+// plataformas (altura do chão) — zigurate de Eanna e terraço de Anu
+const ZX = E.x, ZZ = E.z - 50;
+const plats = [
+  { x0: ZX - 28, x1: ZX + 28, z0: ZZ - 20, z1: ZZ + 20, h: 9 },
+  { x0: ZX - 19, x1: ZX + 19, z0: ZZ - 15.5, z1: ZZ + 11.5, h: 16 },
+  { x0: ZX - 11, x1: ZX + 11, z0: ZZ - 12, z1: ZZ + 4, h: 19.5 },
+  { x0: A.x - 25, x1: A.x + 25, z0: A.z - 25, z1: A.z + 25, h: 12 },
+];
+const ramps = [
+  { x0: ZX - 4, x1: ZX + 4, z0: ZZ + 20, z1: ZZ + 41, h0: 9, h1: 0 },
+  { x0: ZX - 3, x1: ZX + 3, z0: ZZ + 11.5, z1: ZZ + 20, h0: 16, h1: 9 },
+  { x0: A.x - 4, x1: A.x + 4, z0: A.z + 25, z1: A.z + 55, h0: 12, h1: 0 },
+];
+function farHill(x, z) { const d = Math.hypot(x, z); return d > 2600 ? smooth(2600, 4200, d) * (vnoise(x * .0015, z * .0015) - .35) * 40 : 0; }
+function floorAt(x, z) {
+  let h = farHill(x, z);
+  for (const p of plats) if (x > p.x0 && x < p.x1 && z > p.z0 && z < p.z1) h = Math.max(h, p.h);
+  for (const r of ramps) if (x > r.x0 && x < r.x1 && z > r.z0 && z < r.z1) h = Math.max(h, lerp(r.h0, r.h1, (z - r.z0) / (r.z1 - r.z0)));
+  if (onBridge(x, z)) h = Math.max(h, .45);
+  return h;
+}
+
+// =====================================================================
+// TEXTURAS PROCEDURAIS
+// =====================================================================
+function canvasTex(size, draw, repeat = true) { const c = document.createElement('canvas'); c.width = c.height = size; draw(c.getContext('2d'), size);
+  const t = new THREE.CanvasTexture(c); if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; }
+function speckle(g, s, n, alpha, light) { for (let i = 0; i < n; i++) { const v = light ? 255 : 0; g.fillStyle = `rgba(${v},${v},${v},${rnd() * alpha})`; const r = rnd() * 2.2 + .4; g.fillRect(rnd() * s, rnd() * s, r, r); } }
+const brickTex = canvasTex(1024, (g, s) => { g.fillStyle = '#6f5640'; g.fillRect(0, 0, s, s); const rows = 40, bh = s / rows, bw = bh * 3.1;
+  for (let r = 0; r < rows; r++) { const off = (r % 2) * bw * .5; for (let x = -bw; x < s + bw; x += bw) { g.fillStyle = `hsl(${30 + rnd() * 6},${32 + rnd() * 10}%,${52 + rnd() * 16}%)`; g.fillRect(x + off + 2, r * bh + 2, bw - 4, bh - 4); if (rnd() < .25) { g.fillStyle = `rgba(60,40,25,${rnd() * .25})`; g.fillRect(x + off + 2, r * bh + 2, bw - 4, bh - 4); } } }
+  speckle(g, s, 9000, .18, false); speckle(g, s, 5000, .12, true);
+  for (let i = 0; i < 40; i++) { const x = rnd() * s, grd = g.createLinearGradient(0, 0, 0, s); grd.addColorStop(0, 'rgba(70,50,35,0.18)'); grd.addColorStop(1, 'rgba(70,50,35,0)'); g.fillStyle = grd; g.fillRect(x, 0, rnd() * 18 + 4, s * rnd()); } });
+const plasterTex = canvasTex(512, (g, s) => { g.fillStyle = '#c4a07a'; g.fillRect(0, 0, s, s);
+  for (let i = 0; i < 260; i++) { g.fillStyle = `rgba(${rnd() < .5 ? '90,62,40' : '230,205,170'},${rnd() * .09})`; g.beginPath(); g.ellipse(rnd() * s, rnd() * s, rnd() * 60 + 10, rnd() * 25 + 5, rnd() * 3, 0, 7); g.fill(); }
+  speckle(g, s, 7000, .16, false); speckle(g, s, 4000, .14, true);
+  for (let i = 0; i < 10; i++) { const x = rnd() * s, y = rnd() * s; g.fillStyle = 'rgba(110,80,55,.35)'; for (let k = 0; k < 4; k++) g.fillRect(x + (k % 2) * 14, y + k * 9, 26, 7); } });
+const whiteTex = canvasTex(512, (g, s) => { g.fillStyle = '#ebe3d4'; g.fillRect(0, 0, s, s); speckle(g, s, 6000, .08, false); for (let i = 0; i < 80; i++) { g.fillStyle = `rgba(150,120,90,${rnd() * .06})`; g.fillRect(rnd() * s, 0, rnd() * 6 + 2, s); } });
+const woodTex = canvasTex(256, (g, s) => { g.fillStyle = '#5b3a22'; g.fillRect(0, 0, s, s); for (let i = 0; i < 70; i++) { g.strokeStyle = `rgba(${rnd() < .5 ? '30,18,10' : '120,80,50'},${rnd() * .5})`; g.lineWidth = rnd() * 2 + .5; g.beginPath(); const x = rnd() * s; g.moveTo(x, 0); g.bezierCurveTo(x + rr(-8, 8), s * .3, x + rr(-8, 8), s * .7, x, s); g.stroke(); } });
+const reedTex = canvasTex(256, (g, s) => { g.fillStyle = '#b39a62'; g.fillRect(0, 0, s, s); for (let i = 0; i < 90; i++) { g.fillStyle = `rgba(${rnd() < .5 ? '90,70,35' : '230,210,150'},${rnd() * .35})`; g.fillRect(0, rnd() * s, s, rnd() * 3 + 1); } for (let x = 0; x < s; x += 32) { g.fillStyle = 'rgba(70,50,25,.6)'; g.fillRect(x, 0, 4, s); } });
+const groundTex = canvasTex(512, (g, s) => { g.fillStyle = '#ffffff'; g.fillRect(0, 0, s, s);
+  for (let i = 0; i < 500; i++) { g.fillStyle = `rgba(${rnd() < .5 ? '120,95,70' : '255,245,225'},${rnd() * .1})`; g.beginPath(); g.arc(rnd() * s, rnd() * s, rnd() * 26 + 3, 0, 7); g.fill(); }
+  speckle(g, s, 12000, .14, false); speckle(g, s, 8000, .18, true);
+  for (let i = 0; i < 300; i++) { g.fillStyle = `rgba(110,85,60,${rnd() * .22})`; g.beginPath(); g.arc(rnd() * s, rnd() * s, rnd() * 2.4 + .6, 0, 7); g.fill(); } });
+const kaunakesTex = canvasTex(256, (g, s) => { g.fillStyle = '#d9c7a4'; g.fillRect(0, 0, s, s); for (let r = 0; r < 9; r++) for (let x = 0; x < 14; x++) { const cx = x * s / 14 + (r % 2) * 9, cy = r * s / 9 + 4; g.fillStyle = `hsl(40,30%,${68 + rnd() * 14}%)`; g.beginPath(); g.moveTo(cx - 9, cy); g.quadraticCurveTo(cx, cy + 36, cx + 9, cy); g.fill(); g.strokeStyle = 'rgba(80,60,40,.35)'; g.stroke(); } });
+const clayTex = canvasTex(256, (g, s) => { g.fillStyle = '#a77a52'; g.fillRect(0, 0, s, s); speckle(g, s, 4000, .25, false); for (let r = 0; r < 9; r++) { g.fillStyle = 'rgba(60,36,20,.35)'; g.fillRect(8, 14 + r * 27, s - 16, 1.5); for (let k = 0; k < 9; k++) { const x = 14 + k * 26 + rnd() * 8, y = 18 + r * 27; g.fillStyle = 'rgba(55,32,18,.75)'; g.beginPath(); g.moveTo(x, y); g.lineTo(x + 7, y + 3); g.lineTo(x, y + 6); g.fill(); g.fillRect(x + 6, y + 2.5, 8 + rnd() * 6, 1.4); } } }, false);
+const frondTex = canvasTex(256, (g, s) => { g.clearRect(0, 0, s, s); g.strokeStyle = '#4a5a2a'; g.lineWidth = 5; g.beginPath(); g.moveTo(s / 2, s); g.lineTo(s / 2, 0); g.stroke();
+  for (let i = 0; i < 46; i++) { const y = s - i * (s / 46), len = (s * .48) * Math.sin(Math.PI * (i / 46) * .95 + .1); for (const d of [-1, 1]) { g.strokeStyle = `hsl(${78 + rnd() * 14},${30 + rnd() * 14}%,${26 + rnd() * 12}%)`; g.lineWidth = 2.6; g.beginPath(); g.moveTo(s / 2, y); g.quadraticCurveTo(s / 2 + d * len * .5, y - 6, s / 2 + d * len, y + 10); g.stroke(); } } }, false);
+const grassTex = canvasTex(128, (g, s) => { g.clearRect(0, 0, s, s); for (let i = 0; i < 26; i++) { const x = rnd() * s, h = s * (.45 + rnd() * .55); g.strokeStyle = `hsl(${42 + rnd() * 26},${32 + rnd() * 18}%,${40 + rnd() * 18}%)`; g.lineWidth = 1.6 + rnd() * 1.4; g.beginPath(); g.moveTo(x, s); g.quadraticCurveTo(x + rr(-6, 6), s - h * .5, x + rr(-14, 14), s - h); g.stroke(); } }, false);
+const glowTex = canvasTex(128, (g, s) => { const grd = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2); grd.addColorStop(0, 'rgba(255,225,160,1)'); grd.addColorStop(.25, 'rgba(255,190,100,.5)'); grd.addColorStop(1, 'rgba(255,160,60,0)'); g.fillStyle = grd; g.fillRect(0, 0, s, s); }, false);
+const waterTex = canvasTex(256, (g, s) => { g.fillStyle = '#808080'; g.fillRect(0, 0, s, s); for (let i = 0; i < 400; i++) { g.strokeStyle = `rgba(${rnd() < .5 ? 255 : 0},${rnd() < .5 ? 255 : 0},255,${rnd() * .12})`; g.lineWidth = rnd() * 2 + .5; const x = rnd() * s, y = rnd() * s; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + 10, y + rr(-3, 3), x + rr(15, 40), y); g.stroke(); } });
+
+// material com UV em coordenadas de mundo (textura não estica em caixas escaladas/instanciadas)
+function worldUV(mat, tile = 4) {
+  mat.onBeforeCompile = sh => {
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vWP; varying vec3 vWN;')
+      .replace('#include <worldpos_vertex>', `#include <worldpos_vertex>
+        vec4 wpp = vec4(transformed, 1.0);
+        #ifdef USE_INSTANCING
+          wpp = instanceMatrix * wpp; vec3 nn = mat3(instanceMatrix) * objectNormal;
+        #else
+          vec3 nn = objectNormal;
+        #endif
+        vWP = (modelMatrix * wpp).xyz; vWN = normalize(mat3(modelMatrix) * nn);`);
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vWP; varying vec3 vWN;')
+      .replace('#include <map_fragment>', `
+        vec3 an = abs(vWN); vec2 wuv = an.y > .6 ? vWP.xz : (an.x > an.z ? vWP.zy : vWP.xy);
+        vec4 sampledDiffuseColor = texture2D(map, wuv / ${tile.toFixed(1)});
+        diffuseColor *= sampledDiffuseColor;`);
+  };
+  return mat;
+}
+
+// =====================================================================
+// RENDER, CÉU, LUZ
+// =====================================================================
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .58;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(58, innerWidth / innerHeight, .2, 9000);
+const sunDir = new THREE.Vector3().setFromSphericalCoords(1, THREE.MathUtils.degToRad(69), THREE.MathUtils.degToRad(215));
+const skyU = { turbidity: 7.5, rayleigh: 1.6, mieCoefficient: .006, mieDirectionalG: .86 };
+const sky = new Sky(); sky.scale.setScalar(8500); for (const k in skyU) sky.material.uniforms[k].value = skyU[k]; sky.material.uniforms.sunPosition.value.copy(sunDir); scene.add(sky);
+{ const pm = new THREE.PMREMGenerator(renderer), es = new THREE.Scene(), s2 = new Sky(); s2.scale.setScalar(8500); for (const k in skyU) s2.material.uniforms[k].value = skyU[k]; s2.material.uniforms.sunPosition.value.copy(sunDir); es.add(s2); scene.environment = pm.fromScene(es).texture; }
+scene.environmentIntensity = .38;
+scene.fog = new THREE.FogExp2(0xcfa77e, .00058);
+const sun = new THREE.DirectionalLight(0xffc690, 3.9); sun.castShadow = true; sun.shadow.bias = -.0004; sun.shadow.normalBias = .05;
+Object.assign(sun.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 1, far: 400 }); scene.add(sun, sun.target);
+scene.add(new THREE.HemisphereLight(0xffe2c0, 0x6b4a30, .35));
+
+const M = {
+  brick: worldUV(new THREE.MeshStandardMaterial({ map: brickTex, roughness: .95 })),
+  plaster: worldUV(new THREE.MeshStandardMaterial({ map: plasterTex, roughness: .96 })),
+  white: worldUV(new THREE.MeshStandardMaterial({ map: whiteTex, roughness: .9 })),
+  wood: new THREE.MeshStandardMaterial({ map: woodTex, roughness: .8 }),
+  dark: new THREE.MeshStandardMaterial({ color: 0x1c130c, roughness: 1 }),
+  reed: new THREE.MeshStandardMaterial({ map: reedTex, roughness: .9 }),
+  terracotta: new THREE.MeshStandardMaterial({ color: 0xa4603a, roughness: .85 }),
+};
+
+// ---------------------------------------------------------------- instâncias em blocos (para recorte por distância)
+const chunks = new Map(); // chave -> {cx,cz,meshes[]}
+function chunked(geo, mat, items, opts = {}) { // items: [{m:Matrix4, c?:Color}]
+  const groups = new Map();
+  for (const it of items) { const x = it.m.elements[12], z = it.m.elements[14]; const k = Math.floor(x / CITY.chunk) + ',' + Math.floor(z / CITY.chunk); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(it); }
+  for (const [k, arr] of groups) {
+    const im = new THREE.InstancedMesh(geo, mat, arr.length);
+    arr.forEach((it, i) => { im.setMatrixAt(i, it.m); if (it.c) im.setColorAt(i, it.c); });
+    im.castShadow = !!opts.cast; im.receiveShadow = opts.receive !== false; im.computeBoundingSphere(); scene.add(im);
+    if (!chunks.has(k)) { const [cx, cz] = k.split(',').map(Number); chunks.set(k, { x: (cx + .5) * CITY.chunk, z: (cz + .5) * CITY.chunk, meshes: [] }); }
+    im.userData.far = opts.far || CITY.viewDist; chunks.get(k).meshes.push(im);
+  }
+}
+const mtx = (x, y, z, ry, sx, sy, sz) => new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), ry), new THREE.Vector3(sx, sy, sz));
+const unitBox = new THREE.BoxGeometry(1, 1, 1).translate(0, .5, 0);
+function place(geo, x, y, z, ry = 0) { const m = new THREE.Matrix4().makeRotationY(ry); m.setPosition(x, y, z); return geo.applyMatrix4(m); }
+function addMesh(geo, mat, cast = true) { const m = new THREE.Mesh(geo, mat); m.castShadow = cast; m.receiveShadow = true; scene.add(m); return m; }
+
+// =====================================================================
+// TERRENO, CAMPOS E ÁGUA
+// =====================================================================
+{
+  const S = 10000, seg = 200, geo = new THREE.PlaneGeometry(S, S, seg, seg); geo.rotateX(-Math.PI / 2);
+  const p = geo.attributes.position, col = new Float32Array(p.count * 3), c = new THREE.Color();
+  for (let i = 0; i < p.count; i++) { const x = p.getX(i), z = p.getZ(i); p.setY(i, farHill(x, z) - .02);
+    const n = vnoise(x * .01, z * .01), ins = insideCity(x, z);
+    if (ins) c.setHSL(.075, .4, .6 + n * .05); else { const d = Math.hypot(x, z); c.setHSL(lerp(.13, .1, smooth(1800, 3000, d)) + n * .02, .42, .5 + n * .07); }
+    col.set([c.r, c.g, c.b], i * 3); }
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.computeVertexNormals();
+  groundTex.repeat.set(S / 7, S / 7);
+  const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: groundTex, vertexColors: true, roughness: .97 })); m.receiveShadow = true; scene.add(m);
+}
+// água: faixas ao longo das polilinhas, com margem de barro escuro
+const waterMat = new THREE.MeshStandardMaterial({ color: 0x3d5a4f, roughness: .12, metalness: .05, normalMap: null, bumpMap: waterTex, bumpScale: .3 });
+const bankMat = new THREE.MeshStandardMaterial({ color: 0x5e4630, roughness: 1 });
+function ribbon(pts, w, y) { const pos = [], idx = [], uv = []; let acc = 0;
+  for (let i = 0; i < pts.length; i++) { const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)]; const dx = b[0] - a[0], dz = b[1] - a[1], L = Math.hypot(dx, dz), nx = -dz / L, nz = dx / L;
+    if (i) acc += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    pos.push(pts[i][0] + nx * w / 2, y, pts[i][1] + nz * w / 2, pts[i][0] - nx * w / 2, y, pts[i][1] - nz * w / 2); uv.push(0, acc / 20, w / 20, acc / 20);
+    if (i) { const k = i * 2; idx.push(k - 2, k, k - 1, k - 1, k, k + 1); } }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals(); return g; }
+waterTex.colorSpace = THREE.NoColorSpace;
+waters.forEach(w => { addMesh(ribbon(w.pts, w.w + 7, .03), bankMat, false); const wm = addMesh(ribbon(w.pts, w.w, .08), waterMat, false); wm.receiveShadow = true; });
+// campos irrigados fora da muralha
+{ const items = [], c = new THREE.Color();
+  for (let i = 0; i < 2600; i++) { const a = rr(0, Math.PI * 2), r = rr(1.05, 1.55); const x = Math.cos(a) * CITY.ellipseA * r, z = Math.sin(a) * CITY.ellipseB * r;
+    if (insideCity(x, z) || waterDist(x, z) < 8 || streetDist(x, z) < 8) continue; if (Math.hypot(x - gatePts[0][0], z - gatePts[0][1]) < 60) continue;
+    c.setHSL(rnd() < .55 ? rr(.2, .26) : rr(.09, .12), rr(.35, .5), rr(.3, .45)); items.push({ m: mtx(x, -.02, z, a + rr(-.2, .2), rr(25, 45), .06, rr(50, 90)), c: c.clone() }); }
+  chunked(unitBox, new THREE.MeshStandardMaterial({ map: groundTex, roughness: 1 }), items, { cast: false }); }
+
+// =====================================================================
+// MURALHA, TORRES E PORTAS
+// =====================================================================
+const wallSegs = []; // para colisão e câmera: [ax,az,bx,bz]
+{
+  const segItems = [], towerItems = [], merlItems = [];
+  const gateHit = (x, z) => gatePts.some(g => Math.hypot(x - g[0], z - g[1]) < 9);
+  const N = wallPts.length; let acc = 0;
+  for (let i = 0; i < N; i++) {
+    const a = wallPts[i], b = wallPts[(i + 1) % N], mx = (a[0] + b[0]) / 2, mz = (a[1] + b[1]) / 2, L = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (gateHit(mx, mz) || waterDist(mx, mz) < 6) continue;
+    const ang = Math.atan2(b[0] - a[0], b[1] - a[1]);
+    segItems.push({ m: mtx(mx, -.2, mz, ang, CITY.wallThick, CITY.wallHeight, L + .6) }); wallSegs.push([a[0], a[1], b[0], b[1]]);
+    const out = new THREE.Vector2(mx, mz).normalize();
+    for (let t = 0; t < L; t += 1.7) { const px = a[0] + (b[0] - a[0]) * t / L, pz = a[1] + (b[1] - a[1]) * t / L;
+      merlItems.push({ m: mtx(px + out.x * 2.6, CITY.wallHeight - .2, pz + out.y * 2.6, ang, .9, .9, .5) }, { m: mtx(px - out.x * 2.6, CITY.wallHeight - .2, pz - out.y * 2.6, ang, .9, .9, .5) }); }
+    acc += L; while (acc >= CITY.towerEvery) { acc -= CITY.towerEvery; const t = 1 - acc / L; const px = a[0] + (b[0] - a[0]) * t, pz = a[1] + (b[1] - a[1]) * t;
+      towerItems.push({ m: mtx(px + out.x * 3, -.2, pz + out.y * 3, Math.atan2(out.x, out.y), 1, 1, 1) }); }
+  }
+  chunked(unitBox, M.brick, segItems, { cast: true });
+  const half = new THREE.CylinderGeometry(2.6, 2.9, 12, 14, 1, false, -Math.PI / 2, Math.PI).translate(0, 6, 0);
+  chunked(half, M.brick, towerItems, { cast: true });
+  const merl = mergeGeometries([new THREE.BoxGeometry(1, 1, 1).translate(0, .5, 0), new THREE.BoxGeometry(.55, .55, 1).translate(0, 1.25, 0)]);
+  chunked(merl, M.brick, merlItems, { cast: false, far: 700 });
+  // portas monumentais: duas torres + verga
+  const gi = [], beams = [];
+  gatePts.forEach(g => { const out = new THREE.Vector2(g[0], g[1]).normalize(), tang = new THREE.Vector2(-out.y, out.x), ang = Math.atan2(out.x, out.y);
+    for (const s of [-1, 1]) gi.push({ m: mtx(g[0] + tang.x * s * 9, -.2, g[1] + tang.y * s * 9, ang, 8, 14.5, 11) });
+    gi.push({ m: mtx(g[0], 11.3, g[1], ang, 10.5, 3.2, 11) });
+    wallSegs.push([g[0] + tang.x * 5, g[1] + tang.y * 5, g[0] + tang.x * 13, g[1] + tang.y * 13], [g[0] - tang.x * 5, g[1] - tang.y * 5, g[0] - tang.x * 13, g[1] - tang.y * 13]); });
+  chunked(unitBox, M.brick, gi, { cast: true });
+  // torres nas passagens de água (o rio entra e sai da cidade)
+  const wg = []; for (let i = 0; i < N; i++) { const a = wallPts[i], b = wallPts[(i + 1) % N], m1 = waterDist((a[0] + b[0]) / 2, (a[1] + b[1]) / 2) < 6, m0 = waterDist(a[0], a[1]) < 6;
+    if (m1 !== m0) { const ang = Math.atan2(b[0] - a[0], b[1] - a[1]); wg.push({ m: mtx(a[0], -.2, a[1], ang, 9, 13, 9) }); } }
+  chunked(unitBox, M.brick, wg, { cast: true });
+}
+
+// =====================================================================
+// EANNA (recinto, zigurate) E ANU (terraço + Templo Branco)
+// =====================================================================
+const precinctSegs = [];
+{
+  const h = E.size / 2, p = [], wm = [];
+  const side = (ax, az, bx, bz, gap) => { const L = Math.hypot(bx - ax, bz - az), ang = Math.atan2(bx - ax, bz - az);
+    const parts = gap ? [[0, L / 2 - 7], [L / 2 + 7, L]] : [[0, L]];
+    for (const [t0, t1] of parts) { const x0 = ax + (bx - ax) * t0 / L, z0 = az + (bz - az) * t0 / L, x1 = ax + (bx - ax) * t1 / L, z1 = az + (bz - az) * t1 / L;
+      wm.push({ m: mtx((x0 + x1) / 2, -.2, (z0 + z1) / 2, ang, 3.5, 7, t1 - t0) }); precinctSegs.push([x0, z0, x1, z1]);
+      for (let t = t0; t < t1; t += 4) wm.push({ m: mtx(ax + (bx - ax) * t / L, -.2, az + (bz - az) * t / L, ang, 4.4, 7.2, 1) }); } };
+  side(E.x - h, E.z - h, E.x + h, E.z - h, true); side(E.x + h, E.z - h, E.x + h, E.z + h, true); side(E.x + h, E.z + h, E.x - h, E.z + h, true); side(E.x - h, E.z + h, E.x - h, E.z - h, true);
+  chunked(unitBox, M.brick, wm, { cast: true });
+  // zigurate (anacronismo assumido: o grande zigurate de Eanna é do tempo de Ur-Namma)
+  for (const q of plats.slice(0, 2)) { p.push(new THREE.BoxGeometry(q.x1 - q.x0, q.h, q.z1 - q.z0).translate((q.x0 + q.x1) / 2, q.h / 2, (q.z0 + q.z1) / 2));
+    for (let x = q.x0 + 1.5; x < q.x1 - 1; x += 3) p.push(new THREE.BoxGeometry(1.1, q.h, .8).translate(x, q.h / 2, q.z1 + .3)); }
+  const t3 = plats[2]; p.push(new THREE.BoxGeometry(t3.x1 - t3.x0, t3.h - 16, t3.z1 - t3.z0).translate(ZX, 16 + (t3.h - 16) / 2, (t3.z0 + t3.z1) / 2));
+  for (const r of ramps.slice(0, 2)) { const n = Math.round((r.z1 - r.z0) / .55); for (let i = 0; i < n; i++) { const z = r.z0 + (i + .5) * (r.z1 - r.z0) / n, hh = lerp(r.h0, r.h1, (i + 1) / n);
+      p.push(new THREE.BoxGeometry(r.x1 - r.x0, Math.max(.1, hh), (r.z1 - r.z0) / n + .02).translate(ZX, hh / 2, z)); } }
+  addMesh(mergeGeometries(p), M.brick);
+  const tw = []; tw.push(new THREE.BoxGeometry(15, 6.5, 9).translate(ZX, 19.5 + 3.25, ZZ - 5));
+  for (let x = -7; x <= 7; x += 1.4) tw.push(new THREE.BoxGeometry(.6, 6.5, .4).translate(ZX + x, 22.75, ZZ - .4));
+  addMesh(mergeGeometries(tw), M.white);
+  // terraço de Anu com o Templo Branco (período de Uruk)
+  const a = [], aw = []; const q = plats[3]; a.push(new THREE.BoxGeometry(50, 12, 50).translate(A.x, 6, A.z));
+  for (let x = -24; x <= 24; x += 3) { a.push(new THREE.BoxGeometry(1, 12, .8).translate(A.x + x, 6, A.z + 25.3)); a.push(new THREE.BoxGeometry(1, 12, .8).translate(A.x + x, 6, A.z - 25.3)); }
+  { const r = ramps[2], n = 50; for (let i = 0; i < n; i++) { const z = r.z0 + (i + .5) * (r.z1 - r.z0) / n, hh = lerp(r.h0, r.h1, (i + 1) / n); a.push(new THREE.BoxGeometry(8, Math.max(.1, hh), (r.z1 - r.z0) / n + .02).translate(A.x, hh / 2, z)); } }
+  addMesh(mergeGeometries(a), M.brick);
+  aw.push(new THREE.BoxGeometry(17.5, 7, 22.3).translate(A.x, 12 + 3.5, A.z - 4));
+  for (let z = -10; z <= 6; z += 1.6) for (const s of [-1, 1]) aw.push(new THREE.BoxGeometry(.5, 7, .7).translate(A.x + s * 9, 15.5, A.z + z));
+  addMesh(mergeGeometries(aw), M.white);
+}
+
+const wallList = wallSegs.map(s => [...s, 3.1]).concat(precinctSegs.map(s => [...s, 1.8])).map(s => [...s, Math.min(s[0], s[2]) - 8, Math.max(s[0], s[2]) + 8, Math.min(s[1], s[3]) - 8, Math.max(s[1], s[3]) + 8]);
+// =====================================================================
+// CASAS (≈ 20 mil, instanciadas por bloco)
+// =====================================================================
+const houses = []; // {x,z,hw,hd,ang,h}
+const hHash = new Map(), HC = 24;
+{
+  const v0 = [], v1 = [], v2 = [], doors = [], roofs = [], c = new THREE.Color();
+  const g1 = mergeGeometries([unitBox.clone(), new THREE.BoxGeometry(.45, .45, .45).translate(.18, 1.22, -.22)]);
+  const g2 = mergeGeometries([new THREE.BoxGeometry(1, 1, .3).translate(0, .5, -.35), new THREE.BoxGeometry(1, 1, .22).translate(0, .5, .39), new THREE.BoxGeometry(.3, 1, .48).translate(-.35, .5, .02), new THREE.BoxGeometry(.25, 1, .48).translate(.375, .5, .02)]);
+  const C = CITY.houseCell, ex = CITY.ellipseA * 1.15, ez = CITY.ellipseB * 1.15;
+  for (let x = -ex; x < ex; x += C) for (let z = -ez; z < ez; z += C) {
+    const px = x + rr(-2, 2), pz = z + rr(-2, 2);
+    if (!insideCity(px, pz)) continue;
+    if (Math.abs(px - E.x) < E.size / 2 + 12 && Math.abs(pz - E.z) < E.size / 2 + 12) continue;
+    if (Math.abs(px - A.x) < 75 && Math.abs(pz - A.z) < 85) continue;
+    const wd = waterDist(px, pz); if (wd < 9) continue;
+    if (streetDist(px, pz) < 8) continue;
+    if (gatePts.some(g => Math.hypot(px - g[0], pz - g[1]) < 45)) continue;
+    let wallD = 1e9; for (let i = 0; i < wallPts.length; i += 3) wallD = Math.min(wallD, Math.hypot(px - wallPts[i][0], pz - wallPts[i][1])); if (wallD < 18) continue;
+    const garden = vnoise(px * .004, pz * .004) > .62 || (pz < -700 && vnoise(px * .006 + 3, pz * .006) > .45); if (garden) continue;
+    if (rnd() < .06) continue; // pátios e terrenos vazios
+    const ang = (vnoise(px * .0025 + 9, pz * .0025) - .5) * 1.4 + rr(-.08, .08);
+    const w = rr(7, 10.5), d = rr(7, 10.5), h = rr(3.4, 6.2), r = rnd();
+    c.setHSL(.075 + rr(-.012, .015), rr(.2, .34), rr(.66, .95));
+    const it = { m: mtx(px, 0, pz, ang, w, h, d), c: c.clone() };
+    (r < .55 ? v0 : r < .82 ? v1 : v2).push(it);
+    const fwd = new THREE.Vector3(Math.sin(ang), 0, Math.cos(ang));
+    doors.push({ m: mtx(px + fwd.x * (d / 2 + .05), 0, pz + fwd.z * (d / 2 + .05), ang, 1.1, 2.1, .25) });
+    if (rnd() < .35) roofs.push({ m: mtx(px + rr(-2, 2), h, pz + rr(-2, 2), rr(0, 3), rr(1.2, 2.2), rr(.4, .9), rr(1.2, 2.2)) });
+    const hi = houses.length; houses.push({ x: px, z: pz, hw: w / 2, hd: d / 2, ang, h, ring: r >= .82 });
+    const k = Math.floor(px / HC) + ',' + Math.floor(pz / HC); if (!hHash.has(k)) hHash.set(k, []); hHash.get(k).push(hi);
+  }
+  const hm = M.plaster;
+  chunked(unitBox, hm, v0, { cast: true }); chunked(g1, hm, v1, { cast: true }); chunked(g2, hm, v2, { cast: true });
+  chunked(unitBox, M.dark, doors, { cast: false, far: 450 }); chunked(unitBox, M.reed, roofs, { cast: false, far: 600 });
+}
+function housesNear(x, z, fn) { const cx = Math.floor(x / HC), cz = Math.floor(z / HC); for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) { const a = hHash.get((cx + i) + ',' + (cz + j)); if (a) for (const k of a) fn(houses[k]); } }
+function houseAt(x, z) { let hit = null; housesNear(x, z, hs => { const dx = x - hs.x, dz = z - hs.z, c = Math.cos(-hs.ang), s = Math.sin(-hs.ang); const lx = dx * c + dz * s, lz = -dx * s + dz * c; if (Math.abs(lx) < hs.hw && Math.abs(lz) < hs.hd) hit = hs; }); return hit; }
+
+// =====================================================================
+// PALMEIRAS, JUNCOS E CAPIM
+// =====================================================================
+{
+  const trunk = new THREE.CylinderGeometry(.16, .26, 1, 7, 5).translate(0, .5, 0);
+  const tp = trunk.attributes.position; for (let i = 0; i < tp.count; i++) { const ring = 1 + .08 * Math.sin(tp.getY(i) * 50); tp.setX(i, tp.getX(i) * ring); tp.setZ(i, tp.getZ(i) * ring); } trunk.computeVertexNormals();
+  const fr = []; for (let k = 0; k < 10; k++) { const g = new THREE.PlaneGeometry(1.5, 3.4, 1, 6).translate(0, 1.7, 0), p = g.attributes.position;
+    for (let i = 0; i < p.count; i++) { const t = p.getY(i) / 3.4; p.setZ(i, -t * t * 1.7 + Math.abs(p.getX(i)) * .25); p.setY(i, p.getY(i) * .92); }
+    g.rotateX(-Math.PI / 2 + rr(.35, .95)); g.rotateY(k / 10 * Math.PI * 2 + rr(-.15, .15)); fr.push(g); }
+  const crown = mergeGeometries(fr); crown.computeVertexNormals();
+  const ti = [], ci = [];
+  const addPalm = (x, z) => { const h = rr(6, 12), e = new THREE.Euler(rr(-.12, .12), rr(0, 6), rr(-.12, .12)), q = new THREE.Quaternion().setFromEuler(e), y = floorAt(x, z) - .1;
+    ti.push({ m: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), q, new THREE.Vector3(1, h, 1)) });
+    const top = new THREE.Vector3(0, h, 0).applyQuaternion(q), s = rr(.9, 1.3); ci.push({ m: new THREE.Matrix4().compose(new THREE.Vector3(x + top.x, y + top.y, z + top.z), q, new THREE.Vector3(s, s, s)) }); };
+  let n = 0; while (n < 5200) { const x = rr(-3200, 3200), z = rr(-3200, 3200); n++;
+    const wd = waterDist(x, z), ins = insideCity(x, z);
+    if (wd < 4 || houseAt(x, z) || streetDist(x, z) < 5) continue;
+    if (Math.abs(x - E.x) < E.size / 2 + 4 && Math.abs(z - E.z) < E.size / 2 + 4) continue;
+    if (Math.abs(x - A.x) < 70 && Math.abs(z - A.z) < 80) continue;
+    let keep = false;
+    if (ins) keep = vnoise(x * .004, z * .004) > .6 || (z < -700 && vnoise(x * .006 + 3, z * .006) > .45) || (wd < 25 && rnd() < .5);
+    else keep = (wd < 140 && rnd() < .7) || (Math.hypot(x / CITY.ellipseA, z / CITY.ellipseB) < 1.25 && rnd() < .12);
+    if (keep) addPalm(x, z); }
+  const tMat = new THREE.MeshStandardMaterial({ color: 0xc9a982, roughness: 1, map: woodTex });
+  const fMat = new THREE.MeshStandardMaterial({ map: frondTex, alphaTest: .45, side: THREE.DoubleSide, roughness: .85 });
+  chunked(trunk, tMat, ti, { cast: true, far: 1600 }); chunked(crown, fMat, ci, { cast: true, far: 1600 });
+  // juncos nas margens
+  const reeds = [], rg = mergeGeometries([0, 1, 2].map(k => new THREE.PlaneGeometry(1, 1).translate(0, .5, 0).rotateY(k * Math.PI / 3)));
+  for (const s of wSegs) { const L = Math.hypot(s[2] - s[0], s[3] - s[1]); for (let t = 0; t < L; t += rr(2, 6)) { const side = rnd() < .5 ? -1 : 1, nx = -(s[3] - s[1]) / L, nz = (s[2] - s[0]) / L, off = s[4] + rr(-.5, 2.5);
+      const x = s[0] + (s[2] - s[0]) * t / L + nx * off * side, z = s[1] + (s[3] - s[1]) * t / L + nz * off * side; if (onBridge(x, z)) continue; const sc = rr(1.2, 2.6); reeds.push({ m: mtx(x, 0, z, rr(0, 6), sc * .8, sc, sc * .8) }); } }
+  chunked(rg, new THREE.MeshStandardMaterial({ map: grassTex, alphaTest: .4, side: THREE.DoubleSide, roughness: 1, color: 0xa9b07a }), reeds, { cast: false, far: 450 });
+}
+const windU = { value: 0 };
+const GRASS_N = 5000, GR = 70;
+const grass = (() => { const g = mergeGeometries([0, 1, 2].map(k => new THREE.PlaneGeometry(1, .8).translate(0, .4, 0).rotateY(k * Math.PI / 3)));
+  const mat = new THREE.MeshStandardMaterial({ map: grassTex, alphaTest: .4, side: THREE.DoubleSide, roughness: 1 });
+  mat.onBeforeCompile = sh => { sh.uniforms.uTime = windU; sh.vertexShader = 'uniform float uTime;\n' + sh.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\n vec4 wp = instanceMatrix * vec4(0.,0.,0.,1.); float sw = sin(uTime*1.7 + wp.x*.35 + wp.z*.25)*.14 + sin(uTime*3.1+wp.x)*.04; transformed.x += sw*position.y; transformed.z += sw*.5*position.y;`); };
+  const im = new THREE.InstancedMesh(g, mat, GRASS_N); im.receiveShadow = true; im.frustumCulled = false; scene.add(im); return im; })();
+const grassSpots = Array.from({ length: GRASS_N }, () => [rr(0, GR * 2), rr(0, GR * 2), rr(.45, 1.1), rr(0, 6), rr(.1, .2), rr(.55, .85)]);
+let grassAt = null; const grassHoles = []; // círculos sem capim (ex.: lagos de outras cenas)
+function updateGrass(px, pz) { // capim só fora da cidade, num quadrado que acompanha o jogador
+  const ox = Math.floor(px / 20) * 20 - GR, oz = Math.floor(pz / 20) * 20 - GR; if (grassAt && grassAt[0] === ox && grassAt[1] === oz) return; grassAt = [ox, oz];
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), c = new THREE.Color(), up = new THREE.Vector3(0, 1, 0); let n = 0;
+  for (const s of grassSpots) { const x = ox + s[0], z = oz + s[1]; if (insideCity(x, z) || waterDist(x, z) < 1 || onBridge(x, z) || streetDist(x, z) < 3) continue; if (grassHoles.some(h => Math.hypot(x - h.x, z - h.z) < h.r)) continue;
+    q.setFromAxisAngle(up, s[3]); m.compose(new THREE.Vector3(x, floorAt(x, z) - .05, z), q, new THREE.Vector3(s[2], s[2], s[2])); grass.setMatrixAt(n, m); c.setHSL(s[4], .4, s[5]); grass.setColorAt(n, c); n++; }
+  grass.count = n; grass.instanceMatrix.needsUpdate = true; if (grass.instanceColor) grass.instanceColor.needsUpdate = true; }
+
+// pontes
+{ const b = []; for (const br of bridges) { b.push(new THREE.BoxGeometry(br.w, .35, br.len).rotateY(br.ang).translate(br.x, .3, br.z));
+    for (const s of [-1, 1]) b.push(new THREE.BoxGeometry(.2, .9, br.len).translate(s * br.w / 2, .9, 0).rotateY(br.ang).translate(br.x, 0, br.z)); }
+  addMesh(mergeGeometries(b), M.wood); }
+
+// =====================================================================
+// PERSONAGENS
+// =====================================================================
+const skinM = l => new THREE.MeshStandardMaterial({ color: new THREE.Color().setHSL(.065, .48, l), roughness: .62 });
+const hairM = new THREE.MeshStandardMaterial({ color: 0x17100b, roughness: .7 });
+const goldM = new THREE.MeshStandardMaterial({ color: 0xd9a441, metalness: 1, roughness: .28 });
+const bronzeM = new THREE.MeshStandardMaterial({ color: 0xa8743d, metalness: .9, roughness: .35 });
+const cap = (r, l) => new THREE.CapsuleGeometry(r, l, 4, 10);
+function makeHuman(o) {
+  const H = o.h || 1.7, k = H / 1.7, root = new THREE.Group(), body = new THREE.Group(); root.add(body);
+  const skin = skinM(o.skinL || .32), cloth = o.cloth;
+  const mesh = (g, m, parent, x = 0, y = 0, z = 0) => { const me = new THREE.Mesh(g, m); me.position.set(x, y, z); me.castShadow = true; parent.add(me); return me; };
+  const hip = new THREE.Group(); hip.position.y = .92 * k; body.add(hip); const torso = new THREE.Group(); hip.add(torso);
+  mesh(cap(.16 * k, .3 * k), o.bareChest ? skin : cloth, torso, 0, .3 * k).scale.set(o.broad ? 1.45 : 1.15, 1, .78);
+  mesh(new THREE.SphereGeometry(.15 * k, 12, 10), o.bareChest ? skin : cloth, torso, 0, .06 * k).scale.set(1.15, .8, .8);
+  const head = new THREE.Group(); head.position.y = .7 * k; torso.add(head);
+  mesh(cap(.035 * k, .06 * k), skin, head, 0, -.08 * k);
+  mesh(new THREE.SphereGeometry(.105 * k, 16, 12), skin, head, 0, .04 * k).scale.set(.92, 1.08, 1);
+  mesh(new THREE.SphereGeometry(.112 * k, 16, 12, 0, Math.PI * 2, 0, Math.PI * .55), hairM, head, 0, .055 * k, -.012 * k);
+  mesh(new THREE.SphereGeometry(.03 * k, 8, 6), skin, head, 0, .03 * k, .1 * k);
+  if (o.beard) mesh(new THREE.BoxGeometry(.15 * k, o.beard * k, .09 * k), hairM, head, 0, -.04 * k - o.beard * k / 2 + .03, .07 * k).rotation.x = .12;
+  if (o.bun) mesh(new THREE.SphereGeometry(.07 * k, 10, 8), hairM, head, 0, .02 * k, -.11 * k);
+  if (o.crown) mesh(new THREE.TorusGeometry(.112 * k, .014 * k, 6, 24), goldM, head, 0, .08 * k).rotation.x = Math.PI / 2 - .12;
+  if (o.shaggy) for (let i = 0; i < 14; i++) { const a = i / 14 * Math.PI * 2; mesh(new THREE.ConeGeometry(.05 * k, .32 * k, 5), hairM, head, Math.sin(a) * .09 * k, -.05 * k, Math.cos(a) * .09 * k - .02).rotation.set(Math.PI + Math.cos(a) * .4, 0, -Math.sin(a) * .4); }
+  const skirtL = (o.dress ? .82 : .5) * k;
+  const skm = o.kaunakes ? new THREE.MeshStandardMaterial({ map: kaunakesTex, roughness: 1, side: THREE.DoubleSide }) : new THREE.MeshStandardMaterial({ color: o.skirt || cloth.color, roughness: .95, side: THREE.DoubleSide });
+  mesh(new THREE.CylinderGeometry(.19 * k * (o.broad ? 1.2 : 1), .27 * k * (o.dress ? 1.25 : 1), skirtL, 18, 1, true), skm, hip, 0, .06 * k - skirtL / 2);
+  if (o.belt) mesh(new THREE.TorusGeometry(.2 * k * (o.broad ? 1.18 : 1), .022 * k, 6, 20), bronzeM, hip, 0, .06 * k).rotation.x = Math.PI / 2;
+  const limb = (side, isArm) => { const pivot = new THREE.Group(), lower = new THREE.Group();
+    if (isArm) { pivot.position.set(side * (o.broad ? .27 : .22) * k, .55 * k, 0); torso.add(pivot); mesh(cap(.05 * k * (o.broad ? 1.25 : 1), .22 * k), o.bareChest || o.sleeveless ? skin : cloth, pivot, 0, -.14 * k);
+      lower.position.y = -.29 * k; pivot.add(lower); mesh(cap(.042 * k, .22 * k), skin, lower, 0, -.13 * k); mesh(new THREE.SphereGeometry(.045 * k, 8, 6), skin, lower, 0, -.29 * k); }
+    else { pivot.position.set(side * .1 * k, 0, 0); hip.add(pivot); mesh(cap(.07 * k, .32 * k), o.dress ? cloth : skin, pivot, 0, -.21 * k);
+      lower.position.y = -.44 * k; pivot.add(lower); mesh(cap(.052 * k, .32 * k), skin, lower, 0, -.2 * k); mesh(new THREE.BoxGeometry(.09 * k, .05 * k, .22 * k), M.dark, lower, 0, -.44 * k, .04 * k); }
+    return { pivot, lower }; };
+  const L = { hip, torso, head, body, legL: limb(-1, false), legR: limb(1, false), armL: limb(-1, true), armR: limb(1, true) };
+  if (o.axe) { const ax = new THREE.Group(); ax.position.set(0, -.3 * k, .02); L.armR.lower.add(ax); mesh(new THREE.CylinderGeometry(.018, .02, .75, 6), M.wood, ax, 0, .05, 0).rotation.x = Math.PI / 2;
+    const bl = new THREE.Shape(); bl.moveTo(0, 0); bl.lineTo(.2, -.06); bl.quadraticCurveTo(.28, .06, .2, .18); bl.lineTo(0, .1);
+    mesh(new THREE.ExtrudeGeometry(bl, { depth: .015, bevelEnabled: false }), bronzeM, ax, 0, -.02, .38).rotation.set(0, Math.PI / 2, Math.PI / 2); L.axe = ax; }
+  if (o.pole) { const pl = mesh(new THREE.CylinderGeometry(.02, .02, 3.2, 5), M.wood, L.armR.lower, 0, -.2, 0); pl.rotation.x = .3; }
+  root.userData = { L, phase: rnd() * 6, k, kneel: 0, sit: 0 };
+  return root;
+}
+function animate(ch, speed, dt) {
+  const u = ch.userData, L = u.L, k = u.k, amt = clamp(speed / 2.2, 0, 1.25);
+  u.phase += dt * (3.2 + speed * 1.9) / k; const s = Math.sin(u.phase), c = Math.cos(u.phase), kn = Math.max(u.kneel, u.sit);
+  L.legL.pivot.rotation.x = lerp(s * .62 * amt, -1.35, kn); L.legR.pivot.rotation.x = lerp(-s * .62 * amt, -1.1, kn);
+  L.legL.lower.rotation.x = lerp(Math.max(0, -c) * amt + .05, 2.3, kn); L.legR.lower.rotation.x = lerp(Math.max(0, c) * amt + .05, 2.4, kn);
+  L.armL.pivot.rotation.x = lerp(-s * .55 * amt, u.sit ? -.6 : .35, kn); L.armR.pivot.rotation.x = lerp(s * .55 * amt + (L.axe ? -.15 : 0), u.sit ? -.6 : .35, kn);
+  L.armL.pivot.rotation.z = -.08 - .05 * amt; L.armR.pivot.rotation.z = .08 + .05 * amt;
+  L.armL.lower.rotation.x = lerp(-.25 - amt * .35, -.9, kn); L.armR.lower.rotation.x = lerp(-.25 - amt * .35, -.9, kn);
+  L.hip.position.y = .92 * k + Math.abs(c) * .045 * amt - kn * .5 * k;
+  L.torso.rotation.x = lerp(amt * .1, u.sit ? .15 : .75, kn); L.head.rotation.x = lerp(0, u.sit ? 0 : .55, kn);
+  L.hip.rotation.y = s * .08 * amt; L.torso.rotation.y = -s * .14 * amt;
+  if (!amt && !kn) L.torso.rotation.x = Math.sin(performance.now() * .0012 + u.phase) * .015;
+}
+// barco de junco (casco com pontas levantadas)
+function reedBoat(len = 6.5) {
+  const pos = [], idx = [], uv = [], NX = 24, NR = 9;
+  for (let i = 0; i <= NX; i++) { const t = i / NX * 2 - 1, x = t * len / 2, w = .75 * Math.sqrt(Math.max(0, 1 - Math.pow(Math.abs(t), 2.4))) + .06, lift = Math.pow(Math.abs(t), 5) * 1.3;
+    for (let j = 0; j <= NR; j++) { const a = Math.PI * (j / NR); pos.push(x, -Math.sin(a) * w * .55 + lift + .45, Math.cos(a) * w); uv.push(i / NX * 4, j / NR); } }
+  for (let i = 0; i < NX; i++) for (let j = 0; j < NR; j++) { const a = i * (NR + 1) + j, b = a + NR + 1; idx.push(a, b, a + 1, a + 1, b, b + 1); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
+  const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ map: reedTex, roughness: .9, side: THREE.DoubleSide })); m.castShadow = true; m.rotation.y = Math.PI / 2;
+  const grp = new THREE.Group(); grp.add(m); return grp;
+}
+
+// Gilgamesh
+const player = makeHuman({ h: 1.95, broad: true, bareChest: true, kaunakes: true, beard: .17, crown: true, belt: true, axe: true, skinL: .29, cloth: new THREE.MeshStandardMaterial({ color: 0xd8c7a4 }) });
+scene.add(player);
+const START = new THREE.Vector3(E.x + 12, 0, E.z + 60);
+const P = { pos: START.clone(), y: 0, yaw: Math.PI, speed: 0, mode: 'walk', boat: null };
+
+// barcos atracados (o jogador pode usar)
+const boats = [];
+function addBoat(x, z, ang) { const b = reedBoat(); b.position.set(x, 0, z); b.rotation.y = ang; scene.add(b); boats.push(b); return b; }
+{ const cand = [[E.x - 20, E.z - E.size / 2 - 66], [-60, -40], [-140, 200], [-420, 330], [720, 120], [200, -905], [-300, 905], [140, 1080]];
+  for (const [x, z] of cand) { let best = null, bd = 1e9; for (let a = 0; a < 40; a++) { const px = x + rr(-40, 40), pz = z + rr(-40, 40), d = waterDist(px, pz); if (d < -3 && d > -8 && !onBridge(px, pz)) { const dd = Math.hypot(px - x, pz - z); if (dd < bd) { bd = dd; best = [px, pz]; } } }
+    if (best) { let ang = 0; for (const s of wSegs) if (segDist(best[0], best[1], s[0], s[1], s[2], s[3]) < s[4]) ang = Math.atan2(s[2] - s[0], s[3] - s[1]); addBoat(best[0], best[1], ang); } } }
+// barqueiros que descem e sobem os canais
+const traffic = [];
+for (let i = 0; i < 14; i++) { const w = waters[i % waters.length]; const b = reedBoat(rr(5, 7)); const man = makeHuman({ h: 1.65, cloth: new THREE.MeshStandardMaterial({ color: 0xb7a079 }), sleeveless: true, beard: .1, pole: true, skirt: 0x8d6a4a }); man.position.set(0, .55, 0); b.add(man);
+  scene.add(b); traffic.push({ b, man, w, t: rnd() * (w.pts.length - 1), dir: rnd() < .5 ? 1 : -1, sp: rr(1.2, 2.2), off: rr(-.25, .25) }); }
+
+// moradores (grupo reaproveitado ao redor do jogador)
+const npcCloth = [0xcfbf9c, 0xb7a079, 0x9e7a52, 0xd9cdb2, 0x8d6a4a, 0xa95c37, 0xc2a882];
+const fearLines = ['— O rei! Abaixem a cabeça.', '— Ele não dá descanso aos filhos da cidade…', '— Não olhe nos olhos dele.', '— Que os deuses ouçam nossas queixas.', '— Escondam os meninos, ele vai levá-los de novo.', '— Fica quieto, ele está passando.'];
+function walkable(x, z) { return !houseAt(x, z) && waterDist(x, z) > 1.5 && floorAt(x, z) < .5 && !blockedByWall(x, z, .5); }
+function spawnPoint(near, rmin, rmax) { for (let i = 0; i < 30; i++) { const a = rr(0, 6.283), r = rr(rmin, rmax), x = near.x + Math.cos(a) * r, z = near.z + Math.sin(a) * r; if (insideCity(x, z) && walkable(x, z)) return new THREE.Vector3(x, 0, z); } return null; }
+const npcs = [];
+for (let i = 0; i < 26; i++) { const woman = rnd() < .45, cl = new THREE.MeshStandardMaterial({ color: npcCloth[i % npcCloth.length], roughness: .95 });
+  const ch = makeHuman({ h: rr(1.55, 1.75), cloth: cl, dress: woman, bun: woman, beard: !woman && rnd() < .7 ? rr(.06, .14) : 0, sleeveless: !woman, skinL: rr(.24, .36), skirt: woman ? undefined : npcCloth[(i + 3) % npcCloth.length] });
+  ch.userData.ai = { state: 'wander', dir: rr(0, 6), t: 0, spoke: false, speed: rr(.9, 1.3) }; ch.visible = false; scene.add(ch); npcs.push(ch); }
+
+
+// ============================ DADOS DO JOGO (data/*.yaml, injetados pelo montador)
+const DADOS = {"tabuletas": [{"id": "T01", "titulo": "Aquele que viu o abismo", "ato": 1, "resumo": "Um prólogo convida o leitor a percorrer a muralha de Uruk e a abrir a caixa de cedro onde está a tabuleta com os feitos do rei. Gilgamesh, dois terços deus e um terço homem, não dá descanso à cidade, e o povo se queixa aos deuses. Os deuses pedem a Aruru que crie alguém à altura dele, e ela modela Enkidu de argila na estepe. Enkidu vive com as gazelas e bebe nas fontes com os animais. Um caçador o vê, conta ao pai e depois ao rei, que envia Shamhat. Depois do encontro com ela, os animais fogem de Enkidu, que ganha entendimento e aceita ir para Uruk. Enquanto isso, Gilgamesh sonha duas vezes com a chegada de um companheiro, e Ninsun, sua mãe, interpreta os sonhos.", "versoes": ["padrao-babilonica"], "lacunas": "Tabuleta bem preservada; há trechos danificados em partes dos sonhos.", "fontes": ["F-GEORGE2003:tab. I", "F-BRANDAO2017:tab. I"], "status": "a_conferir"}, {"id": "T02", "titulo": "O selvagem chega à cidade", "ato": 1, "resumo": "Shamhat divide a própria roupa com Enkidu e o leva ao acampamento dos pastores. Ali ele come pão e bebe cerveja pela primeira vez, se lava, se unge e passa a vigiar os rebanhos contra lobos e leões. Ao saber do costume do rei nas festas de casamento, Enkidu segue para Uruk e barra a passagem de Gilgamesh à porta. Os dois lutam até tremerem os batentes e as paredes. A luta termina, a raiva passa e eles se tornam amigos. Gilgamesh então propõe ir à Floresta de Cedros matar Humbaba, e Enkidu tenta dissuadi-lo.", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacunas": "A versão padrão desta tabuleta está muito danificada. A chegada aos pastores e a luta são conhecidas sobretudo pela tabuleta babilônica antiga da Pensilvânia, e o plano contra Humbaba pela tabuleta de Yale (a conferir).", "fontes": ["F-GEORGE2003:tab. II", "F-JASTROW1920", "F-BRANDAO2017:tab. II"], "status": "a_conferir"}, {"id": "T03", "titulo": "Os conselhos antes da partida", "ato": 2, "resumo": "Os anciãos de Uruk aconselham prudência na viagem. Gilgamesh e Enkidu vão ao palácio de Ninsun, que se purifica, sobe ao terraço e pede a Shamash que proteja o filho. Ela adota Enkidu e o encarrega de cuidar de Gilgamesh. Os heróis partem.", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacunas": "Trechos fragmentados; a tabuleta babilônica antiga de Yale cobre parte dos preparativos.", "fontes": ["F-GEORGE2003:tab. III", "F-JASTROW1920"], "status": "a_conferir"}, {"id": "T04", "titulo": "A viagem e os sonhos", "ato": 2, "resumo": "A caminho do oeste, a cada parada os dois cavam um poço, fazem uma oferenda e Gilgamesh dorme e tem um sonho assustador. Enkidu interpreta cada sonho como sinal favorável. Perto da floresta, os dois hesitam e se encorajam um ao outro.", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacunas": "Vários sonhos estão incompletos; versões antigas trazem sonhos diferentes.", "fontes": ["F-GEORGE2003:tab. IV"], "status": "a_conferir"}, {"id": "T05", "titulo": "A Floresta de Cedros", "ato": 2, "resumo": "Os heróis entram na floresta e admiram a montanha dos cedros. Enfrentam Humbaba, o guardião posto por Enlil. Com a ajuda dos ventos de Shamash, o vencem. Humbaba pede clemência e oferece servir Gilgamesh; Enkidu insiste que ele morra, e Humbaba amaldiçoa os dois antes de ser morto. Cortam cedros e fazem uma porta para o templo de Enlil.", "versoes": ["padrao-babilonica", "babilonica-antiga", "sumeria"], "lacunas": "Um fragmento com o começo e o fim da tabuleta, guardado num museu do Iraque, foi publicado em 2014 e trouxe descrições novas da floresta (a conferir antes de citar).", "fontes": ["F-GEORGE2003:tab. V", "F-ALRAWI2014", "F-ETCSL"], "status": "a_conferir"}, {"id": "T06", "titulo": "Ishtar e o Touro do Céu", "ato": 3, "resumo": "De volta a Uruk, Gilgamesh se lava e veste roupas limpas. Ishtar se encanta e propõe casamento. Ele recusa e lembra o destino dos amantes anteriores dela. Ofendida, Ishtar obtém de Anu o Touro do Céu, cujos bufos abrem fendas na terra. Os amigos matam o touro, e Enkidu atira uma parte dele contra a deusa. A cidade celebra.", "versoes": ["padrao-babilonica", "sumeria"], "lacunas": "Algumas linhas danificadas; existe um poema sumério paralelo sobre o Touro do Céu.", "fontes": ["F-GEORGE2003:tab. VI", "F-ETCSL"], "status": "a_conferir"}, {"id": "T07", "titulo": "A morte de Enkidu", "ato": 3, "resumo": "Enkidu sonha que os deuses decidiram que um dos dois deve morrer pela morte de Humbaba e do Touro, e que esse será ele. Adoece. Amaldiçoa a porta de cedro, o caçador e Shamhat; Shamash o lembra do que ganhou com ela, e ele passa a abençoá-la. Sonha com a casa do pó, o mundo dos mortos, e morre depois de dias de doença.", "versoes": ["padrao-babilonica"], "lacunas": "Trechos danificados no começo e no fim.", "fontes": ["F-GEORGE2003:tab. VII"], "status": "a_conferir"}, {"id": "T08", "titulo": "O luto", "ato": 3, "resumo": "Gilgamesh lamenta Enkidu e convoca a natureza e a cidade a chorarem com ele. Manda fazer uma estátua do amigo e oferece tesouros aos deuses do mundo dos mortos para que recebam bem Enkidu.", "versoes": ["padrao-babilonica"], "lacunas": "A parte final da tabuleta está muito danificada.", "fontes": ["F-GEORGE2003:tab. VIII"], "status": "a_conferir"}, {"id": "T09", "titulo": "O caminho do sol", "ato": 4, "resumo": "Com medo da morte, Gilgamesh vaga pela estepe e decide procurar Utnapishtim, o homem que ganhou a vida eterna. Chega às montanhas Mashu, guardadas por um casal de homens-escorpião, que o deixam passar. Atravessa a escuridão total do caminho do sol e sai num jardim de árvores que dão pedras preciosas.", "versoes": ["padrao-babilonica"], "lacunas": "Algumas linhas perdidas na travessia e na descrição do jardim.", "fontes": ["F-GEORGE2003:tab. IX"], "status": "a_conferir"}, {"id": "T10", "titulo": "As águas da morte", "ato": 4, "resumo": "À beira do mar, a taberneira Siduri tenta afastar Gilgamesh, depois o ouve e indica o barqueiro Urshanabi. Gilgamesh destrói, sem saber, os \"de pedra\" que permitiam a travessia, e precisa cortar varas que só podem ser usadas uma vez cada. Os dois atravessam as águas da morte, e Gilgamesh conta a Utnapishtim sua dor. Utnapishtim fala da morte como destino de todos.", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacunas": "Na versão babilônica antiga, Siduri dá o célebre conselho de aproveitar a vida; na versão padrão a fala é outra. Trechos danificados.", "fontes": ["F-GEORGE2003:tab. X", "F-JASTROW1920"], "status": "a_conferir"}, {"id": "T11", "titulo": "O dilúvio e a planta", "ato": 5, "resumo": "Utnapishtim conta como Ea o avisou do dilúvio, como construiu o barco, salvou a família e os animais e ganhou a imortalidade dos deuses. Propõe que Gilgamesh fique acordado seis dias e sete noites; ele adormece, e pães cada vez mais velhos marcam os dias. Ao partir, Gilgamesh recebe o segredo de uma planta que devolve a juventude, mergulha e a pega, mas uma serpente a come enquanto ele se banha. De volta a Uruk, ele mostra a Urshanabi a muralha, fechando a história onde ela começou.", "versoes": ["padrao-babilonica"], "lacunas": "Tabuleta bem preservada, com poucas linhas danificadas.", "fontes": ["F-GEORGE2003:tab. XI", "F-THOMPSON1928"], "status": "a_conferir"}, {"id": "T12", "titulo": "Outra tradição", "ato": "epilogo", "resumo": "Tradução quase literal da segunda metade de um poema sumério. Objetos de Gilgamesh caem no mundo dos mortos, Enkidu desce para buscá-los e fica preso. Seu espírito sobe por um momento e conta ao amigo como vivem os mortos. Não continua a tabuleta XI: aqui Enkidu está vivo de novo.", "versoes": ["padrao-babilonica", "sumeria"], "lacunas": "Algumas linhas danificadas; o poema sumério completo ajuda a preencher.", "fontes": ["F-GEORGE2003:tab. XII", "F-ETCSL"], "status": "a_conferir"}], "episodios": [{"id": "E00-escriba-copia", "tabuleta": "moldura", "ato": 0, "local": "ninive-biblioteca", "personagens": ["escriba"], "jogavel_como": "escriba", "versoes": [], "lacuna": false, "fontes": [], "cena": "res://atos/moldura/escriba_copia.tscn"}, {"id": "E01-prologo-muralha", "tabuleta": "T01", "ato": 1, "local": "uruk-muralha", "personagens": ["gilgamesh"], "jogavel_como": "gilgamesh", "versoes": ["padrao-babilonica"], "lacuna": false, "fontes": ["F-GEORGE2003:tab. I (prólogo)"], "cena": "res://atos/ato1/prologo_muralha.tscn"}, {"id": "E01-rei-oprime", "tabuleta": "T01", "ato": 1, "local": "uruk-ruas", "personagens": ["gilgamesh", "moradores"], "jogavel_como": "gilgamesh", "versoes": ["padrao-babilonica"], "lacuna": false, "fontes": ["F-GEORGE2003:tab. I"], "cena": "res://atos/ato1/rei_oprime.tscn"}, {"id": "E01-criacao-enkidu", "tabuleta": "T01", "ato": 1, "local": "estepe", "personagens": ["aruru", "enkidu"], "jogavel_como": "nenhum", "versoes": ["padrao-babilonica"], "lacuna": true, "fragmento": "F01-02", "fontes": ["F-GEORGE2003:tab. I"], "cena": "res://atos/ato1/criacao_enkidu.tscn"}, {"id": "E01-enkidu-estepe", "tabuleta": "T01", "ato": 1, "local": "estepe", "personagens": ["enkidu", "gazelas"], "jogavel_como": "enkidu", "versoes": ["padrao-babilonica"], "lacuna": false, "fontes": ["F-GEORGE2003:tab. I"], "cena": "res://atos/ato1/enkidu_estepe.tscn"}, {"id": "E01-cacador", "tabuleta": "T01", "ato": 1, "local": "estepe-fonte", "personagens": ["cacador", "pai-do-cacador"], "jogavel_como": "enkidu", "versoes": ["padrao-babilonica"], "lacuna": true, "fragmento": "F01-03", "fontes": ["F-GEORGE2003:tab. I"], "cena": "res://atos/ato1/cacador.tscn"}, {"id": "E01-shamhat", "tabuleta": "T01", "ato": 1, "local": "estepe-fonte", "personagens": ["enkidu", "shamhat", "cacador"], "jogavel_como": "enkidu", "versoes": ["padrao-babilonica"], "lacuna": false, "fontes": ["F-GEORGE2003:tab. I"], "cena": "res://atos/ato1/shamhat.tscn"}, {"id": "E01-sonhos-gilgamesh", "tabuleta": "T01", "ato": 1, "local": "uruk-palacio-ninsun", "personagens": ["gilgamesh", "ninsun"], "jogavel_como": "gilgamesh", "versoes": ["padrao-babilonica"], "lacuna": true, "fragmento": "F01-04", "sonho": true, "fontes": ["F-GEORGE2003:tab. I (sonhos)"], "cena": "res://sonhos/sonho_estrela_machado.tscn"}, {"id": "E02-pastores", "tabuleta": "T02", "ato": 1, "local": "acampamento-pastores", "personagens": ["enkidu", "shamhat", "pastores"], "jogavel_como": "enkidu", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacuna": true, "fragmento": "F02-01", "fontes": ["F-GEORGE2003:tab. II", "F-JASTROW1920"], "cena": "res://atos/ato1/pastores.tscn"}, {"id": "E02-viajante", "tabuleta": "T02", "ato": 1, "local": "acampamento-pastores", "personagens": ["enkidu", "shamhat", "viajante"], "jogavel_como": "enkidu", "versoes": ["babilonica-antiga"], "lacuna": true, "fragmento": "F02-02", "fontes": ["F-JASTROW1920", "F-GEORGE2003:tab. II"], "cena": "res://atos/ato1/viajante.tscn"}, {"id": "E02-luta-porta", "tabuleta": "T02", "ato": 1, "local": "uruk-porta-casa-de-casamento", "personagens": ["enkidu", "gilgamesh", "moradores"], "jogavel_como": "enkidu", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacuna": false, "chefe": true, "fontes": ["F-GEORGE2003:tab. II", "F-JASTROW1920"], "cena": "res://atos/ato1/luta_porta.tscn"}, {"id": "E02-amizade", "tabuleta": "T02", "ato": 1, "local": "uruk-porta-casa-de-casamento", "personagens": ["gilgamesh", "enkidu"], "jogavel_como": "gilgamesh", "versoes": ["padrao-babilonica", "babilonica-antiga"], "lacuna": true, "fragmento": "F01-01", "fontes": ["F-GEORGE2003:tab. II", "F-JASTROW1920"], "cena": "res://atos/ato1/amizade.tscn"}], "fragmentos": [{"id": "F01-01", "tabuleta": "T01", "completa": "E02-amizade", "onde": "Uruk, alto da muralha perto da porta principal, depois da luta", "texto": "Procure a caixa de cedro, solte o fecho de bronze e leia a tabuleta de lápis-lazúli: tudo o que este rei passou está escrito ali.", "efeito": "Fecha o Ato 1 com a voz do prólogo, que convida a ler a história. Liga a abertura em Uruk ao escriba de Nínive.", "versao_origem": "padrao-babilonica", "fontes": ["F-GEORGE2003:tab. I (prólogo)"], "status": "a_conferir"}, {"id": "F01-02", "tabuleta": "T01", "completa": "E01-criacao-enkidu", "onde": "estepe, numa poça de argila perto da primeira fonte", "texto": "Aruru lavou as mãos, tomou um punhado de argila, jogou-o na estepe, e dali nasceu Enkidu.", "efeito": "A cena da criação deixa de ser só silhueta e som quebrado e é mostrada inteira.", "versao_origem": "padrao-babilonica", "fontes": ["F-GEORGE2003:tab. I"], "status": "a_conferir"}, {"id": "F01-03", "tabuleta": "T01", "completa": "E01-cacador", "onde": "estepe, junto a uma armadilha desmontada", "texto": "O pai disse ao caçador: vá a Uruk, conte ao rei o que viu e peça que mande Shamhat com você.", "efeito": "Destrava o diálogo completo entre o caçador e o pai, que no início aparece cortado.", "versao_origem": "padrao-babilonica", "fontes": ["F-GEORGE2003:tab. I"], "status": "a_conferir"}, {"id": "F01-04", "tabuleta": "T01", "completa": "E01-sonhos-gilgamesh", "onde": "Uruk, terraço do palácio de Ninsun", "texto": "Caiu em Uruk um machado de forma estranha. O povo se juntou em volta, e eu o amei e o pus ao meu lado.", "efeito": "Destrava o segundo sonho (o machado), jogável, e a segunda interpretação de Ninsun.", "versao_origem": "padrao-babilonica", "fontes": ["F-GEORGE2003:tab. I (sonhos)"], "status": "a_conferir"}, {"id": "F02-01", "tabuleta": "T02", "completa": "E02-pastores", "onde": "acampamento dos pastores, entre os jarros de cerveja", "texto": "Puseram pão diante dele, e ele não sabia comer. Puseram cerveja, e ele não sabia beber.", "efeito": "Preenche a lacuna da versão padrão com a versão babilônica antiga e mostra a cena inteira no acampamento.", "versao_origem": "babilonica-antiga", "fontes": ["F-JASTROW1920", "F-GEORGE2003:tab. II"], "status": "a_conferir"}, {"id": "F02-02", "tabuleta": "T02", "completa": "E02-viajante", "onde": "estrada entre o acampamento e Uruk", "texto": "Um homem passou apressado a caminho de uma festa de casamento em Uruk. Contou o que o rei fazia nessas festas, e o rosto de Enkidu ficou pálido de raiva.", "efeito": "Destrava a variação babilônica antiga que explica por que Enkidu vai até a porta da casa de casamento. Abre a entrada do Codex sobre o debate em torno desse costume.", "versao_origem": "babilonica-antiga", "fontes": ["F-JASTROW1920", "F-GEORGE2003:tab. II"], "status": "a_conferir"}], "codex": [{"id": "C-gilgamesh", "tipo": "personagem", "titulo": "Gilgamesh", "camadas": ["evidencia", "interpretacao"], "texto": "Rei de Uruk na epopeia, dois terços deus e um terço homem, filho da deusa Ninsun e do rei Lugalbanda. A Lista Real Suméria o inclui entre os reis de Uruk, e muitos estudiosos acham possível que um governante com esse nome tenha existido por volta de 2700 a.C. Não há nenhuma inscrição dele próprio. O jogo o trata como figura lendária.", "fontes": ["F-GEORGE2003", "F-LIVERANI"], "libera": "E01-rei-oprime", "status": "a_conferir"}, {"id": "C-enkidu", "tipo": "personagem", "titulo": "Enkidu", "camadas": ["evidencia"], "texto": "Criado de argila pela deusa Aruru para ser o par de Gilgamesh e devolver a paz a Uruk. Vive na estepe com os animais até o encontro com Shamhat. Nos poemas sumérios, Enkidu é servo de Gilgamesh; na epopeia acadiana, é seu amigo e igual.", "fontes": ["F-GEORGE2003:tab. I", "F-ETCSL"], "libera": "E01-criacao-enkidu", "status": "a_conferir"}, {"id": "C-shamhat", "tipo": "personagem", "titulo": "Shamhat", "camadas": ["evidencia", "interpretacao"], "texto": "Mulher ligada ao culto de Ishtar em Uruk. É ela quem aproxima Enkidu do mundo humano: depois do encontro, os animais fogem dele, e ele ganha entendimento e fala. Ela o veste, o leva aos pastores e depois à cidade. O papel exato dela no culto é debatido; o jogo a mostra com dignidade e voz própria, sem cena explícita.", "fontes": ["F-GEORGE2003:tab. I-II"], "libera": "E01-shamhat", "status": "a_conferir"}, {"id": "C-ninsun", "tipo": "personagem", "titulo": "Ninsun", "camadas": ["evidencia"], "texto": "Deusa, mãe de Gilgamesh, chamada de \"vaca selvagem\" e conhecida pela sabedoria. Na Tabuleta I, interpreta os dois sonhos do filho como o anúncio de um companheiro forte. Mais adiante, adota Enkidu.", "fontes": ["F-GEORGE2003:tab. I, III"], "libera": "E01-sonhos-gilgamesh", "status": "a_conferir"}, {"id": "C-uruk", "tipo": "lugar", "titulo": "Uruk", "camadas": ["evidencia", "interpretacao"], "texto": "Hoje Warka, no sul do Iraque. No período de Uruk (4º milênio a.C.) já era o maior centro da Mesopotâmia e um dos lugares onde surgiu a escrita. No Dinástico Arcaico chegou a uns 400 a 550 hectares dentro de uma muralha de cerca de 9 km. Um braço do Eufrates passava pela cidade e alimentava canais internos. No jogo, a escala é real; o traçado de ruas e canais é interpretação.", "fontes": ["F-CDLI-URUK", "F-FASSBINDER2020", "F-CRUSEMANN2019"], "libera": "E01-prologo-muralha", "status": "a_conferir"}, {"id": "C-muralha", "tipo": "objeto", "titulo": "A muralha de Uruk", "camadas": ["evidencia", "interpretacao"], "texto": "Muralha de tijolo de barro com cerca de 9 km e centenas de torres semicirculares, provavelmente erguida na primeira metade do 3º milênio a.C. e reparada muitas vezes depois. O prólogo da epopeia convida o leitor a subir nela e examinar os tijolos. A atribuição a Gilgamesh é tradição, não fato comprovado.", "fontes": ["F-CDLI-URUK", "F-GEORGE2003:tab. I"], "libera": "E01-prologo-muralha", "status": "a_conferir"}, {"id": "C-eanna", "tipo": "lugar", "titulo": "Eanna", "camadas": ["evidencia", "interpretacao"], "texto": "A \"Casa do Céu\", distrito sagrado de Inana (Ishtar) em Uruk, a leste do antigo curso do rio. O grande zigurate que aparece no jogo é um anacronismo assumido: foi erguido por volta de 2100 a.C., no tempo de Ur-Namma.", "fontes": ["F-CDLI-URUK", "F-CRUSEMANN2019"], "libera": "E01-rei-oprime", "status": "a_conferir"}, {"id": "C-estepe", "tipo": "lugar", "titulo": "A estepe", "camadas": ["evidencia", "interpretacao"], "texto": "Na epopeia, a estepe é o espaço fora da cidade, dos animais e dos pastores, onde Enkidu nasce e vive. No jogo, ela fica além da muralha e dos campos irrigados, com gazelas, onagros e fontes. A composição dos rebanhos é licença poética.", "fontes": ["F-GEORGE2003:tab. I"], "libera": "E01-enkidu-estepe", "status": "a_conferir"}, {"id": "C-versao-padrao", "tipo": "versao", "titulo": "A versão padrão babilônica", "camadas": ["evidencia"], "texto": "Doze tabuletas em acadiano, atribuídas pela tradição ao escriba Sîn-lēqi-unninni, de fins do 2º milênio a.C. As cópias mais conhecidas vêm de Nínive, da biblioteca do rei Assurbanipal (século VII a.C.), soterrada quando a cidade caiu em 612 a.C. e escavada no século XIX. É a espinha do roteiro do jogo.", "fontes": ["F-GEORGE2003", "F-GEORGE1999"], "libera": "E00-escriba-copia", "status": "a_conferir"}, {"id": "C-versao-antiga", "tipo": "versao", "titulo": "A versão babilônica antiga", "camadas": ["evidencia", "interpretacao"], "texto": "Primeira epopeia contínua em acadiano, de por volta de 1800 a.C., conhecida por tabuletas avulsas. A tabuleta da Pensilvânia conta a chegada de Enkidu aos pastores e a luta com Gilgamesh, e preenche partes que faltam na Tabuleta II da versão padrão. Ela também traz o episódio do costume do rei nas festas de casamento, cujo sentido exato ainda é debatido.", "fontes": ["F-JASTROW1920", "F-GEORGE2003"], "libera": "F02-02", "status": "a_conferir"}]};
+const FRAG = Object.fromEntries(DADOS.fragmentos.map(f => [f.id, f]));
+const CODEX = Object.fromEntries(DADOS.codex.map(c => [c.id, c]));
+
+// =====================================================================
+// LUGARES DO ATO 1 (derivados da planta; nenhuma coordenada solta)
+// =====================================================================
+const G0 = new THREE.Vector3(gatePts[0][0], 0, gatePts[0][1]);
+const OUT = G0.clone().normalize(), SIDE = new THREE.Vector3(-OUT.z, 0, OUT.x);
+const at = (base, out, side) => base.clone().addScaledVector(OUT, out).addScaledVector(SIDE, side);
+const LUGAR = {
+  fonte: at(G0, 1080, 60), rebanho: at(G0, 960, 190), acampamento: at(G0, 860, -260),
+  portaFora: at(G0, 26, 0), portaDentro: at(G0, -40, 0), casamento: at(G0, -34, 17),
+  escada: at(G0, -14, -16), patioEanna: new THREE.Vector3(E.x, 0, E.z + 85), chegadaCidade: new THREE.Vector3(E.x - 40, 0, E.z + 260),
+};
+LUGAR.estrada = LUGAR.acampamento.clone().lerp(LUGAR.portaFora, .45);
+
+// =====================================================================
+// LUZ: presets por momento do dia
+// =====================================================================
+const hemi = scene.children.find(o => o.isHemisphereLight);
+const deg = THREE.MathUtils.degToRad;
+const LUZ = {
+  dia: { elev: 21, az: 215, sky: 21, cor: 0xffc690, int: 3.9, fog: 0xcfa77e, dens: .00058, exp: .58, env: .38, hemi: .35 },
+  amanhecer: { elev: 6, az: 95, sky: 6, cor: 0xffa66c, int: 2.7, fog: 0xd8a98a, dens: .0009, exp: .62, env: .3, hemi: .3 },
+  poente: { elev: 4, az: 255, sky: 4, cor: 0xff8f4f, int: 3, fog: 0xd49770, dens: .0008, exp: .6, env: .28, hemi: .28 },
+  noite: { elev: 40, az: 150, sky: -9, cor: 0x9fb4ff, int: .75, fog: 0x121a27, dens: .0016, exp: .55, env: .05, hemi: .14 },
+  sonho: { elev: 35, az: 200, sky: -3, cor: 0xc79bff, int: 1.5, fog: 0x3a2452, dens: .011, exp: .75, env: .12, hemi: .45 },
+};
+let luzAtual = 'dia';
+function setLuz(n) { const L = LUZ[n]; luzAtual = n; sunDir.setFromSphericalCoords(1, deg(90 - L.elev), deg(L.az));
+  sky.material.uniforms.sunPosition.value.setFromSphericalCoords(1, deg(90 - L.sky), deg(L.az)); sun.color.set(L.cor); sun.intensity = L.int;
+  scene.fog.color.set(L.fog); scene.fog.density = L.dens; renderer.toneMappingExposure = L.exp; scene.environmentIntensity = L.env; hemi.intensity = L.hemi; }
+
+// =====================================================================
+// ATORES
+// =====================================================================
+const pano = c => new THREE.MeshStandardMaterial({ color: c, roughness: .95 });
+const gilg = player; gilg.userData.nome = 'Gilgamesh';
+const enkSel = makeHuman({ h: 1.98, broad: true, bareChest: true, shaggy: true, beard: .22, skinL: .27, skirt: 0x6b4a2e, cloth: pano(0x5a3d26) });
+const enkCiv = makeHuman({ h: 1.98, broad: true, bareChest: true, beard: .2, skinL: .29, skirt: 0x9c3b22, belt: true, cloth: pano(0x9c3b22) });
+const shamhat = makeHuman({ h: 1.68, dress: true, bun: true, skinL: .33, cloth: pano(0x9c3b22) });
+{ const n = new THREE.Mesh(new THREE.TorusGeometry(.11, .015, 6, 20), goldM); n.rotation.x = Math.PI / 2 - .3; n.position.y = .58; shamhat.userData.L.torso.add(n); }
+const cacador = makeHuman({ h: 1.7, cloth: pano(0x6d5a3d), beard: .1, sleeveless: true, skirt: 0x5a4632 });
+const ninsun = makeHuman({ h: 1.75, dress: true, bun: true, crown: true, skinL: .35, cloth: pano(0xe9e0cc) });
+const viajante = makeHuman({ h: 1.66, cloth: pano(0xcfbf9c), beard: .08, sleeveless: true, skirt: 0xb7a079 });
+const pastores = [0, 1, 2].map(i => makeHuman({ h: rr(1.6, 1.72), cloth: pano([0xb7a079, 0x9e7a52, 0xd9cdb2][i]), beard: .1, sleeveless: true, skirt: [0x8d6a4a, 0x6d5a3d, 0xa95c37][i] }));
+const extras = [enkSel, enkCiv, shamhat, cacador, ninsun, viajante, ...pastores];
+extras.forEach(a => { a.visible = false; scene.add(a); });
+const AV = { model: gilg, quad: false, speedWalk: 2.6, speedRun: 7 };
+function setAvatar(m) { AV.model = m; m.visible = true; AV.quad = (m === enkSel && !flags.perdeuEstepe); }
+function put(a, v, yaw) { a.visible = true; a.position.set(v.x, floorAt(v.x, v.z), v.z); if (yaw !== undefined) a.rotation.y = yaw; }
+function face(a, b) { a.rotation.y = Math.atan2(b.position.x - a.position.x, b.position.z - a.position.z); }
+function hide(...as) { as.forEach(a => a.visible = false); }
+
+// quadrúpedes: gazelas, ovelhas, lobos, leão
+function beast(o) {
+  const g = new THREE.Group(), fur = pano(o.cor), k = o.k || 1;
+  const b = new THREE.Mesh(cap(.17 * k, .55 * k), fur); b.rotation.z = Math.PI / 2; b.position.y = .78 * k; b.castShadow = true; g.add(b);
+  if (o.belly) { const bl = new THREE.Mesh(cap(.12 * k, .45 * k), pano(o.belly)); bl.rotation.z = Math.PI / 2; bl.position.y = .72 * k; g.add(bl); }
+  const neck = new THREE.Group(); neck.position.set(.38 * k, .9 * k, 0); g.add(neck);
+  const n = new THREE.Mesh(cap(.06 * k, .3 * k), fur); n.position.y = .15 * k; n.rotation.z = -.5 - (o.lowNeck || 0); neck.add(n);
+  const hd = new THREE.Mesh(cap(.07 * k, .16 * k), fur); hd.position.set(.13 * k, .3 * k - (o.lowNeck ? .12 : 0), 0); hd.rotation.z = -1.3; neck.add(hd);
+  if (o.horns) for (const s of [-1, 1]) { const h = new THREE.Mesh(new THREE.ConeGeometry(.015, .28, 5), hairM); h.position.set(.06, .48, s * .03); h.rotation.z = .35; neck.add(h); }
+  if (o.mane) { const m = new THREE.Mesh(new THREE.SphereGeometry(.26 * k, 10, 8), pano(o.mane)); m.position.set(.05 * k, .22 * k, 0); m.scale.set(1, 1.1, 1.2); neck.add(m); }
+  if (o.wool) { const w = new THREE.Mesh(new THREE.SphereGeometry(.3 * k, 10, 8), pano(0xe9e2d2)); w.scale.set(1.6, 1, 1.05); w.position.y = .8 * k; w.castShadow = true; g.add(w); }
+  const legs = []; for (const [x, z] of [[.3, .08], [.3, -.08], [-.3, .08], [-.3, -.08]]) { const l = new THREE.Group(); l.position.set(x * k, .7 * k, z * k); g.add(l); const m = new THREE.Mesh(cap(.025 * k * (o.thick || 1), .6 * k), fur); m.position.y = -.35 * k; m.castShadow = true; l.add(m); legs.push(l); }
+  g.userData = { legs, neck, phase: rnd() * 6, dir: rr(0, 6), speed: 0, flee: 0, home: new THREE.Vector3(), k };
+  scene.add(g); return g;
+}
+function animBeast(g, dt) { const u = g.userData; u.phase += dt * (2 + u.speed * 2.4); const a = Math.min(1, u.speed / 3);
+  u.legs.forEach((l, i) => l.rotation.z = Math.sin(u.phase + (i % 2 ? Math.PI : 0) + (i > 1 ? .6 : 0)) * .7 * (a + (u.speed > .1 ? .25 : 0)));
+  u.neck.rotation.z = u.speed < .2 ? lerp(u.neck.rotation.z, Math.sin(time * .5 + u.phase) > 0 ? -1.4 : 0, dt * 2) : lerp(u.neck.rotation.z, .1, dt * 4);
+  g.position.y = floorAt(g.position.x, g.position.z) + (u.speed > 4 ? Math.abs(Math.sin(u.phase)) * .2 * u.k : 0); g.rotation.y = u.dir - Math.PI / 2; }
+const gazelas = Array.from({ length: 14 }, () => beast({ cor: 0xb3824f, belly: 0xe8dcc6, horns: true }));
+const ovelhas = Array.from({ length: 12 }, () => beast({ cor: 0xd9d0bd, wool: true, k: .8, thick: 1.6 }));
+gazelas.concat(ovelhas).forEach(g => g.visible = false);
+
+// cenários extras: fonte, armadilhas, acampamento, casa de casamento, estrela e machado do sonho
+const fonte = new THREE.Group(); scene.add(fonte);
+{ const w = new THREE.Mesh(new THREE.CircleGeometry(9, 40).rotateX(-Math.PI / 2), waterMat); w.position.y = .07; fonte.add(w);
+  const bk = new THREE.Mesh(new THREE.RingGeometry(8.6, 12, 40).rotateX(-Math.PI / 2), bankMat); bk.position.y = .05; fonte.add(bk);
+  for (let i = 0; i < 26; i++) { const a = rr(0, 6.28), r = rr(9, 11.5); const rd = new THREE.Mesh(new THREE.ConeGeometry(.12, rr(1.2, 2.4), 4), pano(0x8f9a5a)); rd.position.set(Math.cos(a) * r, .6, Math.sin(a) * r); fonte.add(rd); }
+  for (let i = 0; i < 8; i++) { const st = new THREE.Mesh(new THREE.DodecahedronGeometry(rr(.4, 1.1)), pano(0x8a7a66)); st.position.set(rr(-14, 14), .2, rr(-14, 14)); if (st.position.length() < 12) st.position.setLength(13); st.castShadow = true; fonte.add(st); }
+  fonte.position.copy(LUGAR.fonte); grassHoles.push({ x: LUGAR.fonte.x, z: LUGAR.fonte.z, r: 12.5 }); }
+const armadilhas = [];
+function makeTrap(v, tipo) { const g = new THREE.Group();
+  if (tipo === 'fosso') { const p = new THREE.Mesh(new THREE.CircleGeometry(1.3, 20).rotateX(-Math.PI / 2), M.dark); p.position.y = .04; g.add(p);
+    for (let i = 0; i < 7; i++) { const s = new THREE.Mesh(new THREE.ConeGeometry(.05, .9, 5), M.wood); const a = i / 7 * 6.28; s.position.set(Math.cos(a) * .6, .1, Math.sin(a) * .6); s.rotation.set(rr(-.3, .3), 0, rr(-.3, .3)); g.add(s); } }
+  else { const r = new THREE.Mesh(new THREE.TorusGeometry(.5, .025, 6, 20).rotateX(Math.PI / 2), pano(0x8f7346)); r.position.y = .05; g.add(r);
+    const st = new THREE.Mesh(new THREE.CylinderGeometry(.04, .05, .9, 5), M.wood); st.position.set(.9, .45, 0); g.add(st);
+    const cord = new THREE.Mesh(new THREE.CylinderGeometry(.01, .01, 1.1, 4), pano(0x8f7346)); cord.rotation.z = Math.PI / 2.4; cord.position.set(.45, .4, 0); g.add(cord); }
+  g.position.set(v.x, floorAt(v.x, v.z), v.z); g.visible = false; scene.add(g); armadilhas.push(g); return g; }
+[[30, 20, 'fosso'], [-45, 35, 'laco'], [10, -55, 'fosso']].forEach(([a, b, t]) => makeTrap(at(LUGAR.fonte, a, b), t));
+const acamp = new THREE.Group(); scene.add(acamp);
+{ for (let i = 0; i < 4; i++) { const hut = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 6, 14, 1, true, 0, Math.PI).rotateZ(Math.PI / 2).rotateY(i * .8), new THREE.MeshStandardMaterial({ map: reedTex, roughness: .95, side: THREE.DoubleSide }));
+    hut.position.set(Math.cos(i * 1.6) * 9, 0, Math.sin(i * 1.6) * 9); hut.castShadow = true; acamp.add(hut); }
+  const fire = new THREE.Mesh(new THREE.ConeGeometry(.45, .8, 7), new THREE.MeshBasicMaterial({ color: 0xff8c3a })); fire.position.y = .4; acamp.add(fire); acamp.userData.fire = fire;
+  const fl = new THREE.PointLight(0xff9a50, 0, 18, 1.6); fl.position.y = 1.4; acamp.add(fl); acamp.userData.light = fl;
+  const jar = new THREE.LatheGeometry([[0, 0], [.18, .02], [.3, .25], [.32, .45], [.22, .7], [.12, .78], [.15, .85]].map(p => new THREE.Vector2(p[0], p[1])), 12);
+  for (let i = 0; i < 7; i++) { const j = new THREE.Mesh(jar, M.terracotta); j.position.set(rr(-3, 3) + 4, 0, rr(-1, 1) - 3); j.castShadow = true; acamp.add(j); }
+  acamp.position.copy(LUGAR.acampamento); }
+{ // casa de casamento junto à porta (entra na colisão como casa)
+  const c = LUGAR.casamento, ang = Math.atan2(OUT.x, OUT.z), w = 10, d = 9, h = 5.4;
+  const g = [new THREE.BoxGeometry(w, h, d).translate(0, h / 2, 0)]; const hm = new THREE.Mesh(mergeGeometries(g), M.plaster); hm.position.set(c.x, 0, c.z); hm.rotation.y = ang; hm.castShadow = hm.receiveShadow = true; scene.add(hm);
+  const fr = new THREE.Group(); fr.position.set(c.x, 0, c.z); fr.rotation.y = ang; scene.add(fr);
+  for (const s of [-1, 1]) { const p = new THREE.Mesh(new THREE.BoxGeometry(.35, 2.8, .35), M.wood); p.position.set(s * .9, 1.4, d / 2 + .2); p.castShadow = true; fr.add(p); }
+  const lin = new THREE.Mesh(new THREE.BoxGeometry(2.3, .35, .4), M.wood); lin.position.set(0, 2.9, d / 2 + .2); fr.add(lin);
+  const door = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.6, .1), M.dark); door.position.set(0, 1.3, d / 2 + .06); fr.add(door);
+  for (let i = 0; i < 14; i++) { const f = new THREE.Mesh(new THREE.SphereGeometry(.09, 6, 5), pano([0xe8c050, 0xd65a3a, 0xf0e0c0][i % 3])); const t = i / 13; f.position.set(lerp(-1.1, 1.1, t), 3.15 - Math.sin(t * Math.PI) * .25, d / 2 + .4); fr.add(f); }
+  fr.userData.posts = fr.children.slice(0, 3); LUGAR.casaFrame = fr;
+  LUGAR.portaCasa = new THREE.Vector3(c.x, 0, c.z).addScaledVector(new THREE.Vector3(Math.sin(ang), 0, Math.cos(ang)), d / 2 + 1.4);
+  const hi = houses.length; houses.push({ x: c.x, z: c.z, hw: w / 2, hd: d / 2, ang, h }); const k = Math.floor(c.x / HC) + ',' + Math.floor(c.z / HC); if (!hHash.has(k)) hHash.set(k, []); hHash.get(k).push(hi);
+}
+const estrela = new THREE.Group(); scene.add(estrela);
+{ const r = new THREE.Mesh(new THREE.IcosahedronGeometry(2.6, 1), new THREE.MeshStandardMaterial({ color: 0x8c7fa8, emissive: 0xffc98a, emissiveIntensity: .35, roughness: .4, flatShading: true })); r.position.y = 2.2; r.castShadow = true; estrela.add(r);
+  const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, color: 0xffe0a0 })); gl.scale.set(16, 16, 1); gl.position.y = 2.2; estrela.add(gl);
+  estrela.visible = false; }
+const machado = new THREE.Group(); scene.add(machado);
+{ const hnd = new THREE.Mesh(new THREE.CylinderGeometry(.18, .2, 6, 8), M.wood); hnd.rotation.z = Math.PI / 2; hnd.position.y = .4; machado.add(hnd);
+  const bl = new THREE.Shape(); bl.moveTo(0, 0); bl.lineTo(1.6, -.6); bl.quadraticCurveTo(2.3, .6, 1.6, 1.6); bl.lineTo(0, .9);
+  const b = new THREE.Mesh(new THREE.ExtrudeGeometry(bl, { depth: .15, bevelEnabled: false }), new THREE.MeshStandardMaterial({ color: 0xc9944f, metalness: .9, roughness: .3, emissive: 0x5a3010, emissiveIntensity: .5 })); b.rotation.x = -Math.PI / 2; b.position.set(2.6, .55, .5); machado.add(b);
+  const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); gl.scale.set(10, 10, 1); gl.position.y = 1; machado.add(gl);
+  machado.visible = false; }
+
+// fragmentos no mundo
+const FPOS = { 'F01-02': at(LUGAR.fonte, 14, -10), 'F01-03': at(LUGAR.fonte, 14, -58), 'F01-04': LUGAR.patioEanna.clone().add(new THREE.Vector3(-14, 0, -6)),
+  'F02-01': at(LUGAR.acampamento, -9, 6), 'F02-02': at(LUGAR.estrada, 0, 7), 'F01-01': at(G0, -16, -20) };
+const fragObjs = {};
+for (const id of Object.keys(FPOS)) { const g = new THREE.Group(), geo = new THREE.BoxGeometry(.42, .55, .1, 4, 4, 1), p = geo.attributes.position;
+  for (let k = 0; k < p.count; k++) if (p.getX(k) > .15 && p.getY(k) > .1) { p.setX(k, p.getX(k) - .1 * rnd()); p.setY(k, p.getY(k) - .12 * rnd()); }
+  geo.computeVertexNormals(); g.add(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: clayTex, roughness: .9, emissive: 0x3a1c06, emissiveIntensity: .6 })));
+  const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: .9 })); gl.scale.set(2.2, 2.2, 1); g.add(gl);
+  const beam = new THREE.Mesh(new THREE.CylinderGeometry(.12, .6, 30, 10, 1, true), new THREE.MeshBasicMaterial({ color: 0xffc070, transparent: true, opacity: .14, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, fog: false })); beam.position.y = 15; g.add(beam);
+  const v = FPOS[id]; g.position.set(v.x, floorAt(v.x, v.z) + 1.1, v.z); g.visible = false; scene.add(g); fragObjs[id] = g; }
+
+// =====================================================================
+// ESTADO, UI E FERRAMENTAS DE ROTEIRO
+// =====================================================================
+const $ = id => document.getElementById(id);
+const flags = {}; const tem = new Set(); const codexOn = new Set();
+let paused = true, started = false, lock = false, cine = null, shake = 0, alvo = null, runId = 0;
+const waiters = [];
+const ABORT = 'abortado';
+function guard(rid) { if (rid !== runId) throw ABORT; }
+function until(fn) { const rid = runId; return new Promise((res, rej) => waiters.push({ fn, res, rej, rid })); }
+function wait(s) { const t0 = time; return until(() => time - t0 >= s); }
+function realWait(ms) { const rid = runId; return new Promise((res, rej) => setTimeout(() => rid === runId ? res() : rej(ABORT), ms)); }
+async function fade(on) { $('fade').style.opacity = on ? 1 : 0; await realWait(950); }
+async function caption(t, ms = 2600) { $('caption').innerHTML = t; $('caption').style.opacity = 1; await realWait(ms); $('caption').style.opacity = 0; await realWait(700); }
+function objetivo(t, v) { $('objTxt').textContent = t; alvo = v || null; }
+function toast(t) { $('toast').textContent = t; $('toast').style.opacity = 1; clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').style.opacity = 0, 2600); }
+function codex(id) { if (codexOn.has(id) || !CODEX[id]) return; codexOn.add(id); toast('Codex: ' + CODEX[id].titulo); }
+let dlgDone = null;
+function talk(who, txt, antigo = false) { const rid = runId; lock = true;
+  $('dlgWho').textContent = who + (antigo ? ' · texto antigo' : ''); $('dlgWho').className = 'who' + (antigo ? ' antigo' : ''); $('dlgTxt').innerHTML = txt; $('choices').innerHTML = ''; $('dlgTap').style.display = 'block'; $('dlg').style.display = 'block';
+  return new Promise((res, rej) => { dlgDone = () => { dlgDone = null; $('dlg').style.display = 'none'; lock = false; rid === runId ? res() : rej(ABORT); }; }); }
+function choose(who, txt, opts) { const rid = runId; lock = true; $('dlgWho').textContent = who; $('dlgWho').className = 'who'; $('dlgTxt').innerHTML = txt; $('dlgTap').style.display = 'none'; $('dlg').style.display = 'block';
+  return new Promise((res, rej) => { $('choices').innerHTML = ''; opts.forEach((o, i) => { const b = document.createElement('button'); b.textContent = o; b.onclick = e => { e.stopPropagation(); $('dlg').style.display = 'none'; lock = false; $('choices').innerHTML = ''; rid === runId ? res(i) : rej(ABORT); }; $('choices').appendChild(b); }); }); }
+$('dlg').addEventListener('pointerdown', e => { e.stopPropagation(); if (dlgDone && $('choices').children.length === 0) dlgDone(); });
+function showCard(kick, title, tags, body, src) { paused = true; $('cKick').textContent = kick; $('cTitle').textContent = title; $('cTags').innerHTML = (tags || []).map(t => `<span class="tag ${t}">${({ evidencia: 'Evidência', interpretacao: 'Interpretação', invencao: 'Invenção do jogo' })[t]}</span>`).join('');
+  $('cBody').innerHTML = body; $('cSrc').innerHTML = src || ''; $('card').style.display = 'flex'; return new Promise(r => { $('cClose').onclick = () => { $('card').style.display = 'none'; paused = false; last = performance.now(); r(); }; }); }
+function quebrado(on) { document.body.classList.toggle('quebrado', on); }
+
+// interações contextuais
+const inter = []; // {pos, r, label, fn, on()}
+function interacao(o) { inter.push(o); return o; }
+function clearInter() { inter.length = 0; }
+// fragmentos
+async function pegarFragmento(id) { tem.add(id); fragObjs[id].visible = false; chime(); const f = FRAG[id];
+  await showCard(`Fragmento ${tem.size} de 6 · Tabuleta ${f.tabuleta.replace('T0', '').replace('T', '')}`, 'Fragmento ' + id, [], `<blockquote>${f.texto}</blockquote><p>${f.efeito}</p>`, 'Versão: ' + f.versao_origem.replace('-', ' ') + ' · Fonte: ' + f.fontes.join('; ') + ' (a conferir)'); }
+function ativarFragmento(id) { if (tem.has(id)) return; const o = fragObjs[id]; o.visible = true; }
+
+// som
+let actx = null, master = null;
+function startAudio() { try { actx = new (window.AudioContext || window.webkitAudioContext)(); master = actx.createGain(); master.gain.value = .5; master.connect(actx.destination);
+  const len = actx.sampleRate * 3, buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0); let b = 0; for (let i = 0; i < len; i++) { b = (b + .02 * (Math.random() * 2 - 1)) / 1.02; d[i] = b * 3.5; }
+  const src = actx.createBufferSource(); src.buffer = buf; src.loop = true; const f = actx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 420; f.Q.value = .6; const g = actx.createGain(); g.gain.value = .5; src.connect(f); f.connect(g); g.connect(master); src.start(); } catch (e) { actx = null; } }
+function chime() { if (!actx) return; const t = actx.currentTime; [523.25, 659.25, 783.99, 1046.5].forEach((fq, i) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = 'triangle'; o.frequency.value = fq; g.gain.setValueAtTime(0, t + i * .09); g.gain.linearRampToValueAtTime(.16, t + i * .09 + .02); g.gain.exponentialRampToValueAtTime(.001, t + i * .09 + 1.5); o.connect(g); g.connect(master); o.start(t + i * .09); o.stop(t + i * .09 + 1.6); }); }
+function thud(v = 1) { if (!actx) return; const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(140 * v, t); o.frequency.exponentialRampToValueAtTime(45, t + .2); g.gain.setValueAtTime(.5, t); g.gain.exponentialRampToValueAtTime(.001, t + .25); o.connect(g); g.connect(master); o.start(t); o.stop(t + .3); }
+
+// =====================================================================
+// COMBATE
+// =====================================================================
+const CB = { on: false, hp: 100, st: 100, atkT: 0, dodgeT: 0, inv: 0, enemies: [], dodgeDir: new THREE.Vector3() };
+function inimigo(obj, o) { const e = { obj, hp: o.hp, max: o.hp, reach: o.reach || 1.8, speed: o.speed || 5, dmg: o.dmg || 12, wind: o.wind || .7, state: 'approach', t: 0, human: !!o.human, nome: o.nome, dir: 0, lunge: new THREE.Vector3() }; CB.enemies.push(e); return e; }
+function combate(on) { CB.on = on; $('bars').style.display = on ? 'flex' : 'none'; $('atk').style.display = on ? 'block' : 'none'; $('dodge').style.display = on ? 'block' : 'none'; if (on) { CB.hp = 100; CB.st = 100; } else { CB.enemies.length = 0; $('boss').style.display = 'none'; } }
+function golpe() { if (!CB.on || CB.atkT > 0 || CB.st < 14 || lock) return; CB.atkT = .5; CB.st -= 14; CB.hitDone = false; }
+function esquiva() { if (!CB.on || CB.dodgeT > 0 || CB.st < 20 || lock) return; CB.dodgeT = .32; CB.inv = .4; CB.st -= 20;
+  const m = AV.model; CB.dodgeDir.set(Math.sin(m.rotation.y), 0, Math.cos(m.rotation.y)).multiplyScalar(joyMag() > .2 ? 1 : -1); }
+$('atk').addEventListener('pointerdown', e => { e.stopPropagation(); golpe(); }); $('dodge').addEventListener('pointerdown', e => { e.stopPropagation(); esquiva(); });
+function updateCombat(dt) {
+  if (!CB.on) return; const me = AV.model, mp = me.position;
+  CB.st = Math.min(100, CB.st + dt * (CB.atkT > 0 ? 6 : 28)); CB.inv -= dt;
+  if (CB.dodgeT > 0) { CB.dodgeT -= dt; tryMove(P.pos, CB.dodgeDir.x * 13 * dt, CB.dodgeDir.z * 13 * dt, .45, P.y, false); }
+  if (CB.atkT > 0) { CB.atkT -= dt; const L = me.userData.L, ph = 1 - CB.atkT / .5; L.armR.pivot.rotation.x = ph < .35 ? lerp(0, -2.4, ph / .35) : lerp(-2.4, .6, Math.min(1, (ph - .35) / .3)); L.torso.rotation.y = ph < .35 ? .4 : -.3;
+    if (!CB.hitDone && ph > .45) { CB.hitDone = true; const fw = new THREE.Vector3(Math.sin(me.rotation.y), 0, Math.cos(me.rotation.y));
+      for (const e of CB.enemies) { if (e.state === 'dead') continue; const d = tmp2.subVectors(e.obj.position, mp); d.y = 0; const dist = d.length(); if (dist < e.reach + .9 && d.normalize().dot(fw) > .2) { e.hp -= 1; e.obj.position.addScaledVector(d, .9); e.state = 'recover'; e.t = .55; thud(1.3); shake = .25; if (e.hp <= 0) { e.state = 'dead'; e.t = 0; } } } } }
+  for (const e of CB.enemies) { const o = e.obj; e.t -= dt; const d = tmp2.subVectors(mp, o.position); d.y = 0; const dist = d.length(); const want = Math.atan2(d.x, d.z);
+    if (e.state === 'dead') { if (e.human) continue; o.rotation.z = lerp(o.rotation.z, 1.5, dt * 4); continue; }
+    let sp = 0;
+    if (e.state === 'approach') { e.dir = want; if (dist > e.reach * .9) sp = e.speed; else { e.state = 'wind'; e.t = e.wind; } }
+    else if (e.state === 'wind') { e.dir = want; if (e.t <= 0) { e.state = 'lunge'; e.t = .28; e.lunge.copy(d).normalize(); } }
+    else if (e.state === 'lunge') { o.position.addScaledVector(e.lunge, dt * 9); if (dist < e.reach && CB.inv <= 0 && !e.hitDone) { e.hitDone = true; CB.hp -= e.dmg; thud(.7); shake = .45; mp.addScaledVector(e.lunge, .6); } if (e.t <= 0) { e.state = 'recover'; e.t = rr(.6, 1.1); e.hitDone = false; } }
+    else if (e.state === 'recover') { if (e.t <= 0) e.state = 'approach'; }
+    if (sp) { o.position.x += Math.sin(e.dir) * sp * dt; o.position.z += Math.cos(e.dir) * sp * dt; }
+    if (e.human) { o.rotation.y = e.dir; o.position.y = floorAt(o.position.x, o.position.z); animate(o, sp, dt); const L = o.userData.L; if (e.state === 'wind') { L.armR.pivot.rotation.x = -2.4; L.armL.pivot.rotation.x = -2.2; } if (e.state === 'lunge') { L.armR.pivot.rotation.x = .4; L.armL.pivot.rotation.x = .4; } }
+    else { o.userData.dir = e.dir; o.userData.speed = e.state === 'lunge' ? 9 : sp; animBeast(o, dt); o.rotation.y = e.dir - Math.PI / 2; if (e.state === 'wind') o.position.y -= .12; } }
+  if (CB.hp <= 0) { CB.hp = 60; toast('Você cai, mas se levanta.'); CB.inv = 1.5; }
+  $('hpBar').style.width = clamp(CB.hp, 0, 100) + '%'; $('stBar').style.width = CB.st + '%';
+  const boss = CB.enemies.find(e => e.nome); if (boss) { $('boss').style.display = 'block'; $('bossName').textContent = boss.nome; $('bossBar').style.width = clamp(boss.hp / boss.max * 100, 0, 100) + '%'; }
+}
+const vivos = () => CB.enemies.filter(e => e.state !== 'dead').length;
+
+// medidor de empurrão (fase 1 da luta)
+const MT = { on: false, x: 0, v: 1.25, z0: .4, z1: .6, hits: 0, onHit: null };
+function medidor(on) { MT.on = on; $('meter').style.display = on ? 'block' : 'none'; if (on) { MT.hits = 0; setZone(); } }
+function setZone() { const w = rr(.14, .2), c = rr(.3, .7); MT.z0 = c - w / 2; MT.z1 = c + w / 2; $('mzone').style.left = MT.z0 * 100 + '%'; $('mzone').style.width = (MT.z1 - MT.z0) * 100 + '%'; }
+function empurrar() { if (!MT.on || lock) return; const ok = MT.x > MT.z0 && MT.x < MT.z1; if (ok) { MT.hits++; thud(1); shake = .5; setZone(); } else { shake = .2; toast('Fora do tempo: ele empurra de volta.'); } MT.onHit && MT.onHit(ok); }
+
+// =====================================================================
+// MESA DO ESCRIBA (minijogo 2D)
+// =====================================================================
+const MC = $('mesaCv'), mg2 = MC.getContext('2d');
+const MS = { piece: { x: 70, y: 420 }, hole: { x: 300, y: 110 }, placed: false, signs: [], step: 0, drag: false, mode: 'off', final: '' };
+function wedgeRow(g, x, y, w, seedv) { let s = seedv; const r = () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; let cx = x; while (cx < x + w - 14) { g.beginPath(); g.moveTo(cx, y); g.lineTo(cx + 9, y + 4); g.lineTo(cx, y + 8); g.fill(); g.fillRect(cx + 8, y + 3, 7 + r() * 10, 2); cx += 18 + r() * 12; } }
+function drawMesa() { const g = mg2, W = MC.width, H = MC.height; g.clearRect(0, 0, W, H);
+  g.fillStyle = '#4a2f18'; g.fillRect(0, 0, W, H); for (let i = 0; i < 30; i++) { g.fillStyle = `rgba(0,0,0,${.05 + (i % 3) * .03})`; g.fillRect(0, i * 18, W, 2); }
+  const tx = 50, ty = 40, tw = 320, th = 340; g.fillStyle = '#b48658'; g.beginPath(); g.roundRect(tx, ty, tw, th, 26); g.fill();
+  g.fillStyle = 'rgba(70,40,20,.7)'; for (let r = 0; r < 12; r++) { g.fillRect(tx + 16, ty + 22 + r * 26, tw - 32, 1.5); wedgeRow(g, tx + 20, ty + 28 + r * 26, MS.placed || r > 3 ? tw - 40 : tw - 130, 7 + r * 13); }
+  if (!MS.placed) { g.fillStyle = '#3a2412'; g.beginPath(); g.moveTo(MS.hole.x - 40, MS.hole.y - 70); g.lineTo(MS.hole.x + 70, MS.hole.y - 70); g.lineTo(MS.hole.x + 70, MS.hole.y + 40); g.lineTo(MS.hole.x - 20, MS.hole.y + 20); g.closePath(); g.fill();
+    const p = MS.piece; g.save(); g.translate(p.x - MS.hole.x, p.y - MS.hole.y); g.fillStyle = '#b8895a'; g.beginPath(); g.moveTo(MS.hole.x - 40, MS.hole.y - 70); g.lineTo(MS.hole.x + 70, MS.hole.y - 70); g.lineTo(MS.hole.x + 70, MS.hole.y + 40); g.lineTo(MS.hole.x - 20, MS.hole.y + 20); g.closePath(); g.fill();
+    g.strokeStyle = '#f0c27a'; g.lineWidth = 2; g.stroke(); g.fillStyle = 'rgba(70,40,20,.7)'; for (let r = 0; r < 3; r++) wedgeRow(g, MS.hole.x - 30, MS.hole.y - 50 + r * 26, 90, 99 + r); g.restore(); }
+  MS.signs.forEach((s, i) => { g.beginPath(); g.arc(s.x, s.y, 17, 0, 7); g.lineWidth = 3; g.strokeStyle = i < MS.step ? 'rgba(140,200,120,.9)' : (i === MS.step ? `rgba(240,194,122,${.5 + .5 * Math.sin(performance.now() / 180)})` : 'rgba(240,194,122,.0)'); g.stroke(); });
+  if (MS.final) { g.fillStyle = 'rgba(30,18,8,.85)'; g.fillRect(tx, ty + th - 70, tw, 56); g.fillStyle = '#f0d6a8'; g.font = 'italic 600 22px "Cormorant Garamond", serif'; g.textAlign = 'center'; g.fillText(MS.final, tx + tw / 2, ty + th - 35); }
+  if (MS.mode !== 'off') requestAnimationFrame(drawMesa); }
+function mesaXY(e) { const r = MC.getBoundingClientRect(); return { x: (e.clientX - r.left) * MC.width / r.width, y: (e.clientY - r.top) * MC.height / r.height }; }
+MC.addEventListener('pointerdown', e => { const p = mesaXY(e);
+  if (MS.mode === 'encaixe' && Math.hypot(p.x - MS.piece.x, p.y - MS.piece.y) < 90) { MS.drag = true; MS.off = { x: MS.piece.x - p.x, y: MS.piece.y - p.y }; MC.setPointerCapture(e.pointerId); }
+  if (MS.mode === 'sinais') { const s = MS.signs[MS.step]; if (s && Math.hypot(p.x - s.x, p.y - s.y) < 30) { MS.step++; chime(); if (MS.step >= MS.signs.length) MS.res && MS.res(); } } });
+MC.addEventListener('pointermove', e => { if (!MS.drag) return; const p = mesaXY(e); MS.piece.x = p.x + MS.off.x; MS.piece.y = p.y + MS.off.y; });
+MC.addEventListener('pointerup', () => { if (!MS.drag) return; MS.drag = false; if (Math.hypot(MS.piece.x - MS.hole.x, MS.piece.y - MS.hole.y) < 45) { MS.piece = { ...MS.hole }; MS.placed = true; thud(1.4); MS.res && MS.res(); } });
+function mesaTxt(who, t) { $('mesaTxt').innerHTML = (who ? `<i>${who}</i>` : '') + t; }
+function mesaPasso(mode) { const rid = runId; MS.mode = mode; return new Promise((res, rej) => { MS.res = () => { MS.res = null; rid === runId ? res() : rej(ABORT); }; }); }
+function mesaBotao(label) { const rid = runId; const b = $('mesaBtn'); b.textContent = label; b.style.display = 'inline-block'; return new Promise((res, rej) => { b.onclick = () => { b.style.display = 'none'; rid === runId ? res() : rej(ABORT); }; }); }
+function abrirMesa() { MS.placed = false; MS.piece = { x: 90, y: 440 }; MS.step = 0; MS.final = ''; MS.signs = [{ x: 92, y: 74 }, { x: 160, y: 100 }, { x: 236, y: 126 }]; MS.mode = 'ver'; $('mesa').style.display = 'flex'; drawMesa(); }
+function fecharMesa() { MS.mode = 'off'; $('mesa').style.display = 'none'; $('mesaBtn').style.display = 'none'; }
+
+// =====================================================================
+// CONTROLES, COLISÃO E MAPA
+// =====================================================================
+const keys = {}; addEventListener('keydown', e => { keys[e.code] = true; if (e.code === 'KeyE' && $('act').style.display === 'block') $('act').click(); if (e.code === 'KeyJ') golpe(); if (e.code === 'KeyK') esquiva(); if (e.code === 'Space') { if (MT.on) empurrar(); else if (dlgDone) dlgDone(); } }); addEventListener('keyup', e => keys[e.code] = false);
+const cam = { yaw: 0, pitch: .3, dist: 6.2, cur: 6.2 };
+const joy = { id: null, ox: 0, oy: 0, x: 0, y: 0 }; let look = { id: null, x: 0, y: 0 };
+const joyMag = () => Math.hypot(joy.x, joy.y);
+const cvs = renderer.domElement;
+cvs.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' && e.clientX < innerWidth * .5 && joy.id === null) { joy.id = e.pointerId; joy.ox = e.clientX; joy.oy = e.clientY; joy.x = joy.y = 0; $('joy').style.left = e.clientX + 'px'; $('joy').style.top = e.clientY + 'px'; $('joy').style.display = 'block'; } else if (look.id === null) look = { id: e.pointerId, x: e.clientX, y: e.clientY }; cvs.setPointerCapture(e.pointerId); });
+cvs.addEventListener('pointermove', e => { if (e.pointerId === joy.id) { let dx = e.clientX - joy.ox, dy = e.clientY - joy.oy; const l = Math.hypot(dx, dy), mx = 55; if (l > mx) { dx *= mx / l; dy *= mx / l; } joy.x = dx / mx; joy.y = dy / mx; $('knob').style.transform = `translate(${dx}px,${dy}px)`; } else if (e.pointerId === look.id) { cam.yaw -= (e.clientX - look.x) * .006; cam.pitch = clamp(cam.pitch + (e.clientY - look.y) * .004, -.15, 1.2); look.x = e.clientX; look.y = e.clientY; } });
+const endP = e => { if (e.pointerId === joy.id) { joy.id = null; joy.x = joy.y = 0; $('joy').style.display = 'none'; $('knob').style.transform = ''; } if (e.pointerId === look.id) look.id = null; };
+cvs.addEventListener('pointerup', endP); cvs.addEventListener('pointercancel', endP);
+cvs.addEventListener('wheel', e => { cam.dist = clamp(cam.dist + e.deltaY * .005, 3, 14); }, { passive: true });
+function blockedByWall(x, z, r) { for (const s of wallList) { if (x < s[5] || x > s[6] || z < s[7] || z > s[8]) continue; if (segDist(x, z, s[0], s[1], s[2], s[3]) < s[4] + r) return true; } return false; }
+const circObs = [{ c: LUGAR.fonte, r: 9.3, on: () => true }, { c: estrela.position, r: 3.4, on: () => estrela.visible }];
+function pushOut(p, r) {
+  for (const o of circObs) { if (!o.on()) continue; const dx = p.x - o.c.x, dz = p.z - o.c.z, d = Math.hypot(dx, dz); if (d < o.r + r && d > 1e-6) { p.x = o.c.x + dx / d * (o.r + r); p.z = o.c.z + dz / d * (o.r + r); } }
+  housesNear(p.x, p.z, hs => { const dx = p.x - hs.x, dz = p.z - hs.z, c = Math.cos(-hs.ang), s = Math.sin(-hs.ang); let lx = dx * c + dz * s, lz = -dx * s + dz * c;
+    if (Math.abs(lx) < hs.hw + r && Math.abs(lz) < hs.hd + r) { const px = hs.hw + r - Math.abs(lx), pz = hs.hd + r - Math.abs(lz); if (px < pz) lx = Math.sign(lx) * (hs.hw + r); else lz = Math.sign(lz) * (hs.hd + r); const c2 = Math.cos(hs.ang), s2 = Math.sin(hs.ang); p.x = hs.x + lx * c2 + lz * s2; p.z = hs.z - lx * s2 + lz * c2; } });
+  for (const s of wallList) { if (p.x < s[5] || p.x > s[6] || p.z < s[7] || p.z > s[8]) continue; const th = s[4], dx = s[2] - s[0], dz = s[3] - s[1], l = dx * dx + dz * dz, t = clamp(((p.x - s[0]) * dx + (p.z - s[1]) * dz) / l, 0, 1), cx = s[0] + dx * t, cz = s[1] + dz * t, d = Math.hypot(p.x - cx, p.z - cz);
+    if (d < th + r && d > 1e-6) { p.x = cx + (p.x - cx) / d * (th + r); p.z = cz + (p.z - cz) / d * (th + r); } }
+  const d = Math.hypot(p.x, p.z); if (d > 4200) { p.x *= 4200 / d; p.z *= 4200 / d; } }
+function tryMove(pos, dx, dz, r, curY, onWater) { const ok = (x, z) => onWater ? waterDist(x, z) < -1.2 : (!isWater(x, z) && floorAt(x, z) - curY < .75);
+  const n = new THREE.Vector3(pos.x + dx, 0, pos.z + dz); if (!onWater) pushOut(n, r);
+  if (ok(n.x, n.z)) { pos.x = n.x; pos.z = n.z; return true; } if (ok(pos.x + dx, pos.z)) { pos.x += dx; return true; } if (ok(pos.x, pos.z + dz)) { pos.z += dz; return true; } return false; }
+// mapa
+const MAP_M = 7000, MAP_PX = 1024, mapK = MAP_PX / MAP_M;
+const baseMap = document.createElement('canvas'); baseMap.width = baseMap.height = MAP_PX;
+{ const g = baseMap.getContext('2d'), tp = (x, z) => [(x + MAP_M / 2) * mapK, (z + MAP_M / 2) * mapK];
+  g.fillStyle = '#5f4c34'; g.fillRect(0, 0, MAP_PX, MAP_PX); g.beginPath(); wallPts.forEach((p, i) => { const [x, y] = tp(p[0], p[1]); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.closePath(); g.fillStyle = '#b8966c'; g.fill(); g.lineWidth = 3; g.strokeStyle = '#3d2a18'; g.stroke();
+  g.strokeStyle = '#3f7f8f'; waters.forEach(w => { g.lineWidth = Math.max(1.6, w.w * mapK); g.beginPath(); w.pts.forEach((p, i) => { const [x, y] = tp(p[0], p[1]); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); });
+  g.strokeStyle = 'rgba(240,220,180,.55)'; g.lineWidth = 1.4; streets.forEach(s => { g.beginPath(); s.forEach((p, i) => { const [x, y] = tp(p[0], p[1]); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); });
+  { const [x, y] = tp(E.x - E.size / 2, E.z - E.size / 2); g.fillStyle = '#d9b77f'; g.fillRect(x, y, E.size * mapK, E.size * mapK); }
+  { const [x, y] = tp(LUGAR.fonte.x, LUGAR.fonte.z); g.fillStyle = '#3f7f8f'; g.beginPath(); g.arc(x, y, 3, 0, 7); g.fill(); }
+  { const [x, y] = tp(LUGAR.acampamento.x, LUGAR.acampamento.z); g.fillStyle = '#d9c39c'; g.fillRect(x - 3, y - 3, 6, 6); } }
+const mini = $('mini'), mgc = mini.getContext('2d');
+function drawMini() { const view = 600, sx = (P.pos.x + MAP_M / 2) * mapK - view * mapK / 2, sy = (P.pos.z + MAP_M / 2) * mapK - view * mapK / 2;
+  mgc.clearRect(0, 0, mini.width, mini.height); mgc.drawImage(baseMap, sx, sy, view * mapK, view * mapK, 0, 0, mini.width, mini.height);
+  const tp = (x, z) => [((x + MAP_M / 2) * mapK - sx) * mini.width / (view * mapK), ((z + MAP_M / 2) * mapK - sy) * mini.height / (view * mapK)];
+  for (const id in fragObjs) if (fragObjs[id].visible) { const [x, y] = tp(fragObjs[id].position.x, fragObjs[id].position.z); mgc.beginPath(); mgc.arc(x, y, 7, 0, 7); mgc.fillStyle = '#f0c27a'; mgc.fill(); }
+  if (alvo) { const [x, y] = tp(alvo.x, alvo.z); mgc.beginPath(); mgc.arc(clamp(x, 8, mini.width - 8), clamp(y, 8, mini.height - 8), 9, 0, 7); mgc.lineWidth = 3; mgc.strokeStyle = '#fff'; mgc.stroke(); }
+  const [px, py] = tp(P.pos.x, P.pos.z); mgc.save(); mgc.translate(px, py); mgc.rotate(-P.yaw); mgc.beginPath(); mgc.moveTo(0, 14); mgc.lineTo(9, -9); mgc.lineTo(0, -3); mgc.lineTo(-9, -9); mgc.closePath(); mgc.fillStyle = '#fff'; mgc.fill(); mgc.restore(); }
+
+// =====================================================================
+// LAÇO
+// =====================================================================
+let last = performance.now(), time = 0, frameN = 0, globalSay = 0;
+const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3();
+function angDiff(a, b) { let d = b - a; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2; return d; }
+const crowdLines = { gilg: ['— O rei! Abaixem a cabeça.', '— Ele não dá descanso aos filhos da cidade…', '— Não olhe nos olhos dele.', '— Que os deuses ouçam nossas queixas.'], enk: ['— É parecido com Gilgamesh!', '— É mais baixo, mas tem osso mais forte.', '— Até que enfim alguém do tamanho dele.', '— Ele cresceu na estepe, dizem.'] };
+let actAtual = null;
+$('act').addEventListener('pointerdown', e => { e.stopPropagation(); if (MT.on) return empurrar(); if (actAtual) { const a = actAtual; actAtual = null; $('act').style.display = 'none'; a.fn(); } });
+function update(dt) {
+  time += dt; windU.value = time; frameN++;
+  const me = AV.model; let ix = 0, iz = 0, run = keys.ShiftLeft || keys.ShiftRight;
+  if (!lock && !cine) { if (keys.KeyW || keys.ArrowUp) iz -= 1; if (keys.KeyS || keys.ArrowDown) iz += 1; if (keys.KeyA || keys.ArrowLeft) ix -= 1; if (keys.KeyD || keys.ArrowRight) ix += 1; if (joy.id !== null) { ix = joy.x; iz = joy.y; run = joyMag() > .92; } }
+  const mag = Math.min(1, Math.hypot(ix, iz)); const quad = AV.quad && run && mag > .5 && !CB.on;
+  const vmax = CB.on ? 3.6 : (quad ? 10 : (run ? AV.speedRun : AV.speedWalk));
+  const target = mag > .08 && !(MT.on) ? vmax * mag : 0;
+  P.speed = lerp(P.speed, target, 1 - Math.exp(-dt * 8));
+  if (mag > .08 && !MT.on) { const a = Math.atan2(ix, iz) + cam.yaw; P.yaw += angDiff(P.yaw, a + Math.PI) * (1 - Math.exp(-dt * 10)); }
+  if (CB.on) { const tgt = CB.enemies.find(e => e.state !== 'dead'); if (tgt && mag < .08) { const a = Math.atan2(tgt.obj.position.x - P.pos.x, tgt.obj.position.z - P.pos.z); P.yaw += angDiff(P.yaw, a + Math.PI) * Math.min(1, dt * 8); } }
+  const dir = tmp.set(Math.sin(P.yaw + Math.PI), 0, Math.cos(P.yaw + Math.PI));
+  if (P.speed > .01 && !tryMove(P.pos, dir.x * P.speed * dt, dir.z * P.speed * dt, .45, P.y, false)) P.speed *= .5;
+  const fl = floorAt(P.pos.x, P.pos.z); P.y = fl > P.y ? fl : Math.max(fl, P.y - dt * 14);
+  me.position.set(P.pos.x, P.y, P.pos.z); me.rotation.y = P.yaw + Math.PI;
+  if (!me.userData.scripted) animate(me, P.speed, dt);
+  if (quad) { const L = me.userData.L; L.torso.rotation.x = 1.05; L.hip.position.y -= .32; L.armL.pivot.rotation.x = -1.3 + Math.sin(me.userData.phase) * .6; L.armR.pivot.rotation.x = -1.3 - Math.sin(me.userData.phase) * .6; L.head.rotation.x = -.8; }
+  updateCombat(dt);
+  if (MT.on) { MT.x += MT.v * dt; if (MT.x > 1 || MT.x < 0) { MT.v *= -1; MT.x = clamp(MT.x, 0, 1); } $('mneedle').style.left = `calc(${MT.x * 100}% - 2px)`; }
+  // interação contextual
+  let best = null, bd = 1e9; for (const it of inter) { if (it.on && !it.on()) continue; const d = Math.hypot(it.pos.x - P.pos.x, it.pos.z - P.pos.z); if (d < it.r && d < bd) { bd = d; best = it; } }
+  if (best && !lock && !cine && !MT.on) { actAtual = best; $('act').textContent = best.label; $('act').style.display = 'block'; } else if (!MT.on) { actAtual = null; $('act').style.display = 'none'; }
+  // fragmentos
+  for (const id in fragObjs) { const o = fragObjs[id]; if (!o.visible) continue; o.children[0].rotation.y += dt; const d = Math.hypot(o.position.x - P.pos.x, o.position.z - P.pos.z); if (d < 1.8 && !lock && !paused) pegarFragmento(id); }
+  // moradores
+  const isGilg = me === gilg, dentro = frameN % 10 === 0 ? (update.dentro = insideCity(P.pos.x, P.pos.z)) : update.dentro;
+  for (const n of npcs) { const ai = n.userData.ai; if (n.userData.scripted) continue;
+    if (!dentro || flags.semMoradores) { n.visible = false; continue; }
+    if (!n.visible || n.position.distanceTo(P.pos) > 120) { if (frameN % 7 !== npcs.indexOf(n) % 7) continue; const sp = spawnPoint(P.pos, n.visible ? 60 : 14, 95); if (sp) { n.position.copy(sp); n.visible = true; ai.state = 'wander'; ai.spoke = false; n.userData.kneel = 0; } continue; }
+    const d = n.position.distanceTo(P.pos); let sp = 0;
+    if (d < 9 && ai.state === 'wander') { if (isGilg) { ai.state = d < 4 ? 'kneel' : 'flee'; ai.t = rr(1.2, 2); } else ai.state = 'look'; if (!ai.spoke && time - globalSay > 5 && !lock) { const L = crowdLines[isGilg ? 'gilg' : 'enk']; toast(L[(rnd() * L.length) | 0]); ai.spoke = true; globalSay = time; } }
+    ai.t -= dt;
+    if (ai.state === 'wander') { if (rnd() < dt * .3) ai.dir += rr(-1.2, 1.2); sp = ai.speed; n.userData.kneel = lerp(n.userData.kneel, 0, dt * 3); }
+    else if (ai.state === 'flee') { ai.dir = Math.atan2(n.position.x - P.pos.x, n.position.z - P.pos.z); sp = 3.4; if (ai.t <= 0) ai.state = 'kneel'; }
+    else if (ai.state === 'look') { ai.dir = Math.atan2(P.pos.x - n.position.x, P.pos.z - n.position.z); if (d > 14) ai.state = 'wander'; }
+    else { ai.dir = Math.atan2(P.pos.x - n.position.x, P.pos.z - n.position.z); n.userData.kneel = lerp(n.userData.kneel, 1, dt * 4); if (d > 16) ai.state = 'wander'; }
+    n.rotation.y += angDiff(n.rotation.y, ai.dir) * Math.min(1, dt * 5);
+    if (sp && !tryMove(n.position, Math.sin(n.rotation.y) * sp * dt, Math.cos(n.rotation.y) * sp * dt, .35, 0, false)) ai.dir += rr(1, 2.5);
+    n.position.y = floorAt(n.position.x, n.position.z); animate(n, sp, dt); }
+  // tráfego de barcos
+  for (const t of traffic) { const pts = t.w.pts; t.t += t.dir * t.sp * dt / 50; if (t.t < 0) { t.t = 0; t.dir = 1; } if (t.t > pts.length - 1.001) { t.t = pts.length - 1.001; t.dir = -1; }
+    const i = Math.floor(t.t), f = t.t - i, a = pts[i], b = pts[i + 1], nx = -(b[1] - a[1]), nz = b[0] - a[0], L = Math.hypot(nx, nz), x = lerp(a[0], b[0], f) + nx / L * t.off * t.w.w, z = lerp(a[1], b[1], f) + nz / L * t.off * t.w.w;
+    const far = Math.abs(x - P.pos.x) > 900 || Math.abs(z - P.pos.z) > 900; t.b.visible = !far; if (far) continue; t.b.position.set(x, Math.sin(time * 1.4 + t.t) * .04, z); t.b.rotation.y = Math.atan2(b[0] - a[0], b[1] - a[1]) + (t.dir < 0 ? Math.PI : 0) + Math.PI / 2; }
+  // animais
+  for (const g of gazelas) { if (!g.visible) continue; const u = g.userData; let target = 0; const d = g.position.distanceTo(P.pos);
+    const amigo = AV.model === enkSel && !flags.perdeuEstepe;
+    if (u.lead) { tmp2.subVectors(u.lead, g.position); tmp2.y = 0; if (tmp2.length() > 15) { u.dir += angDiff(u.dir, Math.atan2(tmp2.x, tmp2.z)) * dt * 2; target = d < 30 ? 2.2 : .3; } else u.lead = null; }
+    else if (!amigo && d < 18) u.flee = 2.5;
+    if (u.flee > 0) { u.flee -= dt; u.dir += angDiff(u.dir, Math.atan2(g.position.x - P.pos.x, g.position.z - P.pos.z)) * Math.min(1, dt * 4); target = 8; }
+    else if (!u.lead) { if (rnd() < dt * .3) u.dir += rr(-1, 1); tmp2.subVectors(u.home, g.position); if (tmp2.length() > 35) u.dir += angDiff(u.dir, Math.atan2(tmp2.x, tmp2.z)) * dt * 2; target = Math.sin(time * .3 + u.phase) > .3 ? .8 : 0; }
+    u.speed = lerp(u.speed, target, dt * 3); g.position.x += Math.sin(u.dir) * u.speed * dt; g.position.z += Math.cos(u.dir) * u.speed * dt;
+    if (insideCity(g.position.x, g.position.z) || isWater(g.position.x, g.position.z) || g.position.distanceTo(LUGAR.fonte) < 9) { g.position.x -= Math.sin(u.dir) * u.speed * dt * 2; g.position.z -= Math.cos(u.dir) * u.speed * dt * 2; u.dir += Math.PI * .7; }
+    animBeast(g, dt); }
+  for (const g of ovelhas) { if (!g.visible) continue; const u = g.userData; if (rnd() < dt * .2) u.dir += rr(-1, 1); tmp2.subVectors(u.home, g.position); if (tmp2.length() > 12) u.dir += angDiff(u.dir, Math.atan2(tmp2.x, tmp2.z)) * dt * 2; u.speed = lerp(u.speed, Math.sin(time * .4 + u.phase) > .5 ? .5 : 0, dt * 2); g.position.x += Math.sin(u.dir) * u.speed * dt; g.position.z += Math.cos(u.dir) * u.speed * dt; animBeast(g, dt); }
+  acamp.userData.fire.visible = acamp.userData.light.intensity > 0; if (acamp.userData.light.intensity > 0) { acamp.userData.fire.scale.y = 1 + Math.sin(time * 13) * .15; acamp.userData.light.intensity = 2.5 + Math.sin(time * 17) * .4; }
+  if (estrela.visible) estrela.children[0].rotation.y += dt * .3;
+  // câmera
+  const head = tmp.set(P.pos.x, me.position.y + 1.75, P.pos.z);
+  if (cine) { if (cine.snap) { camera.position.copy(cine.pos); cine.snap = false; } else camera.position.lerp(cine.pos, 1 - Math.exp(-dt * (cine.speed || 2))); camera.lookAt(cine.look); }
+  else { const off = new THREE.Vector3(Math.sin(cam.yaw) * Math.cos(cam.pitch), Math.sin(cam.pitch), Math.cos(cam.yaw) * Math.cos(cam.pitch)); const want0 = cam.dist * (CB.on ? 1.25 : 1); let want = want0;
+    for (let t = .6; t < want0; t += .5) { const x = head.x + off.x * t, y = head.y + off.y * t, z = head.z + off.z * t, hs = houseAt(x, z); if ((hs && y < hs.h + .3) || y < floorAt(x, z) + .2 || (y < CITY.wallHeight + .5 && blockedByWall(x, z, -.3))) { want = Math.max(1.9, t - .4); break; } }
+    cam.cur = want < cam.cur ? want : lerp(cam.cur, want, 1 - Math.exp(-dt * 3)); camera.position.copy(head).addScaledVector(off, cam.cur); camera.lookAt(head); }
+  if (shake > 0) { shake -= dt; camera.position.x += (Math.random() - .5) * shake * .6; camera.position.y += (Math.random() - .5) * shake * .6; }
+  sun.position.copy(P.pos).addScaledVector(sunDir, 250); sun.target.position.set(P.pos.x, P.y, P.pos.z);
+  updateGrass(P.pos.x, P.pos.z);
+  if (frameN % 20 === 0) for (const c of chunks.values()) { const d = Math.hypot(c.x - camera.position.x, c.z - camera.position.z) - CITY.chunk * .7; for (const m of c.meshes) m.visible = d < m.userData.far; }
+  if (frameN % 6 === 0) drawMini();
+  if (alvo) { const d = Math.hypot(alvo.x - P.pos.x, alvo.z - P.pos.z), a = Math.atan2(alvo.x - P.pos.x, alvo.z - P.pos.z); $('arrow').style.transform = `rotate(${(-(a - cam.yaw) + Math.PI) * 180 / Math.PI}deg)`; $('guideTxt').textContent = d > 1000 ? (d / 1000).toFixed(1).replace('.', ',') + ' km' : Math.round(d) + ' m'; $('guide').style.display = 'flex'; } else $('guide').style.display = 'none';
+  for (let i = waiters.length - 1; i >= 0; i--) { const w = waiters[i]; if (w.rid !== runId) { waiters.splice(i, 1); w.rej(ABORT); continue; } if (w.fn()) { waiters.splice(i, 1); w.res(); } }
+}
+function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.05, (now - last) / 1000); last = now; if (!paused) update(dt); else if (!started) { cam.yaw += dt * .04; update(.0001); } renderer.render(scene, camera); }
+
+// =====================================================================
+// ROTEIRO DO ATO 1 (docs/roteiro/ato1.md)
+// =====================================================================
+const perto = (v, r) => () => Math.hypot(v.x - P.pos.x, v.z - P.pos.z) < r;
+const rumo = (a, b) => Math.atan2(b.x - a.x, b.z - a.z);
+function teleport(v, faceA = 0, camYaw) { P.pos.set(v.x, 0, v.z); P.y = floorAt(v.x, v.z); P.yaw = faceA - Math.PI; cam.yaw = camYaw === undefined ? faceA + Math.PI : camYaw; P.speed = 0; }
+function resetCena() { clearInter(); combate(false); medidor(false); cine = null; quebrado(false); objetivo('—'); lock = false; flags.semMoradores = false;
+  extras.forEach(a => { a.visible = false; a.userData.scripted = false; a.userData.kneel = 0; a.userData.sit = 0; a.rotation.z = 0; }); gilg.userData.kneel = 0; gilg.userData.scripted = false;
+  gazelas.concat(ovelhas).forEach(g => { g.visible = false; g.userData.lead = null; g.rotation.z = 0; }); armadilhas.forEach(t => t.visible = false); estrela.visible = machado.visible = false;
+  for (const id in fragObjs) fragObjs[id].visible = false; acamp.userData.light.intensity = 0; npcs.forEach(n => { n.userData.scripted = false; }); $('dlg').style.display = 'none'; fecharMesa(); }
+function soltarGazelas(centro, r) { gazelas.forEach((g, i) => { const a = i / gazelas.length * 6.28; g.position.set(centro.x + Math.cos(a) * rr(5, r), 0, centro.z + Math.sin(a) * rr(5, r)); g.userData.home.copy(centro); g.visible = true; g.rotation.z = 0; }); }
+
+const CAPS = [
+  { nome: 'A mesa do escriba', sub: 'Nínive · moldura', fn: capEscriba },
+  { nome: 'O rei que não dá descanso', sub: 'Tabuleta I · Uruk', fn: capCidade },
+  { nome: 'Enkidu na estepe', sub: 'Tabuleta I · criação, fonte, armadilhas', fn: capEstepe },
+  { nome: 'O caçador e Shamhat', sub: 'Tabuleta I', fn: capShamhat },
+  { nome: 'Os sonhos de Gilgamesh', sub: 'Tabuleta I · Ninsun', fn: capSonhos },
+  { nome: 'Os pastores', sub: 'Tabuleta II · pão, cerveja e lobos', fn: capPastores },
+  { nome: 'A luta à porta', sub: 'Tabuleta II · chefe', fn: capLuta },
+  { nome: 'A amizade', sub: 'Tabuleta II · fim do protótipo', fn: capAmizade },
+];
+async function jogar(i) { runId++; const rid = runId; resetCena(); $('fade').style.opacity = 0; paused = false; last = performance.now();
+  try { for (let k = i; k < CAPS.length; k++) { guard(rid); resetCena(); prepararFlags(k); await CAPS[k].fn(); } }
+  catch (e) { if (e !== ABORT) { console.error(e); toast('Erro no roteiro: ' + e.message); } } }
+function prepararFlags(k) { // ao pular capítulos, assume o que veio antes
+  flags.perdeuEstepe = k >= 4; flags.civil = k >= 5;
+  if (k >= 2) codex('C-gilgamesh'), codex('C-eanna'), codex('C-uruk'), codex('C-muralha'), codex('C-versao-padrao'); if (k >= 3) codex('C-enkidu'), codex('C-estepe'); if (k >= 4) codex('C-shamhat'); if (k >= 5) codex('C-ninsun'); }
+
+// ---- 0. Mesa do escriba
+async function capEscriba() {
+  setLuz('dia'); teleport(LUGAR.patioEanna); paused = true; abrirMesa();
+  mesaTxt('Nínive, por volta de 640 a.C.', 'A biblioteca do palácio. Um escriba recebe uma tabuleta velha e rachada para copiar.'); await mesaBotao('Continuar');
+  mesaTxt('Mestre do escriba · fala do jogo', '"Copie o que está escrito. O que não dá para ler, deixe em branco. Não invente."'); await mesaBotao('Continuar');
+  mesaTxt('', 'Arraste o pedaço solto até o canto que falta.'); await mesaPasso('encaixe');
+  mesaTxt('', 'Agora toque nos sinais da primeira linha, na ordem, para copiá-los.'); await mesaPasso('sinais');
+  mesaTxt('Escriba · fala do jogo', '"Ele que viu o abismo… A primeira linha está inteira. Já é alguma coisa."'); codex('C-versao-padrao'); await mesaBotao('Ler a tabuleta');
+  $('fade').style.opacity = 1; await realWait(900); fecharMesa(); paused = false; }
+
+// ---- 1. Prólogo e cidade
+async function capCidade() {
+  setLuz('amanhecer'); flags.semMoradores = true; const wallIn = at(G0, -1, 140); teleport(LUGAR.chegadaCidade);
+  cine = { pos: at(G0, 60, -90).setY(16), look: at(G0, 0, 0).setY(6), snap: true, speed: .5 }; await fade(false);
+  cine.pos = at(G0, 60, 90).setY(22);
+  await talk('Narrador', 'Suba a muralha de Uruk e caminhe sobre ela. Olhe a base, examine os tijolos: não foram cozidos em forno? Não foram os sete sábios que lançaram suas fundações?', true);
+  await talk('Narrador', 'Uma parte é cidade, outra é pomar de tamareiras, outra é poço de argila; e há o templo de Ishtar. Procure a caixa de cedro, abra o fecho de bronze e leia a tabuleta: ali está tudo o que este rei passou.', true);
+  codex('C-uruk'); codex('C-muralha');
+  await fade(true); cine = null; setLuz('dia'); flags.semMoradores = false; teleport(LUGAR.chegadaCidade, rumo(LUGAR.chegadaCidade, LUGAR.patioEanna)); await fade(false);
+  objetivo('Ande pela cidade até o recinto de Eanna', LUGAR.patioEanna);
+  await talk('Narrador', 'Gilgamesh, dois terços deus e um terço homem. Forte, belo, sábio, e sem rival na cidade.', true);
+  await until(perto(LUGAR.patioEanna, 14));
+  objetivo('—'); codex('C-gilgamesh'); codex('C-eanna');
+  cine = { pos: new THREE.Vector3(ZX + 30, 26, ZZ + 70), look: new THREE.Vector3(ZX, 18, ZZ), speed: .7 };
+  await talk('Moradores de Uruk', 'O rei não deixa o filho ao pai, nem a filha à mãe. É ele o pastor de Uruk? Ele é forte, belo e sábio, e mesmo assim não dá descanso à cidade.', true);
+  await talk('Moradora · fala do jogo', 'Leva os nossos filhos para os jogos dele e devolve cansados demais para trabalhar.');
+  await talk('Velho · fala do jogo', 'Deuses grandes, ninguém aqui consegue pará-lo. Mandem alguém igual a ele.');
+  cine.pos = new THREE.Vector3(ZX, 60, ZZ + 40); cine.look = new THREE.Vector3(ZX, 80, ZZ - 120);
+  await caption('A queixa sobe ao céu.'); await fade(true); cine = null; }
+
+// ---- 2. Estepe: criação, fonte, armadilhas
+async function capEstepe() {
+  setLuz('dia'); const nasce = at(LUGAR.fonte, -60, -40); teleport(nasce, rumo(nasce, LUGAR.fonte)); setAvatar(enkSel);
+  cine = { pos: nasce.clone().add(new THREE.Vector3(6, 3, 6)), look: nasce.clone().setY(1), snap: true }; enkSel.userData.kneel = 1;
+  if (!tem.has('F01-02')) { quebrado(true); await fade(false);
+    await talk('…', 'Os deuses… chamaram… Aruru… e… argila… na estepe…', true); await talk('Tabuleta danificada', 'Esta cena está incompleta. Um fragmento pode estar na estepe.'); quebrado(false); }
+  else { await fade(false); await talk('Narrador', 'Os deuses chamaram Aruru: "Você criou a humanidade; crie agora um igual a Gilgamesh." Aruru lavou as mãos, tomou um punhado de argila e o jogou na estepe. Ali nasceu Enkidu.', true); }
+  await talk('Narrador', 'Coberto de pelos, com cabelo longo como o de uma mulher, ele não conhece gente nem terra cultivada. Come capim com as gazelas.', true);
+  codex('C-enkidu'); codex('C-estepe'); enkSel.userData.kneel = 0; cine = null;
+  setAvatar(enkSel); soltarGazelas(at(LUGAR.fonte, -150, 120), 30); gazelas.forEach(g => g.userData.lead = LUGAR.fonte.clone());
+  ativarFragmento('F01-02');
+  objetivo('Siga as gazelas até a fonte (empurre o controle até a borda para correr de quatro)', LUGAR.fonte);
+  await until(perto(LUGAR.fonte, 16)); await talk('Narrador', 'Com os animais ele se alegra na água.', true);
+  armadilhas.forEach(t => t.visible = true); ativarFragmento('F01-03'); let feitas = 0;
+  armadilhas.forEach(t => interacao({ pos: t.position, r: 3, label: 'Desmontar armadilha', on: () => t.visible, fn: () => { t.visible = false; feitas++; thud(.8); toast(`Armadilha desfeita (${feitas}/3)`); } }));
+  objetivo('Desmonte as 3 armadilhas do caçador', armadilhas[0].position);
+  await until(() => { const r = armadilhas.find(t => t.visible); if (r) alvo = r.position; return feitas >= 3; });
+  objetivo('—'); clearInter(); await wait(.6); await fade(true); }
+
+// ---- 3. Caçador e Shamhat
+async function capShamhat() {
+  setLuz('dia'); setAvatar(enkSel); if (P.pos.distanceTo(LUGAR.fonte) > 80) teleport(at(LUGAR.fonte, 0, -20), rumo(at(LUGAR.fonte, 0, -20), LUGAR.fonte));
+  soltarGazelas(LUGAR.fonte, 25);
+  const morro = at(LUGAR.fonte, 32, -10); put(cacador, morro); face(cacador, AV.model);
+  cine = { pos: at(LUGAR.fonte, 40, -16).setY(3), look: morro.clone().setY(1.5), snap: true }; await fade(false);
+  await talk('Narrador', 'Um caçador o viu na fonte. Um dia, dois dias, três dias. Seu rosto ficou gelado de medo.', true);
+  cacador.userData.scripted = true; const fugir = at(LUGAR.fonte, 200, -40); let tf = 0;
+  await until(() => { tf += .016; cacador.rotation.y = Math.atan2(fugir.x - cacador.position.x, fugir.z - cacador.position.z); cacador.position.x += Math.sin(cacador.rotation.y) * .09; cacador.position.z += Math.cos(cacador.rotation.y) * .09; animate(cacador, 5, .016); return tf > 1.6; });
+  await fade(true); hide(cacador); cine = { pos: at(LUGAR.acampamento, 10, 10).setY(3), look: LUGAR.acampamento.clone().setY(1), snap: true }; await fade(false);
+  await talk('Caçador', 'Pai, há um homem que veio das montanhas. Ele enche os fossos que eu cavo e solta os animais das minhas armadilhas.', true);
+  if (tem.has('F01-03')) await talk('Pai do caçador', 'Vá a Uruk, conte a Gilgamesh o que viu e peça que mande Shamhat com você. Quando o selvagem vier beber, ela vai se mostrar, e os animais vão estranhá-lo.', true);
+  else { quebrado(true); await talk('Pai do caçador', 'Vá a… conte ao… peça que… Shamhat…', true); await talk('Tabuleta danificada', 'A resposta do pai está quebrada. O fragmento ficava junto a uma das armadilhas.'); quebrado(false); }
+  await talk('Gilgamesh · fala do jogo', 'Leve Shamhat. Se ele é homem, vai se lembrar disso.');
+  await fade(true); cine = null; put(shamhat, at(LUGAR.fonte, 13, 6)); face(shamhat, { position: LUGAR.fonte }); teleport(at(LUGAR.fonte, -25, -12), rumo(at(LUGAR.fonte, -25, -12), shamhat.position)); await fade(false);
+  objetivo('Aproxime-se da mulher junto à fonte', shamhat.position);
+  await until(perto(shamhat.position, 4)); face(shamhat, AV.model);
+  await talk('Narrador', 'Shamhat e Enkidu ficam juntos junto à fonte por seis dias e sete noites.', true);
+  await fade(true); await caption('Dias e noites passam junto à fonte.', 2200); flags.perdeuEstepe = true; AV.quad = false; setLuz('poente');
+  soltarGazelas(at(LUGAR.fonte, -20, 40), 14); teleport(at(LUGAR.fonte, -6, 12), rumo(at(LUGAR.fonte, -6, 12), at(LUGAR.fonte, -20, 40))); await fade(false);
+  objetivo('Volte para as gazelas', gazelas[0].position);
+  await until(() => gazelas.some(g => g.position.distanceTo(P.pos) < 16)); await wait(1.6);
+  await talk('Narrador', 'As gazelas o viram e fugiram. Os animais da estepe se afastaram dele. Enkidu tentou correr e não conseguiu: os joelhos já não o levavam como antes.', true);
+  await talk('Narrador', 'Ele estava mais fraco, mas tinha ganho entendimento. Voltou e sentou-se aos pés de Shamhat.', true);
+  objetivo('Volte para Shamhat', shamhat.position); await until(perto(shamhat.position, 4)); face(shamhat, AV.model); codex('C-shamhat');
+  await talk('Shamhat · fala do jogo', 'Os animais não te conhecem mais porque agora você é outra coisa. Venha comigo para Uruk, para o templo de Anu e de Ishtar, onde vive Gilgamesh.');
+  await talk('Enkidu · fala do jogo', 'Em Uruk vive o forte. Vou até ele. Vou gritar na cidade que o mais forte sou eu.');
+  await talk('Shamhat', 'Antes de você chegar, Gilgamesh já sonhou com você.', true); await fade(true); }
+
+// ---- 4. Sonhos
+async function capSonhos() {
+  setLuz('sonho'); setAvatar(gilg); hide(enkSel); flags.semMoradores = true; const c = LUGAR.patioEanna, st = c.clone().add(new THREE.Vector3(0, 0, -22));
+  teleport(c.clone().add(new THREE.Vector3(0, 0, 8)), Math.PI);
+  estrela.position.set(st.x, 0, st.z); estrela.visible = true;
+  const roda = npcs.slice(0, 10); roda.forEach((n, i) => { const a = i / roda.length * 6.28; n.position.set(st.x + Math.cos(a) * 7, 0, st.z + Math.sin(a) * 7); n.visible = true; n.userData.scripted = true; n.userData.kneel = 1; n.rotation.y = Math.atan2(st.x - n.position.x, st.z - n.position.z); animate(n, 0, .016); });
+  if (!tem.has('F01-04')) ativarFragmento('F01-04');
+  await fade(false); await talk('Gilgamesh', 'Mãe, sonhei esta noite. As estrelas do céu apareceram, e uma delas caiu sobre mim.', true);
+  let tent = 0; interacao({ pos: st, r: 6.5, label: 'Erguer a estrela', fn: () => { tent++; shake = .6; thud(.6); toast(tent < 2 ? 'Pesada demais. Ele não consegue erguê-la.' : 'Nem movê-la ele consegue.'); } });
+  objetivo('Tente erguer a estrela caída', st); await until(() => tent >= 2); clearInter();
+  await talk('Gilgamesh', 'O povo de Uruk se juntou em volta dela, e os jovens beijavam seus pés. Eu a amei como se ama uma esposa e a levei até você.', true);
+  interacao({ pos: st, r: 6.5, label: 'Abraçar a estrela', fn: () => { flags.abracou = true; } }); objetivo('Abrace a estrela', st); await until(() => flags.abracou); clearInter();
+  await fade(true); estrela.visible = false; roda.forEach(n => { n.visible = false; n.userData.scripted = false; n.userData.kneel = 0; });
+  put(ninsun, c.clone().add(new THREE.Vector3(3, 0, -3))); teleport(c.clone().add(new THREE.Vector3(0, 0, 2)), rumo(c.clone().add(new THREE.Vector3(0, 0, 2)), ninsun.position), Math.PI * .25); face(ninsun, gilg); setLuz('amanhecer'); await fade(false); codex('C-ninsun');
+  await talk('Ninsun', 'A estrela que caiu sobre você é um companheiro forte, que salva o amigo. Você vai amá-lo como a uma esposa, e ele nunca vai abandoná-lo.', true);
+  const r = await choose('Como Gilgamesh responde?', 'Escolha (muda só a conversa):', ['"Que venha. Faz tempo que ninguém me acompanha."', '"Um conselheiro, então. Vou ouvi-lo."', '"Vamos ver se ele aguenta."']);
+  flags.reacao = r; await talk('Ninsun · fala do jogo', ['Então abra a porta quando ele chegar.', 'Ouça mesmo. Você ouve pouca gente.', 'Ele vai aguentar. E você também vai aprender a aguentar.'][r]);
+  if (tem.has('F01-04')) {
+    await fade(true); setLuz('sonho'); hide(ninsun); machado.position.set(st.x, 0, st.z); machado.visible = true; teleport(c.clone().add(new THREE.Vector3(0, 0, 8)), Math.PI); await fade(false);
+    await talk('Gilgamesh', 'Sonhei de novo. Numa rua de Uruk caiu um machado de forma estranha, e o povo se juntou em volta dele.', true);
+    interacao({ pos: st, r: 5, label: 'Pegar o machado', fn: () => { flags.machado = true; } }); objetivo('Pegue o machado', st); await until(() => flags.machado); clearInter();
+    await fade(true); machado.visible = false; setLuz('amanhecer'); put(ninsun, c.clone().add(new THREE.Vector3(3, 0, -3))); teleport(c.clone().add(new THREE.Vector3(0, 0, 2)), rumo(c.clone().add(new THREE.Vector3(0, 0, 2)), ninsun.position), Math.PI * .25); face(ninsun, gilg); await fade(false);
+    await talk('Ninsun', 'O machado também é ele: o companheiro que vem salvar o amigo. Você vai pô-lo ao seu lado.', true);
+  } else { quebrado(true); await talk('Tabuleta danificada', 'Há um segundo sonho, mas esta parte está quebrada. O fragmento brilhava no pátio do sonho.'); quebrado(false); }
+  await talk('Gilgamesh', 'Que esse conselheiro venha a mim, e que eu tenha um amigo para me aconselhar.', true); await fade(true); flags.semMoradores = false; }
+
+// ---- 5. Pastores
+async function capPastores() {
+  setLuz('dia'); setAvatar(enkCiv); hide(enkSel); const chegada = at(LUGAR.acampamento, 70, 40); teleport(chegada, rumo(chegada, LUGAR.acampamento));
+  put(shamhat, at(chegada, 2, 1.5)); ovelhas.forEach((o, i) => { o.position.copy(at(LUGAR.acampamento, rr(-25, -10), rr(-14, 14))); o.userData.home.copy(at(LUGAR.acampamento, -18, 0)); o.visible = true; });
+  pastores.forEach((p, i) => { put(p, at(LUGAR.acampamento, Math.cos(i * 2.1) * 4, Math.sin(i * 2.1) * 4)); face(p, { position: LUGAR.acampamento }); p.userData.sit = 1; animate(p, 0, .016); });
+  ativarFragmento('F02-01'); await fade(false);
+  await talk('Narrador', 'Shamhat tirou parte da própria roupa e vestiu Enkidu; com a outra parte se vestiu. Tomou-o pela mão, como se guia uma criança, e o levou ao acampamento dos pastores.', true);
+  objetivo('Vá com Shamhat até o acampamento', LUGAR.acampamento);
+  shamhat.userData.scripted = true;
+  await until(() => { const d = tmp2.subVectors(P.pos, shamhat.position); d.y = 0; if (d.length() > 2.5) { shamhat.rotation.y = Math.atan2(d.x, d.z); shamhat.position.addScaledVector(d.normalize(), .045); animate(shamhat, 2.6, .016); } else animate(shamhat, 0, .016); shamhat.position.y = floorAt(shamhat.position.x, shamhat.position.z); return perto(LUGAR.acampamento, 8)(); });
+  shamhat.userData.scripted = false; put(shamhat, at(LUGAR.acampamento, 2.5, -3)); face(shamhat, { position: LUGAR.acampamento });
+  interacao({ pos: LUGAR.acampamento, r: 7, label: 'Sentar com os pastores', fn: () => { flags.sentou = true; } }); objetivo('Sente-se com os pastores', LUGAR.acampamento); await until(() => flags.sentou); clearInter();
+  if (tem.has('F02-01')) {
+    await talk('Narrador', 'Puseram pão diante dele, e ele olhou, estranhou, não sabia comer. Puseram cerveja, e ele não sabia beber.', true);
+    await talk('Shamhat', 'Coma o pão, Enkidu, é o que sustenta a vida. Beba a cerveja, é o costume da terra.', true);
+    for (const passo of ['Partir o pão', 'Comer', 'Beber a cerveja']) { let ok = false; interacao({ pos: P.pos.clone(), r: 50, label: passo, fn: () => { ok = true; } }); await until(() => ok); clearInter(); thud(.5); }
+    await talk('Narrador', 'Comeu até se fartar e bebeu sete jarros. Ficou leve, o coração alegre, o rosto brilhando. Lavou o corpo peludo, ungiu-se com óleo e virou homem.', true);
+  } else { quebrado(true); await talk('…', 'Pão… diante dele… não sabia… cerveja… sete…', true); await talk('Tabuleta danificada', 'Na versão padrão esta passagem está muito danificada. Um fragmento da versão babilônica antiga estava entre os jarros do acampamento.'); quebrado(false); }
+  await fade(true); setLuz('noite'); acamp.userData.light.intensity = 2.5; pastores.forEach(p => { p.userData.kneel = .8; p.userData.sit = 0; animate(p, 0, .016); });
+  teleport(at(LUGAR.acampamento, 12, 8), Math.atan2(OUT.x, OUT.z)); await fade(false);
+  await talk('Narrador', 'Os pastores dormiram. Enkidu ficou de vigia. Afugentava os lobos, espantava os leões.', true);
+  combate(true); objetivo('Defenda o rebanho');
+  const mkLobo = () => beast({ cor: 0x6c6258, belly: 0x9a8f80, k: .85, lowNeck: .3 });
+  const lobos = [0, 1, 2].map(i => { const l = mkLobo(); l.position.copy(at(LUGAR.acampamento, 45 + i * 6, rr(-20, 20))); return inimigo(l, { hp: 2, speed: 6, dmg: 10, reach: 1.7 }); });
+  await talk('Dica', 'Golpe (J) ataca, Esquiva (K) sai do bote. Os dois gastam fôlego (barra amarela). Quando o lobo se abaixa, ele vai saltar.');
+  await until(() => vivos() === 0); await wait(1);
+  const leao = beast({ cor: 0xb0874f, belly: 0xd8c2a0, mane: 0x6b4a2a, k: 1.35, thick: 2 }); leao.position.copy(at(LUGAR.acampamento, 55, 25)); inimigo(leao, { hp: 5, speed: 6.5, dmg: 18, reach: 2.4, wind: .9, nome: 'Leão' });
+  toast('Um leão vem da estepe.'); await until(() => vivos() === 0); await wait(1.2);
+  CB.enemies.forEach(e => scene.remove(e.obj)); combate(false);
+  await fade(true); setLuz('amanhecer'); acamp.userData.light.intensity = 0; await fade(false);
+  await talk('Narrador', 'Pela primeira vez os pastores dormiram tranquilos. Enkidu era o vigia deles, um homem desperto.', true); await fade(true); }
+
+// ---- 6. Viajante e luta à porta
+async function capLuta() {
+  setLuz('dia'); setAvatar(enkCiv); teleport(at(LUGAR.acampamento, -20, 0), rumo(at(LUGAR.acampamento, -20, 0), LUGAR.estrada));
+  put(viajante, LUGAR.estrada); face(viajante, { position: LUGAR.portaFora }); ativarFragmento('F02-02'); await fade(false);
+  objetivo('Siga pela estrada para Uruk', LUGAR.estrada);
+  interacao({ pos: viajante.position, r: 4, label: 'Falar com o viajante', fn: () => { flags.falouViajante = true; } });
+  await until(() => flags.falouViajante || perto(LUGAR.portaFora, 120)()); clearInter();
+  if (flags.falouViajante) { face(viajante, AV.model);
+    if (tem.has('F02-02')) { await talk('Narrador', 'Um homem passava apressado. Enkidu perguntou aonde ia.', true); await talk('Viajante', 'Fui chamado para uma festa de casamento em Uruk. Nessas festas, o rei de Uruk chega antes do noivo, e a noiva é dele primeiro. É o que os deuses decretaram desde que ele nasceu.', true); await talk('Narrador', 'Ao ouvir isso, o rosto de Enkidu ficou pálido.', true); codex('C-versao-antiga'); }
+    else { quebrado(true); await talk('Viajante', 'Uma festa… em Uruk… o rei… antes do…', true); await talk('Tabuleta danificada', 'Esta variação vem da versão babilônica antiga. O fragmento estava na beira da estrada.'); quebrado(false); } }
+  await fade(true); hide(viajante, shamhat); teleport(LUGAR.portaFora, Math.atan2(-OUT.x, -OUT.z)); await caption('Enkidu chega a Uruk.', 1800); await fade(false);
+  objetivo('Entre em Uruk e vá até a casa da festa de casamento', LUGAR.portaCasa);
+  put(gilg, LUGAR.portaCasa.clone().addScaledVector(OUT, 14)); face(gilg, { position: LUGAR.portaCasa }); gilg.userData.scripted = false;
+  await until(perto(LUGAR.portaCasa, 7)); flags.semMoradores = false;
+  teleport(LUGAR.portaCasa, 0); face(AV.model, gilg); P.yaw = AV.model.rotation.y - Math.PI;
+  cine = { pos: LUGAR.portaCasa.clone().addScaledVector(SIDE, 9).setY(3.5), look: LUGAR.portaCasa.clone().addScaledVector(OUT, 5).setY(1.4), snap: true };
+  await talk('Narrador', 'Enkidu pôs o pé na porta da casa e barrou a passagem do rei. Os dois se agarraram como touros.', true); cine = null;
+  // fase 1: empurrão
+  gilg.position.copy(LUGAR.portaCasa).addScaledVector(OUT, 1.6); face(gilg, AV.model); gilg.userData.scripted = true; AV.model.userData.scripted = true;
+  for (const m of [gilg, AV.model]) { const L = m.userData.L; L.armL.pivot.rotation.x = L.armR.pivot.rotation.x = -1.5; L.torso.rotation.x = .5; }
+  cine = { pos: LUGAR.portaCasa.clone().addScaledVector(OUT, .8).addScaledVector(SIDE, 6.5).setY(2.6), look: LUGAR.portaCasa.clone().addScaledVector(OUT, .8).setY(1.3), snap: true };
+  objetivo('Empurre no tempo certo (toque quando a agulha estiver no verde)'); medidor(true); $('act').textContent = 'Empurrar'; $('act').style.display = 'block';
+  MT.onHit = ok => { const posts = LUGAR.casaFrame.userData.posts; posts.forEach(p => p.rotation.z = ok ? rr(-.08, .08) : 0); };
+  await until(() => MT.hits >= 3); medidor(false); $('act').style.display = 'none'; MT.onHit = null; LUGAR.casaFrame.userData.posts.forEach(p => p.rotation.z = .05);
+  await talk('Narrador', 'Quebraram o batente da porta. A parede tremeu.', true);
+  // fase 2: a rua
+  await fade(true); const rua = at(G0, -18, -6); teleport(rua.clone().addScaledVector(OUT, -3), Math.atan2(OUT.x, OUT.z)); gilg.position.copy(rua.clone().addScaledVector(OUT, 3)); face(gilg, AV.model);
+  cine = null; cam.dist = 7.5; cam.pitch = .42; cam.cur = 7.5; await fade(false); await caption('A luta sai pela rua.', 1400);
+  gilg.userData.scripted = false; AV.model.userData.scripted = false; combate(true); const boss = inimigo(gilg, { hp: 8, speed: 3.8, dmg: 14, reach: 2, wind: .75, human: true, nome: 'Gilgamesh' });
+  objetivo('Lute com Gilgamesh na rua'); await until(() => boss.hp <= 2); combate(false); cam.dist = 6.2;
+  // fase 3: o joelho
+  cine = { pos: P.pos.clone().addScaledVector(SIDE, 6).setY(2.4), look: gilg.position.clone().setY(1.2), snap: false };
+  gilg.userData.scripted = true; let k = 0; await until(() => { k += .016; gilg.userData.kneel = Math.min(.6, k * .5); animate(gilg, 0, .016); return k > 1.4; });
+  await talk('Narrador', 'Gilgamesh dobrou o joelho, o outro pé firme no chão. A raiva passou, e ele virou o peito para o lado.', true); await fade(true); }
+
+// ---- 7. Amizade e fim
+async function capAmizade() {
+  setLuz('dia'); if (AV.model !== enkCiv) { put(enkCiv, LUGAR.portaCasa); } else enkCiv.visible = true;
+  setAvatar(gilg); gilg.userData.kneel = 0; gilg.userData.scripted = false; teleport(LUGAR.portaCasa.clone().addScaledVector(OUT, 2.2), 0); enkCiv.position.copy(LUGAR.portaCasa); face(enkCiv, gilg); face(gilg, enkCiv); P.yaw = gilg.rotation.y - Math.PI; enkCiv.userData.kneel = 0;
+  cine = { pos: LUGAR.portaCasa.clone().addScaledVector(OUT, 1.1).addScaledVector(SIDE, 5).setY(2.2), look: LUGAR.portaCasa.clone().addScaledVector(OUT, 1.1).setY(1.5), snap: true }; await fade(false);
+  await talk('Enkidu', 'Sua mãe o fez único entre os homens: Ninsun, a vaca selvagem. Sua cabeça está acima dos guerreiros, e Enlil lhe deu o reinado sobre o povo.', true);
+  await talk('Narrador', 'Os dois se abraçaram e se tornaram amigos.', true);
+  await talk('Gilgamesh · fala do jogo', ['Ninguém nunca me fez dobrar o joelho. Fique.', 'Ninguém nunca me fez dobrar o joelho. Minha mãe disse que eu devia ouvir você.', 'Ninguém nunca me fez dobrar o joelho. Aguentou, então.'][flags.reacao ?? 0]);
+  await talk('Enkidu · fala do jogo', 'E ninguém nunca me fez ficar.'); cine = null;
+  ativarFragmento('F01-01'); enkCiv.userData.scripted = false;
+  const sub = LUGAR.escada; interacao({ pos: sub, r: 4, label: 'Subir à muralha com Enkidu', fn: () => { flags.subiu = true; } });
+  objetivo('Suba à muralha com Enkidu (escada junto à porta)', sub);
+  await until(() => { const d = tmp2.subVectors(P.pos, enkCiv.position); d.y = 0; if (d.length() > 2.6) { enkCiv.rotation.y = Math.atan2(d.x, d.z); enkCiv.position.addScaledVector(d.normalize(), .05); animate(enkCiv, 2.8, .016); } else animate(enkCiv, 0, .016); enkCiv.position.y = floorAt(enkCiv.position.x, enkCiv.position.z); return flags.subiu; });
+  clearInter(); await fade(true); setLuz('poente');
+  const top = at(G0, 0, -26); gilg.userData.scripted = enkCiv.userData.scripted = true;
+  gilg.position.set(top.x, CITY.wallHeight - .2, top.z); enkCiv.position.set(top.x, CITY.wallHeight - .2, top.z).addScaledVector(SIDE, -1.2);
+  const oeste = top.clone().addScaledVector(OUT, 100).addScaledVector(SIDE, -200); [gilg, enkCiv].forEach(m => { m.rotation.y = Math.atan2(oeste.x - m.position.x, oeste.z - m.position.z); animate(m, 0, .016); });
+  cine = { pos: top.clone().addScaledVector(OUT, -9).addScaledVector(SIDE, 4).setY(CITY.wallHeight + 2.5), look: oeste.clone().setY(15), snap: true }; P.pos.copy(top); flags.semMoradores = true;
+  await fade(false);
+  await talk('Gilgamesh', 'Na Floresta de Cedros vive o feroz Humbaba. Vamos, eu e você, matá-lo e tirar do mundo tudo o que é mau. Vou cortar cedros e fazer um nome que dure para sempre.', true);
+  await talk('Enkidu', 'Eu conheci aquela floresta quando andava com os animais. O grito de Humbaba é o dilúvio, sua boca é fogo, seu hálito é morte. Por que você quer fazer isso?', true);
+  await talk('Gilgamesh · fala do jogo', 'Se eu cair, ao menos vão dizer que caí lutando contra Humbaba.');
+  if (tem.has('F01-01')) { await talk('Narrador', 'Procure a caixa de cedro, abra o fecho de bronze e leia a tabuleta de lápis-lazúli: tudo o que este rei passou está escrito ali.', true); }
+  await fade(true); cine = null; abrirMesa(); MS.placed = true; MS.mode = 'ver'; MS.final = 'Tabuleta II. Não está completa.'; paused = true;
+  mesaTxt('Nínive · o escriba', `Ele termina de copiar a segunda tabuleta e escreve no fim a nota de que ela não está completa.<br><br>Fragmentos achados: <b>${tem.size} de 6</b> · Entradas do Codex: <b>${codexOn.size} de ${DADOS.codex.length}</b>`);
+  await mesaBotao('Fim do protótipo'); fecharMesa(); paused = false; setAvatar(gilg); gilg.userData.scripted = false; teleport(LUGAR.portaDentro, Math.atan2(-OUT.x, -OUT.z)); flags.semMoradores = false; objetivo('Explore Uruk à vontade'); }
+
+// =====================================================================
+// MENU, INÍCIO
+// =====================================================================
+function abrirMenu() { paused = true;
+  $('chapList').innerHTML = ''; CAPS.forEach((c, i) => { const b = document.createElement('button'); b.className = 'chap'; b.innerHTML = `${i}. ${c.nome}<small>${c.sub}</small>`; b.onclick = () => { $('menu').style.display = 'none'; iniciar(i); }; $('chapList').appendChild(b); });
+  $('mFrag').textContent = `${tem.size}/6`; $('fragList').innerHTML = DADOS.fragmentos.map(f => `<div class="cx ${tem.has(f.id) ? '' : 'off'}"><b>${f.id}</b> · ${tem.has(f.id) ? f.texto : f.onde}</div>`).join('');
+  $('mCodex').textContent = `${codexOn.size}/${DADOS.codex.length}`; $('codexList').innerHTML = DADOS.codex.map(c => `<div class="cx ${codexOn.has(c.id) ? '' : 'off'}"><b>${c.titulo}</b>${codexOn.has(c.id) ? ' · ' + c.texto : ''}</div>`).join('');
+  $('menu').style.display = 'flex'; }
+$('menuBtn').onclick = abrirMenu; $('menuClose').onclick = () => { $('menu').style.display = 'none'; paused = false; last = performance.now(); };
+let quality = isTouch ? 'leve' : 'alta';
+function applyQuality() { renderer.setPixelRatio(Math.min(devicePixelRatio, quality === 'alta' ? 2 : 1.25)); const s = quality === 'alta' ? 2048 : 1024; sun.shadow.mapSize.set(s, s); if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; } $('qBtn').textContent = 'Qualidade: ' + quality; }
+$('qBtn').onclick = () => { quality = quality === 'alta' ? 'leve' : 'alta'; applyQuality(); };
+$('help').textContent = isTouch ? 'Esquerda: andar (até a borda corre) · direita: câmera · toque no diálogo para seguir' : 'WASD anda · Shift corre · E interage · J golpe · K esquiva · Espaço avança diálogo';
+function iniciar(i) { if (!started) { started = true; startAudio(); } $('intro').style.opacity = 0; setTimeout(() => $('intro').style.display = 'none', 800); jogar(i); }
+applyQuality(); addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+cam.pitch = .35; cam.dist = 12; update(.0001); requestAnimationFrame(frame);
+$('start').disabled = false; $('start').textContent = 'Começar o Ato 1'; $('startMenu').style.display = 'inline-block';
+$('start').onclick = () => { cam.dist = 6.2; cam.pitch = .3; iniciar(0); }; $('startMenu').onclick = () => { cam.dist = 6.2; cam.pitch = .3; if (!started) { started = true; startAudio(); } $('intro').style.display = 'none'; abrirMenu(); };
+window.__dbg = { get alvo() { return alvo; }, P, cam, flags, tem, CB, MT, MS, jogar, LUGAR, setLuz, get runId() { return runId; }, dlg: () => dlgDone && dlgDone(), pegarFragmento, gilg, enkCiv, inter, until };
+</script>
+</body>
+</html>
