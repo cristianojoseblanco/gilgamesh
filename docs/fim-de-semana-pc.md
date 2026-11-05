@@ -1,6 +1,6 @@
 # Fim de semana no PC: instalação e primeiras sessões no Unreal
 
-Objetivo do fim de semana: sair com o projeto Unreal criado, no GitHub, e com Gilgamesh andando dentro de uma Uruk em escala real.
+Objetivo do fim de semana: sair com o projeto Unreal criado, no GitHub, os dois com acesso, e Gilgamesh andando dentro de uma Uruk em escala real. Regras de trabalho em dupla: `docs/colaboracao.md`.
 
 ## Antes de ir (pelo celular)
 
@@ -14,12 +14,13 @@ Objetivo do fim de semana: sair com o projeto Unreal criado, no GitHub, e com Gi
 1. **Driver de vídeo** atualizado (NVIDIA ou AMD, versão estável mais recente).
 2. **Epic Games Launcher** → aba Unreal Engine → Biblioteca → instalar a versão estável mais recente (5.7 ou mais nova). É o download mais longo: comece por ele.
 3. **Git for Windows** (já vem com o Git LFS). Na instalação, aceite os padrões.
-4. **GitHub Desktop** (opcional, mas mais fácil que a linha de comando). Entre com a sua conta. **No fim do fim de semana, saia da conta** no PC do amigo.
+4. **GitHub Desktop** (opcional, mas mais fácil que a linha de comando). Cada um com a própria conta, de preferência em perfis de usuário separados do Windows. Ver `docs/colaboracao.md`.
 5. **Blender** (versão estável mais recente). Não é urgente; serve para ajustar modelos depois.
 6. **Visual Studio**: só se formos usar C++. **Pule por enquanto**: o primeiro protótipo é todo em Blueprints. Se for instalar, use a versão indicada na página de requisitos da Epic para a versão do Unreal instalada.
 
 ## Sábado — sessão 1: projeto e repositório (2 a 3 h)
 
+0. Adicionar o amigo como colaborador no GitHub (`docs/colaboracao.md`, item 1).
 1. Clonar `cristianojoseblanco/gilgamesh` com o GitHub Desktop numa pasta curta, por exemplo `C:\dev\gilgamesh`. Caminhos longos dão problema no Unreal.
 2. No terminal da pasta: `git lfs install` (só uma vez por máquina).
 3. No Unreal: **Games → Third Person**, tipo **Blueprint**, qualidade **Maximum**, **Starter Content desligado**. Nome do projeto: `Gilgamesh`. Pasta: dentro do clone, ficando `C:\dev\gilgamesh\Gilgamesh\Gilgamesh.uproject`.
@@ -50,7 +51,7 @@ Siga `unreal/README.md`, seção "Blockout de Uruk":
 1. Criar as structs e importar as DataTables (`unreal/importar/DT_*.json`), conforme `unreal/README.md`.
 2. Blueprint `BP_Fragmento` seguindo `docs/unreal/01-fragmento-coletavel.md`.
 3. Colocar o fragmento F01-02 na estepe, na posição de `data/layout_uruk.json` (`fragmentos_ato1`).
-4. Commit e push, **sair do GitHub e da Epic** no PC do amigo se não for voltar logo.
+4. Commit, push, destravar os arquivos e anotar a sessão em `docs/diario.md`.
 
 ## O que continuo fazendo pelo celular, em paralelo
 

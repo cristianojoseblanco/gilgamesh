@@ -35,7 +35,7 @@ Este adendo substitui as seções do GDD 1.0 listadas abaixo. O que não aparece
 
 - Recomendado pela Epic: Windows 11, 32 GB de RAM, 8 GB de memória de vídeo, SSD. Reservar 150 GB ou mais.
 - Controle de videogame para testar.
-- **Situação atual:** sem PC próprio. O trabalho no PC acontece em sessões na casa de um amigo, e tudo vive no GitHub. O celular fica com roteiro, pesquisa, dados, prévia web e guias passo a passo.
+- **Situação atual:** projeto em dupla (Cristiano e um amigo), com o PC do amigo em uso constante. Tudo vive no GitHub; regras de trabalho em dupla em `docs/colaboracao.md`. O celular fica com roteiro, pesquisa, dados, prévia web e guias passo a passo.
 
 ### 10.2 Fluxo de um asset (substitui)
 
@@ -74,21 +74,21 @@ Os demais RNF (dados separados do código, acessibilidade, idiomas, rastreabilid
 
 ## 15. Plano por fases (substitui)
 
-Estimativa para **mais de 10 horas por semana**, com acesso ao PC em sessões. O tempo de PC é o gargalo: tudo o que não precisa de PC é feito antes, pelo celular.
+Estimativa para **duas pessoas, mais de 10 horas por semana cada**, com PC em uso constante. Tudo o que não precisa de PC é adiantado pelo celular.
 
 | Fase | Entregas | Onde | Prazo estimado |
 |---|---|---|---|
 | 0 — Fundação | Repositório, decisões, fontes, dados | Celular | **Feita** (falta conferir fontes) |
-| 1 — Aprender Unreal | Projeto criado, Uruk importada, personagem andando, primeiro Blueprint | PC | 3 a 5 fins de semana |
+| 1 — Aprender Unreal | Projeto criado, Uruk importada, personagem andando, primeiro Blueprint | PC | 3 a 4 semanas |
 | 2 — Roteiro do protótipo | Tabuletas I e II, diálogos, Codex, fragmentos | Celular | **Rascunho 1 feito**; revisão com George e Brandão |
-| 3 — Protótipo cinza | Todo o Ato 1 jogável sem arte, seguindo a prévia web | PC | 8 a 12 semanas |
-| 4 — Arte e som do protótipo | Materiais de época, MetaHumans com roupa de época, animação, áudio | PC + celular | 12 a 20 semanas |
+| 3 — Protótipo cinza | Todo o Ato 1 jogável sem arte, seguindo a prévia web | PC | 6 a 8 semanas |
+| 4 — Arte e som do protótipo | Materiais de época, MetaHumans com roupa de época, animação, áudio | PC + celular | 10 a 16 semanas (em paralelo com parte da fase 3) |
 | 5 — Teste e polimento | 5 a 10 pessoas jogando, desempenho, acessibilidade | PC | 3 a 4 semanas |
 | 6 — Decisão | Seguir, reduzir ou parar | — | 1 semana |
-| 7 — Atos 2 a 5 | Jogo completo | PC | 18 a 30 meses |
+| 7 — Atos 2 a 5 | Jogo completo | PC | 14 a 24 meses |
 | 8 — Lançamento | Inglês, loja, trailer | PC | 2 a 3 meses |
 
-**Leitura honesta:** o realismo encarece a fase 4 e a fase 7. Personagens de época realistas (roupa, cabelo, animação facial) são o item mais caro do projeto. O protótipo realista deve levar de **8 a 12 meses**, e o jogo completo de **3 a 4 anos**, se o acesso ao PC for regular. Se o acesso ao PC for só em alguns fins de semana por mês, esses prazos crescem na mesma proporção. Conseguir um PC próprio é a mudança que mais encurta o projeto.
+**Leitura honesta:** o realismo encarece as fases 4 e 7. Personagens de época realistas (roupa, cabelo, animação facial) são o item mais caro do projeto. Com duas pessoas e PC constante, o protótipo realista deve levar de **5 a 8 meses**, e o jogo completo de **2 a 3 anos**. Dupla não dobra a velocidade: parte do tempo vai em coordenação e em aprender juntos, e a divisão Sistemas / Mundo e arte (`docs/colaboracao.md`) é o que evita os dois esperarem um pelo outro.
 
 ## 17. Orçamento (altera)
 
@@ -104,7 +104,8 @@ Estimativa para **mais de 10 horas por semana**, com acesso ao PC em sessões. O
 
 | Risco | Mitigação |
 |---|---|
-| Acesso ao PC só em sessões | Tudo no GitHub; preparação pelo celular (guias, dados, blockout) para que o tempo de PC seja só de execução; avaliar PC próprio na fase 6 |
+| Conflito de arquivos em dupla (.uasset não se junta) | Travas do Git LFS, One File Per Actor nos níveis, um dono por arquivo, ramos por tarefa (`docs/colaboracao.md`) |
+| Desalinhamento entre os dois sobre escopo e visão | GDD e decisões no repositório como fonte única; decisões novas viram arquivo em `docs/decisoes/`; diário de sessão |
 | Hardware do amigo abaixo do recomendado | Escalabilidade média no editor; Lumen em modo software; menos Nanite |
 | Vale da estranheza nos personagens | Câmera e luz que favoreçam silhueta; poucas cenas de rosto muito perto no protótipo; testar cedo |
 | Anacronismo visual mais visível no realismo | Ficha com fonte para cada asset; lista "o que evitar" da pesquisa visual |

@@ -5,6 +5,8 @@ Jogo 3D de ação e aventura narrativa baseado na Epopeia de Gilgamesh. Nome de 
 - Documento de design: [`docs/GDD-v1.0.pdf`](docs/GDD-v1.0.pdf) + [`docs/GDD-1.1-adendo.md`](docs/GDD-1.1-adendo.md) (Unreal e realismo)
 - Pesquisa visual de época: [`docs/pesquisa/visual-dinastico-arcaico.md`](docs/pesquisa/visual-dinastico-arcaico.md)
 - Guias de Blueprints: [`docs/unreal/`](docs/unreal/)
+- Fichas de personagem: [`docs/personagens/fichas-ato1.md`](docs/personagens/fichas-ato1.md)
+- Trabalho em dupla: [`docs/colaboracao.md`](docs/colaboracao.md) · diário de sessões: [`docs/diario.md`](docs/diario.md)
 - Decisões: [`docs/decisoes/`](docs/decisoes/). Engine: **Unreal Engine 5**, estilo realista (decisão 003).
 - Primeira ida ao PC: [`docs/fim-de-semana-pc.md`](docs/fim-de-semana-pc.md)
 - Importação no Unreal (blockout de Uruk, DataTables, regras do Git): [`unreal/README.md`](unreal/README.md)
