@@ -1,0 +1,3 @@
+A peça encaixa com o canto superior esquerdo em X=540 Y=40 (pixels da T_Tabuleta_Base, 840 x 1040). Tamanho da peça: 261 x 261.
+Sinais da primeira linha (centros aproximados): (65,68) (300,68) (450,68).
+Imagens provisórias geradas por código; trocar por arte final na fase 4.

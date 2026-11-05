@@ -17,4 +17,4 @@
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 
 # Gerado no ambiente da nuvem, que não consegue enviar para o LFS: vai como arquivo comum (< 100 MB)
-unreal/importar/*.glb !filter !diff !merge binary
+unreal/importar/** !filter !diff !merge binary
