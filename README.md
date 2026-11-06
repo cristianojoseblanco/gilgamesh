@@ -5,6 +5,7 @@ Jogo 3D de ação e aventura narrativa baseado na Epopeia de Gilgamesh. Nome de 
 - Documento de design: [`docs/GDD-v1.0.pdf`](docs/GDD-v1.0.pdf) + [`docs/GDD-1.1-adendo.md`](docs/GDD-1.1-adendo.md) (Unreal e realismo)
 - Pesquisa visual de época: [`docs/pesquisa/visual-dinastico-arcaico.md`](docs/pesquisa/visual-dinastico-arcaico.md)
 - Guias de Blueprints: [`docs/unreal/`](docs/unreal/)
+- Plano de produção por etapa (PDF): [`docs/plano-de-producao.pdf`](docs/plano-de-producao.pdf)
 - Design do medo na viagem à Floresta de Cedros: [`docs/design/medo-a-caminho-da-floresta.md`](docs/design/medo-a-caminho-da-floresta.md)
 - Inimigos e power scaling (ranking + homens-escorpião): [`docs/design/inimigos-e-power-scaling.md`](docs/design/inimigos-e-power-scaling.md)
 - Fichas de personagem: [`docs/personagens/fichas-ato1.md`](docs/personagens/fichas-ato1.md)
